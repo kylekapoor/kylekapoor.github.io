@@ -61,7 +61,7 @@ export function NotebookInput({
         right: 0,
         bottom: 0,
         background:
-          "linear-gradient(to bottom, rgba(250, 247, 240, 0) 0, rgba(250, 247, 240, 1) 32px, rgba(250, 247, 240, 1) 100%)",
+          "linear-gradient(to bottom, color-mix(in srgb, var(--color-paper) 0%, transparent) 0, var(--color-paper) 32px, var(--color-paper) 100%)",
         paddingTop: 40,
         paddingBottom: 28,
         pointerEvents: "none",

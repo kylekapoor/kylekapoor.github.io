@@ -59,6 +59,9 @@ const CORPUS_FILES = [
 ] as const;
 
 const OVERRIDES: Record<LLMProvider, string> = {
+  // The local responder answers from lib/profile.ts and never sees a
+  // system prompt, so there's nothing to nudge.
+  local: "",
   ollama: ollamaOverride,
   claude: claudeOverride,
   openai: openaiOverride,
@@ -116,6 +119,10 @@ export function buildSystemPrompt(provider: LLMProvider): string {
  * provider. Used for the budget check in lib/validation.ts.
  */
 export function getSystemPromptTokens(provider: LLMProvider): number {
+  // Short-circuit for the local responder: it has no system prompt, and
+  // building one just to measure it would read the whole corpus off disk
+  // on the default (keyless) code path for no reason.
+  if (provider === "local") return 0;
   return estimateTokens(buildSystemPrompt(provider));
 }
 

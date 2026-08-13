@@ -1,9 +1,9 @@
 import { NotebookShell } from "@/components/notebook/NotebookShell";
 
 export const metadata = {
-  title: "Sebastian Tsang — Contact",
+  title: "Kyle Kapoor — Contact",
   description:
-    "Get in touch with Sebastian. Email or LinkedIn — both work, LinkedIn DM is usually faster.",
+    "Get in touch with Kyle. Email is the fastest route; LinkedIn, GitHub and Instagram all work too.",
 };
 
 export default function ContactRoute() {

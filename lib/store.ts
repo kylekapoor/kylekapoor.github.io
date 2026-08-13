@@ -6,7 +6,7 @@ export type StageView =
   | { kind: "about" }
   | { kind: "experience" }
   | { kind: "contact" }
-  | { kind: "linkedin" };
+  | { kind: "projects" };
 
 type StageStore = {
   view: StageView;
@@ -28,8 +28,8 @@ export const useStageStore = create<StageStore>((set) => ({
       case "showContact":
         set({ view: { kind: "contact" } });
         break;
-      case "showLinkedIn":
-        set({ view: { kind: "linkedin" } });
+      case "showProjects":
+        set({ view: { kind: "projects" } });
         break;
     }
   },

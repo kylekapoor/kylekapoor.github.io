@@ -3,7 +3,7 @@
 const COMMANDS = [
   "/about",
   "/experience",
-  "/linkedin",
+  "/projects",
   "/contact",
 ] as const;
 

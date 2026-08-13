@@ -81,7 +81,7 @@ export const NotebookMessage = memo(function NotebookMessage({
     return (
       <div style={{ paddingLeft, paddingRight }}>
         <div style={{ ...labelStyle, marginBottom: 0 }}>
-          {isUser ? "you" : "sebbot"}
+          {isUser ? "you" : "kylebot"}
         </div>
         <div style={textStyle}>
           <HandwrittenText text={text} animated={animated} />
@@ -115,7 +115,7 @@ export const NotebookMessage = memo(function NotebookMessage({
           transform: "translateY(calc(var(--line) * -0.19))",
         }}
       >
-        {isUser ? "you" : "sebbot"}
+        {isUser ? "you" : "kylebot"}
       </div>
       <div style={{ ...textStyle, flex: 1, minWidth: 0 }}>
         <HandwrittenText text={text} />

@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 360" width="400" height="360" role="img" aria-label="Adversarial prompts evolving against layered guardrails">
+  <defs>
+    <linearGradient id="rtbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a1218"/>
+      <stop offset="100%" stop-color="#0d0e14"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="360" fill="url(#rtbg)"/>
+  <text x="40" y="42" fill="#f4f5f8" font-family="monospace" font-size="16">generation 7 · survivors</text>
+
+  <!-- layered guardrails as concentric arcs -->
+  <g fill="none" stroke-linecap="round">
+    <path d="M300 70 A 130 130 0 0 1 300 290" stroke="#7ee0a6" stroke-width="4" opacity="0.85"/>
+    <path d="M272 88 A 104 104 0 0 1 272 272" stroke="#ffd166" stroke-width="4" opacity="0.8"/>
+    <path d="M244 108 A 78 78 0 0 1 244 252" stroke="#ff8a60" stroke-width="4" opacity="0.75"/>
+  </g>
+  <g font-family="monospace" font-size="10" fill="#8c93a3">
+    <text x="312" y="184">L1</text>
+    <text x="284" y="184">L2</text>
+    <text x="256" y="184">L3</text>
+  </g>
+
+  <!-- population of attack vectors, most blocked, one through -->
+  <g stroke-width="2" fill="none" stroke-linecap="round">
+    <path d="M40 118 C 130 118, 200 132, 242 150" stroke="#4f5666"/>
+    <path d="M40 148 C 130 148, 205 156, 243 166" stroke="#4f5666"/>
+    <path d="M40 180 C 140 180, 220 180, 300 180" stroke="#ff5b5b" stroke-width="2.6"/>
+    <path d="M40 212 C 130 212, 205 204, 243 194" stroke="#4f5666"/>
+    <path d="M40 244 C 130 244, 200 228, 242 210" stroke="#4f5666"/>
+  </g>
+  <!-- blocked markers -->
+  <g stroke="#ff8a60" stroke-width="2" stroke-linecap="round" opacity="0.9">
+    <path d="M238 145 l 9 10 M247 145 l -9 10"/>
+    <path d="M239 161 l 9 10 M248 161 l -9 10"/>
+    <path d="M239 189 l 9 10 M248 189 l -9 10"/>
+    <path d="M238 205 l 9 10 M247 205 l -9 10"/>
+  </g>
+  <!-- the one that got through -->
+  <circle cx="330" cy="180" r="6" fill="#ff5b5b"/>
+  <circle cx="330" cy="180" r="13" fill="none" stroke="#ff5b5b" stroke-width="1.2" opacity="0.5"/>
+  <text x="348" y="184" fill="#ff5b5b" font-family="monospace" font-size="11">1</text>
+
+  <g font-family="monospace" font-size="12" fill="#8c93a3">
+    <text x="40" y="316">mutate · crossover · select</text>
+    <text x="360" y="316" text-anchor="end">bypass rate 4%</text>
+  </g>
+</svg>

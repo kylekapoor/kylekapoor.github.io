@@ -23,7 +23,7 @@ export function Sticker({
   left,
   right,
   bottom,
-  background = "#fbfaf4",
+  background = "var(--color-card)",
   delayMs = 0,
   children,
 }: {
@@ -141,7 +141,7 @@ export function Sticker({
           inset: 0,
           borderRadius: "50%",
           background,
-          border: "1px solid rgba(0,0,0,0.06)",
+          border: "1px solid var(--color-card-border)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",

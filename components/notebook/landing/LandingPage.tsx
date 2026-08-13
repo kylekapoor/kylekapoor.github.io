@@ -4,11 +4,12 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { DrawnText } from "../primitives/DrawnText";
 import { FitToWidth } from "../primitives/FitToWidth";
+import { Float } from "../primitives/Float";
 import { RoleCycler } from "../primitives/RoleCycler";
-import { AmbientLines } from "./AmbientLines";
 import { CornerPeel } from "./CornerPeel";
 import { Scraps } from "./Scraps";
 import { ScrollCue } from "./ScrollCue";
+import { Starfield } from "./Starfield";
 
 const ROLES = ["Engineer", "Builder", "Student"];
 const INK = "var(--color-ink)";
@@ -25,7 +26,7 @@ const PREFETCH_ROUTES = [
   "/home",
   "/about",
   "/experience",
-  "/linkedin",
+  "/projects",
   "/contact",
 ];
 
@@ -57,31 +58,42 @@ export function LandingPage({ onAdvance }: { onAdvance: () => void }) {
         zIndex: 2,
       }}
     >
-      {/* Ambient hand-drawn lines — faint animated texture */}
-      <AmbientLines stroke={INK} />
+      {/* Night sky behind everything on the cover. */}
+      <Starfield />
 
-      {/* Kicker — "journal" */}
-      <div
-        style={{
-          fontFamily: "var(--font-mono)",
-          fontSize: "var(--fs-input)",
-          fontWeight: 500,
-          letterSpacing: "0.35em",
-          color: "var(--color-ink-faint)",
-          textTransform: "uppercase",
-          marginBottom: 16,
-          opacity: 0,
-          animation: "fadeIn 0.6s ease-out 0.3s forwards",
-        }}
+      {/* Kicker — "journal". Each floating element below gets its own
+          drift duration and phase, so the group breathes independently
+          rather than sliding as one block. */}
+      <Float y={-6} x={3} rotate={-0.3} durationS={11} delayS={0.4}>
+        <div
+          style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: "var(--fs-input)",
+            fontWeight: 500,
+            letterSpacing: "0.35em",
+            color: "var(--color-ink-faint)",
+            textTransform: "uppercase",
+            marginBottom: 16,
+            opacity: 0,
+            animation: "fadeIn 0.6s ease-out 0.3s forwards",
+          }}
+        >
+          journal
+        </div>
+      </Float>
+
+      {/* Drawn name — the main floating object. Slowest cycle of the
+          group so it reads as the heaviest thing on the page. */}
+      <Float
+        y={-14}
+        x={6}
+        rotate={-0.5}
+        durationS={14}
+        style={{ width: "min(88vw, 820px)", flex: "none" }}
       >
-        journal
-      </div>
-
-      {/* Drawn name */}
-      <div style={{ width: "min(88vw, 820px)", flex: "none" }}>
         <FitToWidth>
           <DrawnText
-            text="Sebastian Tsang"
+            text="Kyle Kapoor"
             fontFamily="Caveat"
             fontSize={140}
             fontWeight={500}
@@ -92,17 +104,19 @@ export function LandingPage({ onAdvance }: { onAdvance: () => void }) {
             strokeWidth={1.4}
           />
         </FitToWidth>
-      </div>
+      </Float>
 
       {/* Role cycler */}
-      <RoleCycler
-        roles={ROLES}
-        color={INK_DIM}
-        fontFamily="Caveat"
-        fontSize={42}
-        fontWeight={500}
-        startAt={INTRO_DURATION * 1000 + 300}
-      />
+      <Float y={-9} x={-4} rotate={0.4} durationS={10} delayS={1.2}>
+        <RoleCycler
+          roles={ROLES}
+          color={INK_DIM}
+          fontFamily="Caveat"
+          fontSize={42}
+          fontWeight={500}
+          startAt={INTRO_DURATION * 1000 + 300}
+        />
+      </Float>
 
       {/* Scraps and annotations */}
       <Scraps variant="landing" />

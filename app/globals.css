@@ -20,17 +20,33 @@
   --font-sans:
     "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  /* Notebook palette */
-  --color-paper: rgb(250 247 240);
-  --color-paper-warm: rgb(251 247 233);
-  --color-paper-edge: rgb(217 210 191);
-  --color-ink: rgb(26 26 46);
-  --color-ink-soft: rgb(54 48 107);
-  --color-ink-faint: rgb(90 84 70);
-  --color-rule-navy: rgb(61 52 139);
-  --color-rule-red: rgb(220 38 38);
-  --color-accent: rgb(240 240 240);
-  --color-sticky-yellow: rgb(253 230 138);
+  /* Notebook palette — dark journal.
+     The whole site is a dark-mode journal: near-black paper, light grey
+     ruled lines, white handwriting. "ink" is therefore LIGHT and "paper"
+     is DARK — the names keep their semantic role (ink = what you write
+     with, paper = what you write on) even though the values inverted.
+     Every component references these tokens, so flipping the theme was a
+     matter of changing them here rather than touching each surface. */
+  --color-paper: rgb(13 14 20);          /* page surface — near-black, faint blue cast */
+  --color-paper-warm: rgb(22 24 32);     /* raised cards / taped scraps */
+  --color-paper-edge: rgb(38 41 52);     /* card borders, page edges */
+  --color-ink: rgb(244 245 248);         /* primary handwriting — white */
+  --color-ink-soft: rgb(198 203 215);    /* secondary text — light grey */
+  --color-ink-faint: rgb(140 147 163);   /* meta / labels — dimmer grey */
+  --color-rule-navy: rgb(150 158 178);   /* the ruled lines — light grey */
+  --color-rule-red: rgb(255 138 96);     /* margin rule — warm contrast */
+  --color-accent: rgb(120 190 255);      /* links / focus — cool blue */
+  --color-sticky-yellow: rgb(226 186 84);/* sticky note — muted amber */
+  --color-cover: rgb(8 9 13);            /* space behind the cover */
+
+  /* Raised surfaces: polaroid frames, index cards, logo stickers,
+     project cards. Slightly lighter than the page so a card reads as
+     sitting ON the paper. --color-card-well is the recessed area inside
+     a card (photo/image slot) — darker than the card so images have a
+     frame to sit in even before they load. */
+  --color-card: rgb(24 26 34);
+  --color-card-well: rgb(15 17 23);
+  --color-card-border: rgba(150, 158, 178, 0.16);
 
   /* Baseline grid — every ruled line is --line apart, every handwritten
      line-height matches this so text always sits on a rule. Fluid so the
@@ -82,13 +98,17 @@
      1440 and drifted ~4.5px either way at 1280/2560. Keeping the
      formula in one place means future type-scale tweaks only need one
      edit. Uses var(--line), which the mobile media query below
-     re-anchors to 28px — the formula automatically tracks. The navy
-     opacity (0.12) and soft ±1px feather match the original visual
-     weight. */
+     re-anchors to 28px — the formula automatically tracks. The soft
+     ±1px feather matches the original visual weight.
+
+     Dark-theme note: the rule colour is now a LIGHT grey drawn on dark
+     paper, so the alpha had to come up from 0.12 to 0.16 — a light line
+     at 12% over near-black reads fainter than a navy line at 12% over
+     cream did, and the ruled grid is the whole point of the journal. */
   --rule-background: repeating-linear-gradient(to bottom,
     transparent 0,
     transparent calc(var(--line) * 0.76 - 1px),
-    rgba(61, 52, 139, 0.12) calc(var(--line) * 0.76),
+    rgba(150, 158, 178, 0.16) calc(var(--line) * 0.76),
     transparent calc(var(--line) * 0.76 + 1px),
     transparent var(--line));
 }
@@ -127,7 +147,7 @@
 
 @layer base {
   :root {
-    color-scheme: light;
+    color-scheme: dark;
   }
 
   html,
@@ -146,7 +166,7 @@
 
   /* Selection pulls ink — subtle, paper-native */
   ::selection {
-    background-color: color-mix(in srgb, var(--color-rule-navy) 18%, transparent);
+    background-color: color-mix(in srgb, var(--color-accent) 28%, transparent);
     color: var(--color-ink);
   }
 
@@ -158,7 +178,7 @@
   }
 
   :focus-visible {
-    outline: 2px dashed color-mix(in srgb, var(--color-rule-navy) 55%, transparent);
+    outline: 2px dashed color-mix(in srgb, var(--color-accent) 70%, transparent);
     outline-offset: 3px;
     border-radius: 2px;
   }
@@ -170,7 +190,7 @@
 
   input::placeholder,
   textarea::placeholder {
-    color: color-mix(in srgb, var(--color-rule-navy) 35%, transparent);
+    color: color-mix(in srgb, var(--color-ink-faint) 70%, transparent);
     font-style: italic;
   }
 
@@ -364,9 +384,83 @@
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: color-mix(in srgb, var(--color-rule-navy) 18%, transparent);
+  background: color-mix(in srgb, var(--color-ink-faint) 30%, transparent);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: color-mix(in srgb, var(--color-rule-navy) 30%, transparent);
+  background: color-mix(in srgb, var(--color-ink-faint) 50%, transparent);
+}
+
+/* ── Cover: deep space ───────────────────────────────────────── */
+
+/* Stars twinkle by breathing opacity. Each star sets its own
+   --twinkle-min / --twinkle-max / duration / delay inline so a field of
+   them never pulses in lockstep. */
+@keyframes starTwinkle {
+  0%,
+  100% {
+    opacity: var(--twinkle-min, 0.25);
+  }
+  50% {
+    opacity: var(--twinkle-max, 0.9);
+  }
+}
+
+/* A shooting star travels along its own rotated axis. The element is
+   rotated by the wrapper, so this only has to move it along +X and fade
+   the streak in and out. --shoot-distance is set per-star.
+   The long tail of the animation (60%→100%) is dead time: it's what
+   creates the gap between one pass and the next without needing a
+   second timer. */
+@keyframes shootingStar {
+  0% {
+    transform: translateX(0) scaleX(0.2);
+    opacity: 0;
+  }
+  4% {
+    opacity: 1;
+  }
+  18% {
+    transform: translateX(calc(var(--shoot-distance, 600px) * 0.55)) scaleX(1);
+    opacity: 1;
+  }
+  30% {
+    transform: translateX(var(--shoot-distance, 600px)) scaleX(0.5);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(var(--shoot-distance, 600px)) scaleX(0.5);
+    opacity: 0;
+  }
+}
+
+/* Cover content drifts as though it's weightless. Deliberately tiny
+   amplitude — a few pixels and a fraction of a degree. Any more and the
+   name reads as "animated banner" instead of "floating in space".
+   Each floating element sets its own --float-y / --float-x / --float-rot
+   and duration so the group never moves as one rigid block. */
+@keyframes spaceFloat {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(
+        var(--float-x, 0px),
+        var(--float-y, -10px),
+        0
+      )
+      rotate(var(--float-rot, 0deg));
+  }
+}
+
+/* Slow parallax drift for the whole star layer — makes the field feel
+   like it extends past the viewport rather than being painted on. */
+@keyframes starFieldDrift {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-1.5%, 1%, 0);
+  }
 }

@@ -36,8 +36,10 @@ export function PageCorner({
           height: 0,
           borderStyle: "solid",
           borderWidth: `0 0 ${size}px ${size}px`,
-          borderColor: "transparent transparent #eae2cc transparent",
-          filter: "drop-shadow(-1px -1px 2px rgba(0,0,0,0.12))",
+          // The underside of a folded-over page: slightly lighter than
+          // the page itself, the way a fold catches light.
+          borderColor: "transparent transparent rgb(34 37 47) transparent",
+          filter: "drop-shadow(-1px -1px 3px rgba(0,0,0,0.55))",
         }}
       />
       {/* Subtle crease line along the diagonal where the fold hinges */}
@@ -48,7 +50,7 @@ export function PageCorner({
           right: 0,
           width: size * 1.414,
           height: 1,
-          background: "rgba(0,0,0,0.10)",
+          background: "rgba(150,158,178,0.22)",
           transform: `translate(${-size * 0.207}px, ${-size * 0.5}px) rotate(-45deg)`,
           transformOrigin: "100% 50%",
         }}
@@ -62,7 +64,7 @@ export function PageCorner({
           right: size * 0.1,
           fontFamily: "var(--font-script)",
           fontSize: size * 0.24,
-          color: "rgba(26, 26, 46, 0.55)",
+          color: "rgba(198, 203, 215, 0.6)",
           transform: "rotate(-45deg)",
           transformOrigin: "center",
           lineHeight: 1,

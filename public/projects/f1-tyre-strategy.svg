@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 360" width="400" height="360" role="img" aria-label="Tyre degradation curves across three compounds">
+  <defs>
+    <linearGradient id="f1bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#151119"/>
+      <stop offset="100%" stop-color="#0d0e14"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="360" fill="url(#f1bg)"/>
+
+  <!-- grid -->
+  <g stroke="#2a2e3c" stroke-width="1">
+    <line x1="48" y1="60" x2="48" y2="280"/>
+    <line x1="48" y1="280" x2="360" y2="280"/>
+    <line x1="48" y1="225" x2="360" y2="225" stroke-dasharray="3 6"/>
+    <line x1="48" y1="170" x2="360" y2="170" stroke-dasharray="3 6"/>
+    <line x1="48" y1="115" x2="360" y2="115" stroke-dasharray="3 6"/>
+  </g>
+
+  <!-- degradation curves: soft falls off fastest, hard flattest -->
+  <path d="M56 108 C 110 118, 150 152, 190 214 C 210 246, 224 262, 236 272" fill="none" stroke="#ff5b5b" stroke-width="3" stroke-linecap="round"/>
+  <path d="M56 128 C 130 138, 190 168, 250 216 C 274 236, 292 252, 306 264" fill="none" stroke="#ffd166" stroke-width="3" stroke-linecap="round"/>
+  <path d="M56 150 C 150 158, 240 180, 320 216 C 336 224, 348 232, 356 238" fill="none" stroke="#9fb4d8" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- pit-stop window -->
+  <rect x="196" y="60" width="52" height="220" fill="#5ad1ff" opacity="0.10"/>
+  <line x1="222" y1="60" x2="222" y2="280" stroke="#5ad1ff" stroke-width="1.5" stroke-dasharray="5 5" opacity="0.8"/>
+  <text x="222" y="52" fill="#5ad1ff" font-family="monospace" font-size="12" text-anchor="middle" opacity="0.9">PIT</text>
+
+  <!-- compound dots -->
+  <circle cx="56" cy="108" r="5" fill="#ff5b5b"/>
+  <circle cx="56" cy="128" r="5" fill="#ffd166"/>
+  <circle cx="56" cy="150" r="5" fill="#9fb4d8"/>
+
+  <text x="48" y="312" fill="#8c93a3" font-family="monospace" font-size="13">tyre life  →</text>
+  <text x="360" y="312" fill="#8c93a3" font-family="monospace" font-size="13" text-anchor="end">monte carlo × 10k</text>
+  <text x="48" y="40" fill="#f4f5f8" font-family="monospace" font-size="16">pace vs. stint age</text>
+</svg>

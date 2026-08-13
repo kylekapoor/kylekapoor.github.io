@@ -1,9 +1,9 @@
 import { NotebookShell } from "@/components/notebook/NotebookShell";
 
 export const metadata = {
-  title: "Sebastian Tsang — About",
+  title: "Kyle Kapoor — About",
   description:
-    "The about page of Sebastian's journal — builder in the tech/AI space, CS at Guelph, AI & Data Consultant at EY.",
+    "The about page of Kyle's journal — Computer Science at the University of Waterloo, Toronto-based, building things that model messy systems.",
 };
 
 export default function AboutRoute() {

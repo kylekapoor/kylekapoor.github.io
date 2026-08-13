@@ -19,7 +19,7 @@ import { HomePage } from "./home/HomePage";
 import { ContentPage } from "./content/ContentPage";
 
 const WELCOME_BUBBLES = [
-  "You've opened Seb's journal. I'm SebBot — handling the easy questions while he ships.",
+  "You've opened Kyle's journal. I'm KyleBot — I answer from what's written in here, so I won't make anything up.",
   "Ask anything about him, or try the slash commands below.",
 ];
 
@@ -27,7 +27,7 @@ const TOOL_FALLBACK_REPLY: Record<ToolName, string> = {
   showAbout: "Here's the about page.",
   showExperience: "Pulling up the timeline.",
   showContact: "Contact page — on it.",
-  showLinkedIn: "Flipping through the posts.",
+  showProjects: "Pulling up the projects.",
 };
 
 function rateLimitReply(err: unknown): string | null {
@@ -82,7 +82,7 @@ const Z_FOR_KIND: Record<PageKey, number> = {
   home: 5,
   about: 4,
   experience: 3,
-  linkedin: 2,
+  projects: 2,
   contact: 1,
 };
 
@@ -230,7 +230,7 @@ export function NotebookShell({
         "empty",
         "about",
         "experience",
-        "linkedin",
+        "projects",
         "contact",
       ];
       if (!validKinds.includes(kind)) return;
@@ -255,7 +255,7 @@ export function NotebookShell({
       // be patched into the last assistant message here, but in streaming
       // useChat the assistant message often hasn't been appended yet at
       // this point — so the patch silently no-op'd and the user saw an
-      // empty SEBBOT bubble next to the navigated page. The display-text
+      // empty KYLEBOT bubble next to the navigated page. The display-text
       // computation in the `messages` useMemo below now handles the
       // fallback deterministically based on toolInvocations.
       dispatchTool(
@@ -755,7 +755,10 @@ export function NotebookShell({
         // 1400px gives the flip the depth it needs.
         perspective: isMobile ? "1400px" : "2400px",
         perspectiveOrigin: "50% 50%",
-        backgroundColor: "#e8e3d5",
+        // Sits behind every page, so it's what shows through during the
+        // flip. Darker than --color-paper so a turning page reads as
+        // lifting off the surface rather than dissolving into it.
+        backgroundColor: "var(--color-cover)",
       }}
     >
       {/* Chat/content layer. Every visited page is mounted as a sibling

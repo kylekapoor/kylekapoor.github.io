@@ -5,7 +5,7 @@ import { memo, useEffect, useState } from "react";
 const CYCLE_MS = 450;
 
 /**
- * Pseudo-message rendered while SebBot is streaming. Matches the
+ * Pseudo-message rendered while the bot is streaming. Matches the
  * NotebookMessage layout: inline label + text in home mode, stacked in
  * compact mode, with the label sitting just inside the red margin.
  *
@@ -68,7 +68,7 @@ export const WritingIndicator = memo(function WritingIndicator({
   if (compact) {
     return (
       <div style={{ paddingLeft, paddingRight }}>
-        <div style={labelStyle}>sebbot</div>
+        <div style={labelStyle}>kylebot</div>
         <div style={textStyle}>{body}</div>
       </div>
     );
@@ -93,7 +93,7 @@ export const WritingIndicator = memo(function WritingIndicator({
           transform: "translateY(calc(var(--line) * -0.19))",
         }}
       >
-        sebbot
+        kylebot
       </div>
       <div style={{ ...textStyle, flex: 1, minWidth: 0 }}>{body}</div>
     </div>

@@ -18,6 +18,14 @@ export type ModelParams = {
 };
 
 export const MODEL_CONFIG: Record<LLMProvider, ModelParams> = {
+  // The local responder doesn't sample — it looks an answer up and
+  // streams it. These values exist only to satisfy the Record type and
+  // are never read.
+  local: {
+    temperature: 0,
+    topP: 1,
+    maxTokens: 0,
+  },
   ollama: {
     // 250 chosen for gpt-oss:120b-cloud (current default). Previous 180
     // was tuned for qwen3.5:cloud's reasoning-spiral failure mode —

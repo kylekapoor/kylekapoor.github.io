@@ -39,7 +39,10 @@ export function Paper({
         ...style,
       }}
     >
-      {/* Ambient warmth — two faint radials for paper-color variation */}
+      {/* Ambient depth — two faint radials so the dark page isn't a flat
+          slab of one colour. Cool at the top-left, warmer bottom-right;
+          both barely-there, just enough to catch the eye as paper rather
+          than background. */}
       <div
         aria-hidden
         style={{
@@ -47,13 +50,18 @@ export function Paper({
           inset: 0,
           pointerEvents: "none",
           backgroundImage: `
-            radial-gradient(ellipse at 18% 8%, rgba(251, 191, 36, 0.06), transparent 55%),
-            radial-gradient(ellipse at 82% 92%, rgba(94, 234, 212, 0.05), transparent 55%)
+            radial-gradient(ellipse at 18% 8%, rgba(120, 150, 235, 0.07), transparent 55%),
+            radial-gradient(ellipse at 82% 92%, rgba(255, 165, 120, 0.05), transparent 55%)
           `,
         }}
       />
 
-      {/* Red margin rule — paired thin lines near 12% from the left */}
+      {/* Margin rule — the one warm line on an otherwise grey page. It's
+          the journal's landmark: everything else on the page is white or
+          grey, so this is what makes the left edge read as a margin
+          instead of just where the text happens to start. Paired thin
+          lines near 12% from the left, brighter than in the light theme
+          so it holds its contrast against near-black. */}
       {marginRule && (
         <div
           aria-hidden
@@ -63,12 +71,12 @@ export function Paper({
             pointerEvents: "none",
             backgroundImage: `linear-gradient(to right,
               transparent calc(12% - 4px),
-              rgba(220, 38, 38, 0.16) calc(12% - 4px),
-              rgba(220, 38, 38, 0.16) calc(12% - 3px),
+              rgba(255, 138, 96, 0.30) calc(12% - 4px),
+              rgba(255, 138, 96, 0.30) calc(12% - 3px),
               transparent calc(12% - 3px),
               transparent calc(12% - 1px),
-              rgba(220, 38, 38, 0.26) calc(12% - 1px),
-              rgba(220, 38, 38, 0.26) 12%,
+              rgba(255, 138, 96, 0.55) calc(12% - 1px),
+              rgba(255, 138, 96, 0.55) 12%,
               transparent 12%
             )`,
           }}
@@ -94,15 +102,19 @@ export function Paper({
         />
       )}
 
-      {/* Grain — subtle SVG noise, multiplied in */}
+      {/* Grain — subtle SVG noise. `multiply` was right on cream paper but
+          only muddies a near-black page (dark × noise stays dark), so the
+          dark theme blends with `overlay`, which lifts the light parts of
+          the noise and leaves the dark parts alone. Opacity is halved to
+          compensate for overlay being the more aggressive blend here. */}
       <div
         aria-hidden
         style={{
           position: "absolute",
           inset: 0,
           pointerEvents: "none",
-          opacity: 0.3,
-          mixBlendMode: "multiply",
+          opacity: 0.15,
+          mixBlendMode: "overlay",
           backgroundImage: `url("data:image/svg+xml;utf8,${GRAIN_SVG}")`,
         }}
       />

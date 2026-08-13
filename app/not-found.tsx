@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Page torn out — Sebastian Tsang",
+  title: "Page torn out — Kyle Kapoor",
   description: "This page is missing from the journal.",
 };
 
@@ -92,8 +92,8 @@ export default function NotFound() {
               fontSize: 13,
               letterSpacing: "0.12em",
               textTransform: "uppercase",
-              color: "var(--color-rule-navy)",
-              borderBottom: "1px solid var(--color-rule-navy)",
+              color: "var(--color-accent)",
+              borderBottom: "1px solid var(--color-accent)",
               paddingBottom: 2,
             }}
           >

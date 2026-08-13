@@ -1,24 +1,32 @@
 import { z } from "zod";
 
+/**
+ * Navigation tools the chatbot can call. Each one opens a page in the
+ * journal; none of them return content, because the page IS the content.
+ *
+ * These four mirror the four slash commands exactly (/about,
+ * /experience, /projects, /contact) — keep them in sync with
+ * SlashCommandRow and lib/intents.ts.
+ */
 export const toolSchemas = {
   showAbout: {
     description:
-      "Display Seb's personal About page. Call this when the user asks an open-ended 'tell me about yourself' / 'who are you' / 'what's your story' style question, or when they explicitly ask for /about. Prefer this over a text bio.",
+      "Display Kyle's About page. Call this for open-ended 'tell me about yourself' / 'who are you' / 'what's your story' questions, or an explicit /about. Prefer this over writing a text bio.",
     parameters: z.object({}),
   },
   showExperience: {
     description:
-      "Display an animated timeline of Sebastian's work experience. Call this when the user asks about jobs, companies, where he's worked.",
+      "Display Kyle's experience timeline. Call this when the user asks about his background, studies, work, or what he's built.",
+    parameters: z.object({}),
+  },
+  showProjects: {
+    description:
+      "Display Kyle's projects as a card carousel linking to GitHub. Call this when the user asks about projects, repos, code, or what he's built on his own time.",
     parameters: z.object({}),
   },
   showContact: {
     description:
-      "Display contact information. Call this when the user wants to reach out.",
-    parameters: z.object({}),
-  },
-  showLinkedIn: {
-    description:
-      "Display a stacked-deck flashcard carousel of Sebastian's favorite LinkedIn posts. Call this when the user asks about LinkedIn, posts, writing, or wants to see his public writing.",
+      "Display contact information. Call this when the user wants to reach out, or asks for an email / LinkedIn / socials.",
     parameters: z.object({}),
   },
 } as const;

@@ -9,7 +9,7 @@ const LABELS: Record<StageView["kind"], string> = {
   empty: "",
   about: "about",
   experience: "experience",
-  linkedin: "linkedin",
+  projects: "projects",
   contact: "contact",
 };
 
@@ -18,7 +18,7 @@ const PAGE_NUMBERS: Record<StageView["kind"], string> = {
   empty: "",
   about: "01",
   experience: "02",
-  linkedin: "03",
+  projects: "03",
   contact: "04",
 };
 
@@ -97,7 +97,7 @@ export function ContentPagePlaceholder({ onClose }: { onClose: () => void }) {
             lineHeight: "var(--line)",
           }}
         >
-          coming soon — Seb is still writing this page.
+          coming soon — Kyle is still writing this page.
         </p>
 
         <p

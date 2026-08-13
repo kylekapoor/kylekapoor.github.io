@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState } from "react";
 import { useIsMobile } from "@/lib/hooks/useIsMobile";
+import { EXPERIENCE, type ExperienceEntry } from "@/lib/profile";
 import { PageBackButton } from "../chrome/PageBackButton";
 import { PageCorner } from "../chrome/PageCorner";
 import { Paper } from "../chrome/Paper";
@@ -10,177 +11,12 @@ import {
   usePageAnimate,
 } from "../primitives/PageAnimateContext";
 
-type Role = {
-  company: string;
-  title: string;
-  dates: string;
-  location?: string;
-  logoSrc?: string;
-  /** External URL the logo links to — the company's site. Optional so
-   *  entries without a public link fall back to a non-interactive sticker. */
-  companyUrl?: string;
-  /** Fallback displayed in a sticker frame when no logo is available. */
-  initials?: string;
-  blurb: ReactNode;
-  /** Rotation for the logo sticker, degrees. Tuned per role so the
-   *  stickers don't all sit perfectly straight. */
-  logoRotation: number;
-  /** Background color for the sticker frame. Subtle variation per role. */
-  stickerBg?: string;
-};
-
-/** Highlighted metric — same handwriting, slightly larger + heavier. */
-function Metric({ children }: { children: ReactNode }) {
-  // Emphasis via weight + full-ink color + negative letter-spacing — no
-  // fontSize override, because a 1.18em span on a blurb line would push
-  // the line-box taller than --line and drift every following line off
-  // the ruled grid.
-  return (
-    <span
-      style={{
-        fontWeight: 600,
-        color: "var(--color-ink)",
-        letterSpacing: "-0.01em",
-      }}
-    >
-      {children}
-    </span>
-  );
-}
-
-const ROLES: Role[] = [
-  {
-    company: "EY",
-    title: "AI & Data Consultant",
-    dates: "May 2026 – Present",
-    location: "Toronto",
-    logoSrc: "/logos/ey.jpeg",
-    companyUrl: "https://www.ey.com/en_ca",
-    logoRotation: -4,
-    blurb: (
-      <>
-        Consulting on enterprise-scale AI &amp; Data delivery in financial
-        services.
-      </>
-    ),
-  },
-  {
-    company: "Polarity",
-    title: "AI Engineer",
-    dates: "Apr 2026 – Present",
-    location: "Waterloo",
-    logoSrc: "/logos/polarity.jpeg",
-    companyUrl: "https://www.polarity.so/",
-    logoRotation: 5,
-    blurb: (
-      <>
-        Frontier AI QA research backed by Afore Capital — fellowship founding
-        cohort.
-      </>
-    ),
-  },
-  {
-    company: "BMO",
-    title: "Data & AI Developer",
-    dates: "Jan 2026 – Apr 2026",
-    location: "Toronto",
-    logoSrc: "/logos/bmo.jpeg",
-    companyUrl: "https://www.bmo.com/en-ca/main/personal",
-    logoRotation: -3,
-    blurb: (
-      <>
-        Powering AI-ready data pipelines behind banking apps used by{" "}
-        <Metric>millions</Metric>.
-      </>
-    ),
-  },
-  {
-    company: "Stan",
-    title: "Growth Fellow",
-    dates: "Mar 2026 – Apr 2026",
-    location: "Toronto",
-    logoSrc: "/logos/stan.jpeg",
-    companyUrl: "https://www.stan.store/",
-    logoRotation: 6,
-    stickerBg: "#efe8fb",
-    blurb: (
-      <>
-        Creator platform backed by Gary Vee, Steven Bartlett, Forerunner —
-        helping scale their AI product Stanley to <Metric>$10M ARR</Metric>.
-      </>
-    ),
-  },
-  {
-    company: "Interac",
-    title: "Data Engineering Intern",
-    dates: "May 2025 – Aug 2025",
-    location: "Toronto",
-    logoSrc: "/logos/interac.jpeg",
-    companyUrl: "https://www.interac.ca/en/",
-    logoRotation: -5,
-    blurb: (
-      <>
-        Built pipelines powering Canada&apos;s payment rails — improved root
-        cause analysis by <Metric>40%</Metric>.
-      </>
-    ),
-  },
-  {
-    company: "Interac",
-    title: "Data Analyst, IT Operations",
-    dates: "Sep 2024 – Apr 2025",
-    location: "Toronto",
-    logoSrc: "/logos/interac.jpeg",
-    companyUrl: "https://www.interac.ca/en/",
-    logoRotation: 3,
-    blurb: (
-      <>
-        Automated IT ops reporting — cut manual work by 80%.{" "}
-        <Metric>First-ever Intern of the Quarter.</Metric>
-      </>
-    ),
-  },
-  {
-    company: "Toastmasters",
-    title: "President",
-    dates: "May 2024 – Apr 2025",
-    location: "Guelph",
-    logoSrc: "/logos/toastmasters.jpeg",
-    companyUrl: "https://www.toastmasters.org/",
-    logoRotation: -4,
-    blurb: (
-      <>
-        Ran the UofG Toastmasters club — helping students overcome their fear
-        of presenting and become better speakers.
-      </>
-    ),
-  },
-  {
-    company: "Spirit of Math",
-    title: "Data Engineering Intern",
-    dates: "May 2024 – Aug 2024",
-    location: "Toronto",
-    logoSrc: "/logos/spirit-of-math.jpeg",
-    companyUrl: "https://spiritofmath.com/",
-    logoRotation: 4,
-    blurb: <>Built the data backbone for a new ERP — finance ops ran smoother for it.</>,
-  },
-  {
-    company: "Spirit of Math",
-    title: "Technical Analyst Intern",
-    dates: "May 2023 – Aug 2023",
-    location: "Toronto",
-    logoSrc: "/logos/spirit-of-math.jpeg",
-    companyUrl: "https://spiritofmath.com/",
-    logoRotation: -6,
-    blurb: (
-      <>
-        Designed a centralized access system — APIs and automation keeping IT
-        processes simple.
-      </>
-    ),
-  },
-];
+/**
+ * Entries come from lib/profile.ts so this page and the chatbot are
+ * reading the same list — the bot repeats an entry's `blurb` verbatim
+ * and never elaborates past it.
+ */
+type Role = ExperienceEntry;
 
 const ROLE_STAGGER_MS = 380;
 const FIRST_ROLE_DELAY_MS = 400;
@@ -265,9 +101,9 @@ export function ExperiencePage({
             paddingLeft: isMobile ? 0 : 24,
           }}
         >
-          {ROLES.map((role, i) => (
+          {EXPERIENCE.map((role, i) => (
             <RoleEntry
-              key={`${role.company}-${role.title}`}
+              key={`${role.org}-${role.title}`}
               role={role}
               delayMs={FIRST_ROLE_DELAY_MS + i * ROLE_STAGGER_MS}
             />
@@ -353,7 +189,7 @@ function RoleEntry({ role, delayMs }: { role: Role; delayMs: number }) {
               lineHeight: "var(--line)",
             }}
           >
-            {role.company}
+            {role.org}
           </div>
           {/* Role title — italic Caveat, a shade softer */}
           <div
@@ -394,7 +230,7 @@ function RoleEntry({ role, delayMs }: { role: Role; delayMs: number }) {
 
 function LogoSticker({ role }: { role: Role }) {
   const size = 70;
-  const bg = role.stickerBg ?? "#fbfaf4";
+  const bg = role.stickerBg ?? "var(--color-card)";
 
   const inner = (
     <div
@@ -403,42 +239,28 @@ function LogoSticker({ role }: { role: Role }) {
         height: "100%",
         background: bg,
         padding: 4,
-        border: "1px solid rgba(0,0,0,0.06)",
+        border: "1px solid var(--color-card-border)",
         borderRadius: 6,
         overflow: "hidden",
       }}
     >
-      {role.logoSrc ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={role.logoSrc}
-          alt={`${role.company} logo`}
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "contain",
-            display: "block",
-          }}
-          draggable={false}
-        />
-      ) : (
-        <div
-          style={{
-            width: "100%",
-            height: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontFamily: "var(--font-script)",
-            fontSize: "var(--fs-body)",
-            fontWeight: 500,
-            color: "var(--color-ink)",
-            opacity: 0.75,
-          }}
-        >
-          {role.initials ?? role.company.slice(0, 2).toUpperCase()}
-        </div>
-      )}
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontFamily: "var(--font-mono)",
+          fontSize: "var(--fs-chip)",
+          letterSpacing: "0.08em",
+          fontWeight: 500,
+          color: "var(--color-ink)",
+          opacity: 0.8,
+        }}
+      >
+        {role.logoText}
+      </div>
     </div>
   );
 
@@ -451,7 +273,7 @@ function LogoSticker({ role }: { role: Role }) {
     filter: "drop-shadow(2px 3px 6px rgba(0,0,0,0.22))",
     transition:
       "transform 260ms cubic-bezier(0.22, 1, 0.36, 1), filter 260ms ease",
-    cursor: role.companyUrl ? "pointer" : "default",
+    cursor: role.url ? "pointer" : "default",
     textDecoration: "none",
     color: "inherit",
   };
@@ -470,13 +292,13 @@ function LogoSticker({ role }: { role: Role }) {
   // Wrap in an <a> when a companyUrl is present, otherwise fall back to a
   // non-interactive div so the sticker is a keyboard-accessible link only
   // when it has somewhere to go.
-  if (role.companyUrl) {
+  if (role.url) {
     return (
       <a
-        href={role.companyUrl}
+        href={role.url}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label={`${role.company} website (opens in new tab)`}
+        aria-label={`${role.org} (opens in new tab)`}
         style={baseStyle}
         onMouseEnter={onEnter}
         onMouseLeave={onLeave}

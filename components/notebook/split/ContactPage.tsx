@@ -2,6 +2,7 @@
 
 import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import { useIsMobile } from "@/lib/hooks/useIsMobile";
+import { CONTACT } from "@/lib/profile";
 import { PageBackButton } from "../chrome/PageBackButton";
 import { PageCorner } from "../chrome/PageCorner";
 import { Paper } from "../chrome/Paper";
@@ -18,34 +19,33 @@ type ContactField = {
   icon: ReactNode;
 };
 
-// Order matters — LinkedIn is Seb's preferred first-contact channel, so
-// it sits at the top. Email is still available (click-to-copy kept for
-// convenience) but lives at the bottom to subtly nudge visitors toward
-// the DM path instead of cold-emailing gmail.
+// Order matters — email is Kyle's preferred first-contact channel, so it
+// sits at the top (and keeps its click-to-copy shortcut). LinkedIn,
+// GitHub, and Instagram follow.
 const FIELDS: ContactField[] = [
   {
+    label: "email",
+    display: CONTACT.email,
+    href: `mailto:${CONTACT.email}`,
+    icon: <EnvelopeIcon />,
+  },
+  {
     label: "linkedin",
-    display: "/in/sebtsang",
-    href: "https://www.linkedin.com/in/sebtsang/",
+    display: CONTACT.linkedin.display,
+    href: CONTACT.linkedin.href,
     icon: <LinkedInIcon />,
   },
   {
     label: "github",
-    display: "/sebtsang",
-    href: "https://github.com/sebtsang",
+    display: CONTACT.github.display,
+    href: CONTACT.github.href,
     icon: <GitHubIcon />,
   },
   {
-    label: "twitter / x",
-    display: "@sebrtsang",
-    href: "https://x.com/sebrtsang",
-    icon: <XIcon />,
-  },
-  {
-    label: "email",
-    display: "sebrtsang@gmail.com",
-    href: "mailto:sebrtsang@gmail.com",
-    icon: <EnvelopeIcon />,
+    label: "instagram",
+    display: CONTACT.instagram.display,
+    href: CONTACT.instagram.href,
+    icon: <InstagramIcon />,
   },
 ];
 
@@ -83,7 +83,7 @@ export function ContactPage({
     // Allow shift / meta clicks to still follow the mailto: link.
     if (e.shiftKey || e.metaKey || e.ctrlKey) return;
     try {
-      await navigator.clipboard.writeText("sebrtsang@gmail.com");
+      await navigator.clipboard.writeText(CONTACT.email);
       setCopied("email");
       e.preventDefault();
     } catch {
@@ -166,7 +166,7 @@ export function ContactPage({
             maxWidth: 560,
           }}
         >
-          easiest way to reach me is LinkedIn DM — I read every one. email
+          easiest way to reach me is email — I read every one. linkedin dm
           works too if that&apos;s your thing.
         </p>
 
@@ -191,7 +191,7 @@ export function ContactPage({
             display: "inline-block",
           }}
         >
-          <HandwrittenText text="— seb" delayMs={SIGNATURE_DELAY} />
+          <HandwrittenText text="— kyle" delayMs={SIGNATURE_DELAY} />
         </div>
       </div>
 
@@ -250,13 +250,13 @@ function ContactCard({
         {/* Card body — off-white index card */}
         <div
           style={{
-            background: "#fbf7e9",
+            background: "var(--color-card)",
             padding: isMobile ? "20px 16px" : "28px 32px",
-            border: "1px solid rgba(0,0,0,0.06)",
+            border: "1px solid var(--color-card-border)",
             position: "relative",
             // Faint index-card lines on the card itself
             backgroundImage:
-              "linear-gradient(to bottom, transparent 27px, rgba(61,52,139,0.08) 28px, transparent 29px)",
+              "linear-gradient(to bottom, transparent 27px, rgba(150,158,178,0.16) 28px, transparent 29px)",
             backgroundSize: "100% 30px",
           }}
         >
@@ -342,7 +342,7 @@ function FieldRow({
         textDecoration: "none",
         color: "inherit",
         transition: "background 180ms ease, transform 220ms ease",
-        background: hover ? "rgba(26,26,46,0.04)" : "transparent",
+        background: hover ? "rgba(198,203,215,0.07)" : "transparent",
         transform: hover ? "translateX(4px)" : "translateX(0)",
       }}
     >
@@ -529,13 +529,28 @@ function GitHubIcon() {
   );
 }
 
-function XIcon() {
+function InstagramIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden>
-      <path
-        d="M 3 3 L 8.5 10.5 L 3 17 L 5 17 L 9.5 12 L 13 17 L 17 17 L 11 9.2 L 16.5 3 L 14.5 3 L 10.2 7.8 L 7 3 Z"
-        fill="currentColor"
+      <rect
+        x="2.5"
+        y="2.5"
+        width="15"
+        height="15"
+        rx="4.5"
+        stroke="currentColor"
+        strokeWidth="1.3"
+        fill="none"
       />
+      <circle
+        cx="10"
+        cy="10"
+        r="3.6"
+        stroke="currentColor"
+        strokeWidth="1.3"
+        fill="none"
+      />
+      <circle cx="14.4" cy="5.6" r="1" fill="currentColor" />
     </svg>
   );
 }

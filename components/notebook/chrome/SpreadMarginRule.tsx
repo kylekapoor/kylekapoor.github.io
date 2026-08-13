@@ -25,12 +25,12 @@ export function SpreadMarginRule({
         pointerEvents: "none",
         zIndex: 3,
         backgroundImage: `linear-gradient(to right,
-          rgba(220, 38, 38, 0.16) 0,
-          rgba(220, 38, 38, 0.16) 1px,
+          rgba(255, 138, 96, 0.30) 0,
+          rgba(255, 138, 96, 0.30) 1px,
           transparent 1px,
           transparent 3px,
-          rgba(220, 38, 38, 0.32) 3px,
-          rgba(220, 38, 38, 0.32) 4px)`,
+          rgba(255, 138, 96, 0.55) 3px,
+          rgba(255, 138, 96, 0.55) 4px)`,
       }}
     />
   );

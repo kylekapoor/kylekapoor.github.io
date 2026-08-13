@@ -1,30 +1,50 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <g transform="rotate(-5 32 32)">
-    <!-- Cream notebook body. Thin navy stroke at 35% opacity gives it a
-         defined edge on light browser tabs (where cream and tab chrome
-         can blend) without reading as a heavy outline on dark tabs. -->
-    <rect x="6.5" y="3.5" width="51" height="57" rx="3"
-          fill="#faf7f0"
-          stroke="#1a1a2e" stroke-width="1.5" stroke-opacity="0.35"/>
-    <!-- Red vertical margin rule — matches the site's ruled paper and
-         makes the favicon instantly recognizable to anyone who's visited. -->
-    <line x1="20" y1="8" x2="20" y2="56" stroke="#c9483a" stroke-width="1.8" stroke-opacity="0.85"/>
-    <!-- Faint horizontal ruled lines — paper texture at ≥32px, invisible at 16px -->
-    <line x1="22" y1="22" x2="52" y2="22" stroke="#1a1a2e" stroke-width="0.8" stroke-opacity="0.18"/>
-    <line x1="22" y1="32" x2="52" y2="32" stroke="#1a1a2e" stroke-width="0.8" stroke-opacity="0.18"/>
-    <line x1="22" y1="42" x2="52" y2="42" stroke="#1a1a2e" stroke-width="0.8" stroke-opacity="0.18"/>
-    <!-- Spiral binding coils — 5 ring-holes on the left edge. Radius 4 is
-         large enough to read clearly at 16×16 as coils (vs a blur at
-         smaller r). Navy outer + cream center creates the ring effect. -->
-    <circle cx="11" cy="12" r="4" fill="#1a1a2e"/>
-    <circle cx="11" cy="12" r="1.8" fill="#faf7f0"/>
-    <circle cx="11" cy="22" r="4" fill="#1a1a2e"/>
-    <circle cx="11" cy="22" r="1.8" fill="#faf7f0"/>
-    <circle cx="11" cy="32" r="4" fill="#1a1a2e"/>
-    <circle cx="11" cy="32" r="1.8" fill="#faf7f0"/>
-    <circle cx="11" cy="42" r="4" fill="#1a1a2e"/>
-    <circle cx="11" cy="42" r="1.8" fill="#faf7f0"/>
-    <circle cx="11" cy="52" r="4" fill="#1a1a2e"/>
-    <circle cx="11" cy="52" r="1.8" fill="#faf7f0"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Night-sky tile matching the site's cover: near-black ground, a few
+       stars, and one shooting star streaking across it.
+
+       Tuned for 16px first. At tab size the only things that survive are
+       the comet's tail-to-head diagonal and the warm margin rule, so both
+       are deliberately oversized relative to what looks balanced at 64px:
+       a thinner tail or a smaller head turns to mush at 16. The
+       background stars are few and large for the same reason — a dozen
+       fine points would average out into grey noise. -->
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a2038"/>
+      <stop offset="55%" stop-color="#0d0e14"/>
+      <stop offset="100%" stop-color="#08090f"/>
+    </linearGradient>
+    <!-- Comet tail: transparent at the back, hot white at the head. -->
+    <linearGradient id="tail" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#7fb0ff" stop-opacity="0"/>
+      <stop offset="55%" stop-color="#bcd7ff" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="1"/>
+    </linearGradient>
+    <radialGradient id="glow">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="45%" stop-color="#cfe2ff" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#9fc4ff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="64" height="64" rx="14" fill="url(#sky)"/>
+
+  <!-- Warm margin rule — the one journal cue carried over from the page
+       design, thick enough to hold its own stripe at 16px. -->
+  <rect x="10" y="11" width="3" height="42" rx="1.5" fill="#ff8a60" opacity="0.85"/>
+
+  <!-- Background stars: four, large, well separated. -->
+  <g fill="#ffffff">
+    <circle cx="24" cy="17" r="2.2" opacity="0.9"/>
+    <circle cx="51" cy="15" r="1.8" opacity="0.7"/>
+    <circle cx="26" cy="48" r="1.8" opacity="0.7"/>
+    <circle cx="46" cy="53" r="2.2" opacity="0.85"/>
   </g>
+
+  <!-- Shooting star: a fat diagonal tail into a glowing head. -->
+  <g transform="rotate(30 44 36)">
+    <rect x="15" y="32.5" width="29" height="4.4" rx="2.2" fill="url(#tail)"/>
+  </g>
+  <circle cx="45" cy="33" r="10" fill="url(#glow)"/>
+  <circle cx="45" cy="33" r="4.4" fill="#ffffff"/>
 </svg>

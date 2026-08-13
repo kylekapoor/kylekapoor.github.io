@@ -100,7 +100,7 @@ export function logChat(entry: ChatLog): void {
 }
 
 /**
- * Log an opted-in feedback message so Seb can catch content gaps in
+ * Log an opted-in feedback message so Kyle can catch content gaps in
  * the corpus. Only called when the user ended their message with
  * `#feedback`. Stored separately with a longer TTL.
  */

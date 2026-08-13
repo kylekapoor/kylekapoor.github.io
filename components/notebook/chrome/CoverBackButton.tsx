@@ -1,6 +1,6 @@
 "use client";
 
-export const CLOSE_JOURNAL_EVENT = "sebjournal:close-journal";
+export const CLOSE_JOURNAL_EVENT = "kkjournal:close-journal";
 
 /**
  * Top-left back button for the chat home — returns the user to the
@@ -27,7 +27,7 @@ export function CoverBackButton() {
       style={{
         position: "absolute",
         // Baseline floats 0.19 × --line above the rule below it — same
-        // amount of breathing room the chat's SEBBOT / YOU sender labels
+        // amount of breathing room the chat's KYLEBOT / YOU sender labels
         // get (see NotebookMessage home-mode). Rule below the back button
         // sits at 1.76 × --line, so baseline target is 1.57 × --line.
         // With lineHeight:1, Caveat's baseline sits ~0.82 × fontSize

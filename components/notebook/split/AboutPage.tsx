@@ -14,9 +14,9 @@ import {
 import { Sticker } from "../primitives/Sticker";
 
 const BODY_PARAGRAPHS = [
-  "Obsessed with AI. In love with tech. Chronically online in the Claude and GPT corners of the internet. If I'm not building something I'm probably thinking about building it. 4th-year CS at the University of Guelph, Toronto-based.",
-  "Career path so far:\n→ data analyst\n→ data engineer\n→ AI & data developer\n→ AI & data consultant at EY\nI kept trying different things until one clicked. AI was the one.",
-  "Outside of that: basketball (90% chance I smoke you), too much coffee, snowboarding, fantasy novels (The Name of the Wind is my favorite), and a cologne collection that's gotten out of hand. This site is also a side project. Claude Code, two evenings, aggressively overengineered.",
+  "Computer Science at the University of Waterloo, based in Toronto. I like problems where the messy real-world version is more interesting than the textbook one — tyre wear across a race stint, a model quietly drifting in production, a guardrail that holds until it doesn't.",
+  "What I actually build:\n\u2192 streaming ML that notices when it's wrong\n\u2192 race-strategy simulation for F1\n\u2192 adversarial testing for LLM guardrails\n\u2192 portfolio optimisation with enforced structure\nAll of it is on GitHub. Open /projects and click any card.",
+  "Outside of that: Formula 1 (the strategy, not the drama), badminton, the gym, and enough NBA to lose a full evening. Coffee in volume, usually while waiting for Claude to finish a build. Currently looking for 2026 and 2027 internships.",
 ];
 
 // Photos + slot positions split into two lists so the site can randomly
@@ -31,10 +31,13 @@ type PolaroidSlot = {
   width: number;
 };
 
+// Journal doodles rather than snapshots — illustrated SVG cards taped
+// into the polaroid frames. Swap any `src` for a real photo (any 4:5
+// image) and the frame renders it unchanged.
 const PHOTOS: Photo[] = [
-  { src: "/photos/seb-1.jpg", caption: "garry point park" },
-  { src: "/photos/seb-2.jpg", caption: "pool" },
-  { src: "/photos/seb-3.jpg", caption: "cleveland dam" },
+  { src: "/photos/track.svg", caption: "sunday, lights out" },
+  { src: "/photos/badminton.svg", caption: "best two of three" },
+  { src: "/photos/toronto.svg", caption: "downtown, late" },
 ];
 
 // Slots staggered horizontally (right values 325 / 120 / 220) so the
@@ -47,9 +50,9 @@ const PHOTOS: Photo[] = [
 // Vertical spacing ~400px between slots: first two visible on most
 // desktops, third tucks below the fold and scrolls into view.
 const POLAROID_SLOTS: PolaroidSlot[] = [
-  { top: 30, right: 325, rotation: 3, width: 205 },
+  { top: 20, right: 150, rotation: 3, width: 205 },
   { top: 500, right: 120, rotation: -6, width: 195 },
-  { top: 900, right: 220, rotation: 4, width: 215 },
+  { top: 900, right: 180, rotation: 4, width: 215 },
 ];
 
 // Polaroid (Photo × Slot) combined shape used by PolaroidFrame. We
@@ -65,7 +68,7 @@ type StickerData = {
   size: number;
   rotation: number;
   background?: string;
-  icon: "coffee" | "basketball" | "lobster" | "monster";
+  icon: "coffee" | "shuttlecock" | "racecar" | "dumbbell";
 };
 type StickerSlot = {
   top: number;
@@ -74,11 +77,14 @@ type StickerSlot = {
   delayMs: number;
 };
 
+// Sticker backgrounds are dark now — a cream sticker on a near-black
+// page reads as a hole punched in the paper rather than something stuck
+// onto it.
 const STICKERS: StickerData[] = [
-  { size: 54, rotation: -10, icon: "coffee" },
-  { size: 56, rotation: 8, background: "#ffefd5", icon: "basketball" },
-  { size: 58, rotation: -6, background: "#ffe1d4", icon: "lobster" },
-  { size: 54, rotation: 12, background: "#0a0a0a", icon: "monster" },
+  { size: 54, rotation: -10, background: "#2a2118", icon: "coffee" },
+  { size: 56, rotation: 8, background: "#16241f", icon: "shuttlecock" },
+  { size: 58, rotation: -6, background: "#2b1a1a", icon: "racecar" },
+  { size: 54, rotation: 12, background: "#1c2231", icon: "dumbbell" },
 ];
 
 // Sticker slots are positioned explicitly OUTSIDE every polaroid slot's
@@ -122,14 +128,14 @@ const MARGIN_NOTES: Array<{
   delayMs: number;
 }> = [
   {
-    text: "coffee:\nminimum 3 cups per day",
+    text: "coffee:\nnon-negotiable",
     top: "calc(var(--line) * 7)",
     left: "3.5%",
     rotate: -7,
     delayMs: 1800,
   },
   {
-    text: "basketball:\n80-90% smoke rate",
+    text: "badminton:\nask me about my smash",
     top: "calc(var(--line) * 18)",
     left: "4%",
     rotate: 5,
@@ -269,11 +275,11 @@ export function AboutPage({
             marginBottom: "var(--line)",
             display: "flex",
             alignItems: "center",
-            maxWidth: isMobile ? "100%" : "calc(100% - 440px)",
+            maxWidth: isMobile ? "100%" : "calc(100% - 420px)",
           }}
         >
           <DrawnText
-            text="hi — I'm Seb"
+            text="hi — I'm Kyle"
             fontFamily="Caveat"
             fontSize={isMobile ? 38 : 56}
             fontWeight={500}
@@ -297,7 +303,7 @@ export function AboutPage({
             // right is the binding constraint — reserve 360 leaves a
             // small gap (rounded up). Mobile drops the reservation since
             // polaroids stack below.
-            maxWidth: isMobile ? "100%" : "calc(100% - 360px)",
+            maxWidth: isMobile ? "100%" : "calc(100% - 420px)",
             fontFamily: "var(--font-script)",
             fontSize: "var(--fs-body)",
             fontWeight: 400,
@@ -370,9 +376,9 @@ export function AboutPage({
                   delayMs={offset.delayMs}
                 >
                   {sticker.icon === "coffee" && <CoffeeCupIcon />}
-                  {sticker.icon === "basketball" && <BasketballIcon />}
-                  {sticker.icon === "lobster" && <LobsterIcon />}
-                  {sticker.icon === "monster" && <MonsterIcon />}
+                  {sticker.icon === "shuttlecock" && <ShuttlecockIcon />}
+                  {sticker.icon === "racecar" && <RaceCarIcon />}
+                  {sticker.icon === "dumbbell" && <DumbbellIcon />}
                 </Sticker>
               );
             })}
@@ -406,9 +412,9 @@ export function AboutPage({
                 delayMs={slot.delayMs}
               >
                 {sticker.icon === "coffee" && <CoffeeCupIcon />}
-                {sticker.icon === "basketball" && <BasketballIcon />}
-                {sticker.icon === "lobster" && <LobsterIcon />}
-                {sticker.icon === "monster" && <MonsterIcon />}
+                {sticker.icon === "shuttlecock" && <ShuttlecockIcon />}
+                {sticker.icon === "racecar" && <RaceCarIcon />}
+                {sticker.icon === "dumbbell" && <DumbbellIcon />}
               </Sticker>
             );
           })}
@@ -577,9 +583,9 @@ function MobilePolaroidFrame({
     >
       <div
         style={{
-          background: "#fbfaf4",
+          background: "var(--color-card)",
           padding: "var(--pad-chip) var(--pad-chip) 36px var(--pad-chip)",
-          border: "1px solid rgba(0,0,0,0.06)",
+          border: "1px solid var(--color-card-border)",
         }}
       >
         <div
@@ -588,7 +594,7 @@ function MobilePolaroidFrame({
             width: "100%",
             aspectRatio: "4 / 5",
             overflow: "hidden",
-            background: "#e8e3d5",
+            background: "var(--color-card-well)",
           }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -687,7 +693,8 @@ function CoffeeCupIcon() {
   );
 }
 
-function BasketballIcon() {
+function ShuttlecockIcon() {
+  // Feathered skirt over a cork base, angled as though mid-flight.
   return (
     <svg
       width="34"
@@ -696,46 +703,47 @@ function BasketballIcon() {
       aria-hidden
       style={{ display: "block" }}
     >
-      <circle
-        cx="17"
-        cy="17"
-        r="13"
-        fill="#e07a2b"
-        stroke="#1a1a2e"
-        strokeWidth="1.2"
-      />
-      {/* curved seams */}
-      <path
-        d="M 17 4 L 17 30"
-        stroke="#1a1a2e"
-        strokeWidth="1.2"
-        fill="none"
-      />
-      <path
-        d="M 4 17 L 30 17"
-        stroke="#1a1a2e"
-        strokeWidth="1.2"
-        fill="none"
-      />
-      <path
-        d="M 6 8 Q 17 17 6 26"
-        stroke="#1a1a2e"
-        strokeWidth="1.2"
-        fill="none"
-      />
-      <path
-        d="M 28 8 Q 17 17 28 26"
-        stroke="#1a1a2e"
-        strokeWidth="1.2"
-        fill="none"
-      />
+      <g transform="rotate(20 17 17)">
+        {/* skirt */}
+        <path
+          d="M 12 19 L 22 19 L 27 5 L 7 5 Z"
+          fill="#f4f5f8"
+          stroke="#8c93a3"
+          strokeWidth="0.9"
+          strokeLinejoin="round"
+        />
+        {/* feather separations */}
+        <g stroke="#8c93a3" strokeWidth="0.8">
+          <line x1="15" y1="19" x2="12.5" y2="5.4" />
+          <line x1="19" y1="19" x2="21.5" y2="5.4" />
+          <line x1="17" y1="19" x2="17" y2="5" />
+        </g>
+        {/* binding thread */}
+        <line
+          x1="10.4"
+          y1="12"
+          x2="23.6"
+          y2="12"
+          stroke="#8c93a3"
+          strokeWidth="0.8"
+        />
+        {/* cork base */}
+        <ellipse
+          cx="17"
+          cy="21.5"
+          rx="5.6"
+          ry="4.6"
+          fill="#ff8a60"
+          stroke="#a34a28"
+          strokeWidth="0.9"
+        />
+      </g>
     </svg>
   );
 }
 
-function LobsterIcon() {
-  // Stylized lobster — red body with two claws and antennae. Simple
-  // enough to read inside a ~55px sticker.
+function RaceCarIcon() {
+  // Open-wheel car in profile — front and rear wings, airbox, big tyres.
   return (
     <svg
       width="34"
@@ -744,87 +752,46 @@ function LobsterIcon() {
       aria-hidden
       style={{ display: "block" }}
     >
-      {/* antennae */}
+      {/* body */}
       <path
-        d="M 14 9 Q 11 5 9 2"
-        stroke="#7a1f0a"
-        strokeWidth="1"
+        d="M 3 20 L 8 20 L 11 16 L 20 15.5 L 24 17 L 31 17.5 L 31 20 L 3 20 Z"
+        fill="#ff5b5b"
+        stroke="#7a1f14"
+        strokeWidth="0.9"
+        strokeLinejoin="round"
+      />
+      {/* cockpit + halo */}
+      <path
+        d="M 14 15.5 Q 16.5 12 19.5 13.5"
+        stroke="#f4f5f8"
+        strokeWidth="1.2"
         fill="none"
         strokeLinecap="round"
       />
-      <path
-        d="M 20 9 Q 23 5 25 2"
-        stroke="#7a1f0a"
-        strokeWidth="1"
-        fill="none"
-        strokeLinecap="round"
+      {/* airbox */}
+      <path d="M 20 15.5 L 21.5 11.5 L 23.5 15.5 Z" fill="#c83a1d" />
+      {/* front wing */}
+      <rect x="1.5" y="20" width="7" height="2" rx="0.8" fill="#c6cbd7" />
+      {/* rear wing */}
+      <rect x="28" y="11.5" width="5" height="2" rx="0.8" fill="#c6cbd7" />
+      <line
+        x1="30.5"
+        y1="13.5"
+        x2="30.5"
+        y2="17.5"
+        stroke="#c6cbd7"
+        strokeWidth="1.2"
       />
-      {/* left claw */}
-      <ellipse
-        cx="7"
-        cy="14"
-        rx="3.5"
-        ry="2.6"
-        fill="#c83a1d"
-        stroke="#7a1f0a"
-        strokeWidth="0.8"
-        transform="rotate(-20 7 14)"
-      />
-      <path
-        d="M 5 12 Q 7.5 13 5 14.5"
-        stroke="#7a1f0a"
-        strokeWidth="0.7"
-        fill="none"
-      />
-      {/* right claw */}
-      <ellipse
-        cx="27"
-        cy="14"
-        rx="3.5"
-        ry="2.6"
-        fill="#c83a1d"
-        stroke="#7a1f0a"
-        strokeWidth="0.8"
-        transform="rotate(20 27 14)"
-      />
-      <path
-        d="M 29 12 Q 26.5 13 29 14.5"
-        stroke="#7a1f0a"
-        strokeWidth="0.7"
-        fill="none"
-      />
-      {/* head */}
-      <circle
-        cx="17"
-        cy="13"
-        r="4"
-        fill="#c83a1d"
-        stroke="#7a1f0a"
-        strokeWidth="0.8"
-      />
-      {/* eyes */}
-      <circle cx="15.5" cy="12" r="0.6" fill="#fff" />
-      <circle cx="18.5" cy="12" r="0.6" fill="#fff" />
-      {/* segmented tail */}
-      <path
-        d="M 13 17 Q 13 24 17 27 Q 21 24 21 17 Z"
-        fill="#c83a1d"
-        stroke="#7a1f0a"
-        strokeWidth="0.8"
-      />
-      <path
-        d="M 13.5 19.5 Q 17 20.5 20.5 19.5 M 14 22 Q 17 23 20 22 M 14.8 24.5 Q 17 25.2 19.2 24.5"
-        stroke="#7a1f0a"
-        strokeWidth="0.6"
-        fill="none"
-      />
+      {/* tyres */}
+      <circle cx="10" cy="23" r="4.6" fill="#15171d" stroke="#4f5666" strokeWidth="1" />
+      <circle cx="10" cy="23" r="1.6" fill="#8c93a3" />
+      <circle cx="25" cy="23" r="4.6" fill="#15171d" stroke="#4f5666" strokeWidth="1" />
+      <circle cx="25" cy="23" r="1.6" fill="#8c93a3" />
     </svg>
   );
 }
 
-function MonsterIcon() {
-  // Three claw slashes in Monster green on a black sticker face.
-  // Not an exact brand mark — just the signature claw look.
+function DumbbellIcon() {
   return (
     <svg
       width="34"
@@ -833,25 +800,16 @@ function MonsterIcon() {
       aria-hidden
       style={{ display: "block" }}
     >
-      {/* Three slashes — outer ones narrow-wide, middle one widest. */}
-      <path
-        d="M 8 7 L 10 27"
-        stroke="#a4ff00"
-        strokeWidth="2.6"
-        strokeLinecap="round"
-      />
-      <path
-        d="M 15.5 5 L 17.5 29"
-        stroke="#a4ff00"
-        strokeWidth="3"
-        strokeLinecap="round"
-      />
-      <path
-        d="M 24 7 L 26 27"
-        stroke="#a4ff00"
-        strokeWidth="2.6"
-        strokeLinecap="round"
-      />
+      <g transform="rotate(-20 17 17)">
+        {/* bar */}
+        <rect x="10" y="15.6" width="14" height="2.8" rx="1.2" fill="#8c93a3" />
+        {/* inner plates */}
+        <rect x="7" y="11" width="4" height="12" rx="1.4" fill="#c6cbd7" />
+        <rect x="23" y="11" width="4" height="12" rx="1.4" fill="#c6cbd7" />
+        {/* outer plates */}
+        <rect x="3.5" y="13" width="3.5" height="8" rx="1.2" fill="#5ad1ff" />
+        <rect x="27" y="13" width="3.5" height="8" rx="1.2" fill="#5ad1ff" />
+      </g>
     </svg>
   );
 }
@@ -960,9 +918,9 @@ function PolaroidFrame({
       {/* White polaroid frame */}
       <div
         style={{
-          background: "#fbfaf4",
+          background: "var(--color-card)",
           padding: "var(--pad-chip) var(--pad-chip) 44px var(--pad-chip)",
-          border: "1px solid rgba(0,0,0,0.06)",
+          border: "1px solid var(--color-card-border)",
         }}
       >
         {/* Photo */}
@@ -972,7 +930,7 @@ function PolaroidFrame({
             width: "100%",
             aspectRatio: "4 / 5",
             overflow: "hidden",
-            background: "#e8e3d5",
+            background: "var(--color-card-well)",
           }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}

@@ -49,7 +49,7 @@ const OLLAMA_TOOLS = [
     function: {
       name: "showAbout",
       description:
-        "Display Seb's personal About page. Call for open-ended 'tell me about yourself' / 'who are you' / 'what's your story' style questions, or when the user explicitly asks for /about.",
+        "Display Kyle's About page. Call for open-ended 'tell me about yourself' / 'who are you' / 'what's your story' style questions, or when the user explicitly asks for /about.",
       parameters: { type: "object", properties: {}, required: [] },
     },
   },
@@ -74,9 +74,9 @@ const OLLAMA_TOOLS = [
   {
     type: "function",
     function: {
-      name: "showLinkedIn",
+      name: "showProjects",
       description:
-        "Display a stacked-deck carousel of Sebastian's favorite LinkedIn posts. Call when the user asks about LinkedIn, posts, or public writing.",
+        "Display Kyle's projects as a card carousel linking to GitHub. Call when the user asks about projects, repos, or code.",
       parameters: { type: "object", properties: {}, required: [] },
     },
   },

@@ -49,11 +49,15 @@ export function SpiralBinding({ coils = 22 }: { coils?: number }) {
               viewBox="0 0 38 26"
             >
               <defs>
+                {/* Brighter than the light theme's gradient: dark metal
+                    on a dark page disappears, so the coils are lit from
+                    above with a near-white highlight and bottom out at a
+                    mid grey rather than near-black. */}
                 <linearGradient id={`coil-${i}`} x1="0" x2="0" y1="0" y2="1">
-                  <stop offset="0%" stopColor="#d4d4d8" />
-                  <stop offset="40%" stopColor="#71717a" />
-                  <stop offset="70%" stopColor="#3f3f46" />
-                  <stop offset="100%" stopColor="#18181b" />
+                  <stop offset="0%" stopColor="#f4f4f5" />
+                  <stop offset="40%" stopColor="#a1a1aa" />
+                  <stop offset="70%" stopColor="#6b6b73" />
+                  <stop offset="100%" stopColor="#3f3f46" />
                 </linearGradient>
               </defs>
               {/* Coil — loops over the page's left edge. */}
@@ -70,7 +74,7 @@ export function SpiralBinding({ coils = 22 }: { coils?: number }) {
                 cy="15"
                 rx="10"
                 ry="3"
-                fill="rgba(0,0,0,0.12)"
+                fill="rgba(0,0,0,0.35)"
               />
             </svg>
           </div>

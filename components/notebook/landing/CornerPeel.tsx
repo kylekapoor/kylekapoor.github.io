@@ -22,9 +22,12 @@ export function CornerPeel({
   if (!visible) return null;
 
   const size = hover ? 120 : 64;
-  const paperColor = "#f5f1e2";
-  const shadowColor = "rgba(0,0,0,0.22)";
-  const edgeColor = "#d9d2bf";
+  // The peel is the back of the cover lifting away — a shade lighter
+  // than the cover itself so the triangle is legible against it, with a
+  // brighter leading edge where the fold catches light.
+  const paperColor = "rgb(30 33 43)";
+  const shadowColor = "rgba(0,0,0,0.65)";
+  const edgeColor = "rgb(58 63 78)";
 
   return (
     <div
@@ -104,7 +107,7 @@ export function CornerPeel({
           y1={32}
           x2={32}
           y2={size + 32}
-          stroke="rgba(26,24,20,0.22)"
+          stroke="rgba(180,190,215,0.35)"
           strokeWidth="1"
         />
         {hover && (
@@ -112,9 +115,9 @@ export function CornerPeel({
             x={size + 32 - 16}
             y={size + 32 - 14}
             fontFamily='"Caveat", cursive'
-            fill="#5a5446"
+            fill="#c6cbd7"
             textAnchor="end"
-            opacity="0.7"
+            opacity="0.8"
             style={{ transition: "opacity 0.2s", fontSize: "var(--fs-chip)" }}
           >
             next →

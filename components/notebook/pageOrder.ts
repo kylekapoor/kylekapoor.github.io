@@ -7,7 +7,7 @@ export const PAGE_ORDER = [
   "home",
   "about",
   "experience",
-  "linkedin",
+  "projects",
   "contact",
 ] as const;
 

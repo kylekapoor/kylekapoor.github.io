@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 360" width="400" height="360" role="img" aria-label="Efficient frontier with Black-Litterman posterior weights">
+  <defs>
+    <linearGradient id="blbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#101a18"/>
+      <stop offset="100%" stop-color="#0d0e14"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="360" fill="url(#blbg)"/>
+  <text x="40" y="42" fill="#f4f5f8" font-family="monospace" font-size="16">efficient frontier</text>
+
+  <g stroke="#2a2e3c" stroke-width="1">
+    <line x1="48" y1="66" x2="48" y2="246"/>
+    <line x1="48" y1="246" x2="360" y2="246"/>
+  </g>
+
+  <!-- prior vs posterior frontiers -->
+  <path d="M62 232 C 130 196, 200 152, 300 108" fill="none" stroke="#4f5666" stroke-width="2.4" stroke-dasharray="6 5"/>
+  <path d="M62 226 C 132 178, 206 130, 306 86" fill="none" stroke="#7ee0a6" stroke-width="3"/>
+
+  <!-- asset scatter -->
+  <g fill="#9fb4d8" opacity="0.65">
+    <circle cx="96" cy="216" r="4"/><circle cx="132" cy="198" r="4"/>
+    <circle cx="158" cy="212" r="4"/><circle cx="196" cy="170" r="4"/>
+    <circle cx="228" cy="184" r="4"/><circle cx="262" cy="140" r="4"/>
+    <circle cx="288" cy="158" r="4"/>
+  </g>
+  <!-- optimal portfolio -->
+  <circle cx="248" cy="122" r="6.5" fill="#ffd166"/>
+  <circle cx="248" cy="122" r="13" fill="none" stroke="#ffd166" stroke-width="1.2" opacity="0.55"/>
+  <text x="264" y="118" fill="#ffd166" font-family="monospace" font-size="11">max sharpe</text>
+
+  <g font-family="monospace" font-size="11" fill="#8c93a3">
+    <text x="48" y="266">risk →</text>
+    <text x="30" y="70" transform="rotate(-90 30 70)">return</text>
+  </g>
+
+  <!-- posterior weight bars -->
+  <text x="40" y="292" fill="#8c93a3" font-family="monospace" font-size="11">posterior weights</text>
+  <g>
+    <rect x="40" y="300" width="70" height="12" rx="2" fill="#7ee0a6"/>
+    <rect x="114" y="300" width="52" height="12" rx="2" fill="#5ad1ff"/>
+    <rect x="170" y="300" width="88" height="12" rx="2" fill="#ffd166"/>
+    <rect x="262" y="300" width="40" height="12" rx="2" fill="#ff8a60"/>
+    <rect x="306" y="300" width="54" height="12" rx="2" fill="#9fb4d8"/>
+  </g>
+</svg>

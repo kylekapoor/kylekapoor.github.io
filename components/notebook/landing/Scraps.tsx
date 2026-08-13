@@ -7,6 +7,7 @@ import {
   type CSSProperties,
   type ReactNode,
 } from "react";
+import { Float } from "../primitives/Float";
 
 const ACTIVATE_AFTER_MS = 3500;
 const INTRO_DURATION = 2.5;
@@ -121,9 +122,12 @@ function MagneticScrap({
   }, [activationRadius, maxDrift, ready]);
 
   const scale = hovered ? 1.03 : 1;
+  // On the dark cover a black drop-shadow is invisible, so scraps are
+  // lifted with a soft light halo instead — it reads as "this is floating
+  // above the page" the same way the shadow did on cream paper.
   const shadow = hovered
-    ? "drop-shadow(4px 10px 16px rgba(0,0,0,0.22))"
-    : "drop-shadow(2px 4px 8px rgba(0,0,0,0.15))";
+    ? "drop-shadow(0 8px 22px rgba(0,0,0,0.55)) drop-shadow(0 0 10px rgba(180,205,255,0.28))"
+    : "drop-shadow(0 4px 12px rgba(0,0,0,0.45)) drop-shadow(0 0 5px rgba(180,205,255,0.14))";
 
   return (
     <div
@@ -160,13 +164,22 @@ function TapedCard({ ready }: { ready: boolean }) {
       size={{ width: 180, height: 110 }}
     >
       {/* Fade card AND tapes together so the tape never appears alone
-          during the 1.2s mount delay. */}
+          during the 1.2s mount delay. The second animation adds the
+          weightless drift — it's applied here rather than on the
+          MagneticScrap parent so the cursor-magnetism transform and the
+          float transform stay on separate elements and compose instead
+          of overwriting each other. */}
       <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          animation: "fadeIn 0.8s ease 1.2s both",
-        }}
+        style={
+          {
+            position: "absolute",
+            inset: 0,
+            "--float-y": "-7px",
+            "--float-x": "3px",
+            animation:
+              "fadeIn 0.8s ease 1.2s both, spaceFloat 13s ease-in-out 1.2s infinite",
+          } as CSSProperties
+        }
       >
         <div
           style={{
@@ -175,9 +188,9 @@ function TapedCard({ ready }: { ready: boolean }) {
             background: "var(--color-paper-warm)",
             padding: "var(--pad-chip) var(--pad-chip-wide)",
             position: "relative",
-            border: "1px solid rgba(0,0,0,0.05)",
+            border: "1px solid var(--color-card-border)",
             backgroundImage:
-              "linear-gradient(to bottom, transparent 15px, rgba(61,52,139,0.12) 16px, transparent 17px)",
+              "linear-gradient(to bottom, transparent 15px, rgba(150,158,178,0.18) 16px, transparent 17px)",
             backgroundSize: "100% 18px",
           }}
         >
@@ -201,7 +214,7 @@ function TapedCard({ ready }: { ready: boolean }) {
               lineHeight: 1.15,
             }}
           >
-            portfolio v27
+            portfolio v11
           </div>
           <div
             style={{
@@ -212,8 +225,8 @@ function TapedCard({ ready }: { ready: boolean }) {
               marginTop: 6,
             }}
           >
-            <span style={{ textDecoration: "line-through" }}>v25</span>{" "}
-            <span style={{ textDecoration: "line-through" }}>v26</span> v27 ✓
+            <span style={{ textDecoration: "line-through" }}>v9</span>{" "}
+            <span style={{ textDecoration: "line-through" }}>v10</span> v11 ✓
           </div>
         </div>
         <TapeStrip
@@ -255,23 +268,28 @@ function YellowSticky({ ready }: { ready: boolean }) {
       size={{ width: 120, height: 120 }}
     >
       <div
-        style={{
-          width: "100%",
-          height: "100%",
-          background: "var(--color-sticky-yellow)",
-          padding: 14,
-          fontFamily: "var(--font-script)",
-          color: "#3a2a08",
-          lineHeight: 1.15,
-          position: "relative",
-          animation: "fadeIn 0.8s ease 1.6s both",
-        }}
+        style={
+          {
+            width: "100%",
+            height: "100%",
+            background: "var(--color-sticky-yellow)",
+            padding: 14,
+            fontFamily: "var(--font-script)",
+            color: "#2a1f06",
+            lineHeight: 1.15,
+            position: "relative",
+            "--float-y": "-9px",
+            "--float-x": "-4px",
+            animation:
+              "fadeIn 0.8s ease 1.6s both, spaceFloat 10s ease-in-out 1.6s infinite",
+          } as CSSProperties
+        }
       >
         <div style={{ fontSize: "var(--fs-input)", opacity: 0.7, marginBottom: 4 }}>
           mon 9am
         </div>
         <div style={{ fontSize: "var(--fs-script)" }}>coffee w/</div>
-        <div style={{ fontSize: "var(--fs-script)" }}>Tom</div>
+        <div style={{ fontSize: "var(--fs-script)" }}>Milan</div>
         <div
           style={{
             position: "absolute",
@@ -282,7 +300,7 @@ function YellowSticky({ ready }: { ready: boolean }) {
             height: 18,
             background: "rgba(255, 250, 230, 0.55)",
             backdropFilter: "blur(1px)",
-            border: "1px solid rgba(0,0,0,0.06)",
+            border: "1px solid var(--color-card-border)",
           }}
         />
       </div>
@@ -294,10 +312,10 @@ function TodoList({ ready: _ready }: { ready: boolean }) {
   // Each item manages its own check state locally. No persistence —
   // visitors can toggle for fun, reloads reset.
   const [items, setItems] = useState<{ text: string; done: boolean }[]>([
-    { text: "ship v27", done: true },
-    { text: "write roles", done: true },
-    { text: "add projects", done: false },
-    { text: "coffee chat", done: false },
+    { text: "wait for claude", done: true },
+    { text: "third coffee", done: true },
+    { text: "watch cars downtown", done: false },
+    { text: "badminton, then gym", done: false },
   ]);
 
   const toggle = (i: number) => {
@@ -312,7 +330,7 @@ function TodoList({ ready: _ready }: { ready: boolean }) {
         position: "absolute",
         left: "6%",
         top: "52%",
-        width: 150,
+        width: 160,
         transform: "rotate(-2deg)",
         pointerEvents: "auto",
         fontFamily: "var(--font-script)",
@@ -320,25 +338,30 @@ function TodoList({ ready: _ready }: { ready: boolean }) {
         animation: "fadeIn 0.8s ease 2s both",
       }}
     >
-      <div
-        style={{
-          fontSize: "var(--fs-chip)",
-          opacity: 0.7,
-          marginBottom: 6,
-          textDecoration: "underline",
-        }}
-      >
-        today
-      </div>
-      {items.map((item, i) => (
-        <TodoItem
-          key={item.text}
-          done={item.done}
-          onToggle={() => toggle(i)}
+      {/* The list's base rotation lives on the parent, so the drift is
+          applied to an inner wrapper — a single element can't hold both
+          a static rotate and an animated transform. */}
+      <Float y={-8} x={4} rotate={0.6} durationS={12} delayS={2}>
+        <div
+          style={{
+            fontSize: "var(--fs-chip)",
+            opacity: 0.7,
+            marginBottom: 6,
+            textDecoration: "underline",
+          }}
         >
-          {item.text}
-        </TodoItem>
-      ))}
+          today
+        </div>
+        {items.map((item, i) => (
+          <TodoItem
+            key={item.text}
+            done={item.done}
+            onToggle={() => toggle(i)}
+          >
+            {item.text}
+          </TodoItem>
+        ))}
+      </Float>
     </div>
   );
 }

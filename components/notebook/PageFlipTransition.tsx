@@ -99,17 +99,20 @@ export function PageFlipTransition({
           transform: "rotateY(180deg)",
           backfaceVisibility: "hidden",
           WebkitBackfaceVisibility: "hidden",
+          // The blank reverse of a page: a touch lighter than the front
+          // (you're seeing the sheet lit from the other side) with a
+          // shadow gradient down the spine edge.
           background:
-            "linear-gradient(90deg, rgba(0,0,0,0.06) 0%, transparent 15%, transparent 100%), #f5f1e2",
+            "linear-gradient(90deg, rgba(0,0,0,0.45) 0%, transparent 15%, transparent 100%), rgb(20 22 29)",
         }}
       >
         <div
           style={{
             position: "absolute",
             inset: 0,
-            opacity: 0.12,
+            opacity: 0.5,
             backgroundImage:
-              "repeating-linear-gradient(0deg, transparent 0, transparent 31px, #8a7a58 31px, #8a7a58 32px)",
+              "repeating-linear-gradient(0deg, transparent 0, transparent 31px, rgba(150,158,178,0.20) 31px, rgba(150,158,178,0.20) 32px)",
           }}
         />
       </div>

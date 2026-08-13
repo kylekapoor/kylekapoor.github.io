@@ -26,15 +26,18 @@ import { useEffect, useState } from "react";
  * computes this from the messages array and passes `showSuggestions`.
  */
 
+// Every prompt here has to be one the bot can actually answer from
+// lib/profile.ts — a suggestion chip that leads to "that's not on the
+// site" makes the chat look broken.
 const POOL = [
-  "where has he worked",
+  "what has he built",
   "how do I contact him",
-  "show me his LinkedIn",
   "what's his deal",
-  "what does he do on weekends",
+  "is he looking for work",
+  "what does he do for fun",
+  "tell me about the F1 project",
   "why is this site a chatbot",
   "what tech is this built on",
-  "tell me a joke",
 ];
 
 /**

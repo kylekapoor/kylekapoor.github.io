@@ -8,7 +8,7 @@ import { AboutPage } from "../split/AboutPage";
 import { ContactPage } from "../split/ContactPage";
 import { ContentPagePlaceholder } from "../split/ContentPagePlaceholder";
 import { ExperiencePage } from "../split/ExperiencePage";
-import { LinkedInPage } from "../split/LinkedInPage";
+import { ProjectsPage } from "../split/ProjectsPage";
 import { ChatSidebar, SIDEBAR_PCT } from "./ChatSidebar";
 import { MobileChatDrawer } from "./MobileChatDrawer";
 
@@ -98,7 +98,7 @@ export function ContentPage({
           right: 0,
           width: `${100 - SIDEBAR_PCT}%`,
           overflow: "hidden",
-          boxShadow: "inset 10px 0 18px -12px rgba(0,0,0,0.22)",
+          boxShadow: "inset 10px 0 22px -12px rgba(0,0,0,0.75)",
           zIndex: 1,
         }}
       >
@@ -137,9 +137,9 @@ function ContentBody({
     return (
       <ExperiencePage onClose={onClose} animate={animate} sessionKey={sessionKey} />
     );
-  if (kind === "linkedin")
+  if (kind === "projects")
     return (
-      <LinkedInPage
+      <ProjectsPage
         onClose={onClose}
         active={active}
         animate={animate}

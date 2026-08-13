@@ -9,17 +9,22 @@ const SITE_URL =
     ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
     : "http://localhost:3000");
 
-const TITLE = "Sebastian Tsang — Journal";
+const TITLE = "Kyle Kapoor";
 const DESCRIPTION =
-  "Sebastian Tsang's portfolio, rendered as a spiral-bound journal. Ask anything.";
+  "Kyle Kapoor's portfolio, rendered as a journal floating in space. Ask anything.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: TITLE,
+  // `default` (rather than a bare string) so the root tab reads exactly
+  // "Kyle Kapoor" while the deep-linked routes keep their own titles.
+  title: {
+    default: TITLE,
+    template: "%s",
+  },
   description: DESCRIPTION,
-  applicationName: "Sebastian Tsang — Journal",
-  authors: [{ name: "Sebastian Tsang" }],
-  creator: "Sebastian Tsang",
+  applicationName: TITLE,
+  authors: [{ name: "Kyle Kapoor" }],
+  creator: "Kyle Kapoor",
   manifest: "/manifest.webmanifest",
   icons: {
     icon: "/favicon.svg",
@@ -30,14 +35,13 @@ export const metadata: Metadata = {
     url: SITE_URL,
     title: TITLE,
     description: DESCRIPTION,
-    siteName: "Sebastian Tsang — Journal",
+    siteName: TITLE,
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
     title: TITLE,
     description: DESCRIPTION,
-    creator: "@sebastiantsang",
   },
   robots: {
     index: true,
@@ -52,11 +56,13 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
+  // The site is dark in both system themes — there's no light variant to
+  // fall back to, so both media entries point at the same near-black.
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "rgb(250 247 240)" },
-    { media: "(prefers-color-scheme: dark)", color: "rgb(250 247 240)" },
+    { media: "(prefers-color-scheme: light)", color: "rgb(13 14 20)" },
+    { media: "(prefers-color-scheme: dark)", color: "rgb(13 14 20)" },
   ],
-  colorScheme: "light",
+  colorScheme: "dark",
   width: "device-width",
   initialScale: 1,
 };

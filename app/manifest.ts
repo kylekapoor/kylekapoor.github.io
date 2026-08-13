@@ -2,14 +2,14 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Sebastian Tsang — Journal",
-    short_name: "Tsang Journal",
+    name: "Kyle Kapoor",
+    short_name: "Kyle Kapoor",
     description:
-      "Sebastian Tsang's portfolio, rendered as a spiral-bound journal.",
+      "Kyle Kapoor's portfolio, rendered as a journal floating in space.",
     start_url: "/",
     display: "standalone",
-    background_color: "rgb(250, 247, 240)",
-    theme_color: "rgb(250, 247, 240)",
+    background_color: "rgb(13, 14, 20)",
+    theme_color: "rgb(13, 14, 20)",
     orientation: "portrait",
     icons: [
       {
