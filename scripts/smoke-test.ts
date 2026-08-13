@@ -198,7 +198,7 @@ async function main() {
 
   console.log("\nGrounding:");
   await assertAnswer("answers contact with the real email", "how do I contact him", {
-    must: [/kylekapoor411@gmail\.com/],
+    must: [/kyle\.kapoor@uwaterloo\.ca/],
   });
   await assertAnswer("answers projects from the profile", "what has he built", {
     must: [/f1-tyre-strategy/, /drift-stream/],

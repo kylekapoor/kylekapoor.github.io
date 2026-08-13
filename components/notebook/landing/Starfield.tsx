@@ -53,16 +53,25 @@ type ShootingStar = {
   width: number;
   durationS: number;
   delayS: number;
+  /** Base hue for this streak's tail and glow. */
+  hue: number;
 };
 
-/* A few stars are tinted so the field doesn't read as uniform pixel
-   dust — same trick real skies play on you. */
-const STAR_TINTS = [
-  "rgb(255,255,255)",
-  "rgb(255,255,255)",
-  "rgb(255,255,255)",
-  "rgb(198,214,255)",
-  "rgb(255,226,196)",
+/* Star colours are drawn at random from across the spectrum — blue,
+   cyan, green, gold, orange, pink, violet — rather than the near-white
+   field a real sky gives you. Saturation is the thing to keep a lid on:
+   fully saturated dots read as confetti, whereas pastels at ~70-80%
+   lightness still register as *stars* that happen to be coloured.
+   Each entry is [hue, saturation%]; lightness is randomised per star. */
+const STAR_HUES: Array<[number, number]> = [
+  [212, 80], // blue
+  [190, 85], // cyan
+  [145, 65], // green
+  [45, 85], // gold
+  [22, 90], // orange
+  [330, 75], // pink
+  [265, 70], // violet
+  [0, 0], // plain white — kept in the mix so the field has an anchor
 ];
 
 function buildStars(): Star[] {
@@ -73,6 +82,12 @@ function buildStars(): Star[] {
     const roll = rand();
     const size = roll > 0.94 ? 2.6 : roll > 0.75 ? 1.8 : 1.1;
     const min = 0.12 + rand() * 0.25;
+    const [hue, sat] = STAR_HUES[Math.floor(rand() * STAR_HUES.length)];
+    // Lightness has to stay under ~90% for the hue to survive at 1-2px:
+    // above that every colour converges on white and the field reads as
+    // plain dust again. Bigger stars go darker still, because their glow
+    // adds brightness back and would otherwise blow out to a white blob.
+    const light = size > 1.5 ? 66 + rand() * 12 : 74 + rand() * 14;
     return {
       top: `${(rand() * 100).toFixed(3)}%`,
       left: `${(rand() * 100).toFixed(3)}%`,
@@ -81,7 +96,7 @@ function buildStars(): Star[] {
       max: min + 0.35 + rand() * 0.45,
       durationS: 2.4 + rand() * 4.5,
       delayS: rand() * 6,
-      color: STAR_TINTS[Math.floor(rand() * STAR_TINTS.length)],
+      color: `hsl(${hue} ${sat}% ${light.toFixed(0)}%)`,
     };
   });
 }
@@ -102,6 +117,9 @@ function buildShootingStars(): ShootingStar[] {
     width: 90 + rand() * 90,
     durationS: cycles[i],
     delayS: 2 + rand() * 14,
+    // Full spectrum, one hue per streak — each pass is a different
+    // colour rather than the usual white.
+    hue: Math.floor(rand() * 360),
   }));
 }
 
@@ -195,9 +213,11 @@ export function Starfield() {
                 height: 2,
                 borderRadius: 2,
                 // Head at the right end, tail fading back to nothing.
-                background:
-                  "linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(190,215,255,0.55) 55%, rgba(255,255,255,0.95) 100%)",
-                boxShadow: "0 0 8px rgba(190, 215, 255, 0.7)",
+                // The tail carries this streak's hue while the head
+                // stays white-hot — a fully coloured head reads as a
+                // flying dot rather than something burning up.
+                background: `linear-gradient(to right, hsl(${s.hue} 90% 70% / 0) 0%, hsl(${s.hue} 90% 72% / 0.6) 55%, hsl(${s.hue} 100% 96% / 0.95) 100%)`,
+                boxShadow: `0 0 8px hsl(${s.hue} 90% 70% / 0.75)`,
                 transformOrigin: "left center",
                 "--shoot-distance": `${s.distance}px`,
                 animation: `shootingStar ${s.durationS}s linear ${s.delayS}s infinite`,

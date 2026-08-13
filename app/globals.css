@@ -36,7 +36,12 @@
   --color-rule-navy: rgb(150 158 178);   /* the ruled lines — light grey */
   --color-rule-red: rgb(255 138 96);     /* margin rule — warm contrast */
   --color-accent: rgb(120 190 255);      /* links / focus — cool blue */
-  --color-sticky-yellow: rgb(226 186 84);/* sticky note — muted amber */
+  /* Sticky note. A real highlighter-yellow sticky is the loudest thing
+     on a near-black page by a wide margin and pulls the eye off the
+     name, so this is a dusty, desaturated gold — still legible as a
+     sticky, no longer shouting. Its text is light, not near-black. */
+  --color-sticky: rgb(108 93 58);
+  --color-sticky-ink: rgb(244 239 226);
   --color-cover: rgb(8 9 13);            /* space behind the cover */
 
   /* Raised surfaces: polaroid frames, index cards, logo stickers,

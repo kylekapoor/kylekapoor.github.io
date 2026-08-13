@@ -272,10 +272,10 @@ function YellowSticky({ ready }: { ready: boolean }) {
           {
             width: "100%",
             height: "100%",
-            background: "var(--color-sticky-yellow)",
+            background: "var(--color-sticky)",
             padding: 14,
             fontFamily: "var(--font-script)",
-            color: "#2a1f06",
+            color: "var(--color-sticky-ink)",
             lineHeight: 1.15,
             position: "relative",
             "--float-y": "-9px",
@@ -286,10 +286,10 @@ function YellowSticky({ ready }: { ready: boolean }) {
         }
       >
         <div style={{ fontSize: "var(--fs-input)", opacity: 0.7, marginBottom: 4 }}>
-          mon 9am
+          4pm today
         </div>
-        <div style={{ fontSize: "var(--fs-script)" }}>coffee w/</div>
-        <div style={{ fontSize: "var(--fs-script)" }}>Milan</div>
+        <div style={{ fontSize: "var(--fs-script)" }}>coffee #4</div>
+        <div style={{ fontSize: "var(--fs-script)" }}>w/ Milan</div>
         <div
           style={{
             position: "absolute",
@@ -298,7 +298,7 @@ function YellowSticky({ ready }: { ready: boolean }) {
             transform: "translateX(-50%) rotate(4deg)",
             width: 50,
             height: 18,
-            background: "rgba(255, 250, 230, 0.55)",
+            background: "rgba(226, 216, 190, 0.22)",
             backdropFilter: "blur(1px)",
             border: "1px solid var(--color-card-border)",
           }}
@@ -314,8 +314,8 @@ function TodoList({ ready: _ready }: { ready: boolean }) {
   const [items, setItems] = useState<{ text: string; done: boolean }[]>([
     { text: "wait for claude", done: true },
     { text: "third coffee", done: true },
-    { text: "watch cars downtown", done: false },
-    { text: "badminton, then gym", done: false },
+    { text: "hit the gym", done: false },
+    { text: "crash out over leetcode", done: false },
   ]);
 
   const toggle = (i: number) => {

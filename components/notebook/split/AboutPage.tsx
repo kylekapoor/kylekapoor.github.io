@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { useIsMobile } from "@/lib/hooks/useIsMobile";
+import { PORTRAIT } from "@/lib/profile";
 import { PageBackButton } from "../chrome/PageBackButton";
 import { PageCorner } from "../chrome/PageCorner";
 import { Paper } from "../chrome/Paper";
@@ -34,11 +35,20 @@ type PolaroidSlot = {
 // Journal doodles rather than snapshots — illustrated SVG cards taped
 // into the polaroid frames. Swap any `src` for a real photo (any 4:5
 // image) and the frame renders it unchanged.
-const PHOTOS: Photo[] = [
+// Three polaroid slots, always filled. When PORTRAIT is set in
+// lib/profile.ts the photo takes the first card and the Toronto
+// illustration steps aside — keeping the count at three means no slot
+// positions have to move, so adding a real photo can't reopen the
+// text-overlap problem the slot geometry below is tuned to avoid.
+const ILLUSTRATIONS: Photo[] = [
   { src: "/photos/track.svg", caption: "sunday, lights out" },
   { src: "/photos/badminton.svg", caption: "best two of three" },
   { src: "/photos/toronto.svg", caption: "downtown, late" },
 ];
+
+const PHOTOS: Photo[] = PORTRAIT
+  ? [PORTRAIT, ILLUSTRATIONS[0], ILLUSTRATIONS[1]]
+  : ILLUSTRATIONS;
 
 // Slots staggered horizontally (right values 325 / 120 / 220) so the
 // polaroids don't align on a single vertical line — gives the "someone

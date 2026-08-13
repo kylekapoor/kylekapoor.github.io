@@ -8,7 +8,7 @@
 
 Four public channels, all on the contact page:
 
-- **Email** — `kylekapoor411@gmail.com`. **Preferred and fastest.** Lead with this.
+- **Email** — `kyle.kapoor@uwaterloo.ca`. **Preferred and fastest.** Lead with this.
 - **LinkedIn** — https://www.linkedin.com/in/kylekapoor/
 - **GitHub** — https://github.com/kylekapoor
 - **Instagram** — @kyle_kapoor
@@ -34,6 +34,6 @@ Open door:
 
 ## What to say when someone asks how to reach him
 
-> Email — kylekapoor411@gmail.com. LinkedIn works too. Everything's on /contact.
+> Email — kyle.kapoor@uwaterloo.ca. LinkedIn works too. Everything's on /contact.
 
 Don't editorialise about who should or shouldn't reach out unless asked. Keep the door open.

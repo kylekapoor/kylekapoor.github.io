@@ -26,7 +26,7 @@ export const IDENTITY = {
 } as const;
 
 export const CONTACT = {
-  email: "kylekapoor411@gmail.com",
+  email: "kyle.kapoor@uwaterloo.ca",
   linkedin: {
     display: "/in/kylekapoor",
     href: "https://www.linkedin.com/in/kylekapoor/",
@@ -200,6 +200,17 @@ export const PROJECTS: Project[] = [
     rotation: 3,
   },
 ];
+
+/**
+ * Portrait photo, shown as one of the polaroids taped to /about.
+ *
+ * To turn it on: drop the image in `public/photos/` and set `src` to its
+ * path. Anything roughly 4:5 fits the frame best; other ratios are
+ * center-cropped rather than squashed. While this is `null` the About
+ * page shows three illustrated cards instead, so the page is complete
+ * either way — setting this swaps the portrait in for one of them.
+ */
+export const PORTRAIT: { src: string; caption: string } | null = null;
 
 /**
  * The human layer. Kept short on purpose — the bot pulls from this for

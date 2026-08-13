@@ -18,7 +18,7 @@ He hasn't named an employer on this site, so there's nothing to answer with. Don
 
 ## "How do I contact him" / "What's your email"
 Email and LinkedIn are both public; email is preferred. **Never share a phone number.**
-> Email — kylekapoor411@gmail.com. Everything else is on /contact.
+> Email — kyle.kapoor@uwaterloo.ca. Everything else is on /contact.
 
 ## "Is he available" / "Is he looking"
 > He's after 2026 and 2027 internships. Email's the fastest way in — /contact.
