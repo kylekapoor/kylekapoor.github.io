@@ -51,7 +51,7 @@ export function Scraps({
       {showBusyScraps && (
         <>
           <TapedCard ready={ready} />
-          <YellowSticky ready={ready} />
+          <StickyNote ready={ready} />
           <TodoList ready={ready} />
         </>
       )}
@@ -256,7 +256,7 @@ function TapeStrip({ style }: { style: CSSProperties }) {
   );
 }
 
-function YellowSticky({ ready }: { ready: boolean }) {
+function StickyNote({ ready }: { ready: boolean }) {
   return (
     <MagneticScrap
       baseRotation={-3}
@@ -298,7 +298,7 @@ function YellowSticky({ ready }: { ready: boolean }) {
             transform: "translateX(-50%) rotate(4deg)",
             width: 50,
             height: 18,
-            background: "rgba(226, 216, 190, 0.22)",
+            background: "rgba(236, 244, 255, 0.30)",
             backdropFilter: "blur(1px)",
             border: "1px solid var(--color-card-border)",
           }}
