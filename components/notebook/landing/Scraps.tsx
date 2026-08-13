@@ -7,6 +7,7 @@ import {
   type CSSProperties,
   type ReactNode,
 } from "react";
+import { useIsMobile } from "@/lib/hooks/useIsMobile";
 import { Float } from "../primitives/Float";
 
 const ACTIVATE_AFTER_MS = 3500;
@@ -33,6 +34,8 @@ export function Scraps({
   const showBusyScraps = variant === "landing";
   const showAnnotations = variant !== "chat";
 
+  const isMobile = useIsMobile();
+
   const [ready, setReady] = useState(false);
   useEffect(() => {
     const t = window.setTimeout(() => setReady(true), ACTIVATE_AFTER_MS);
@@ -50,12 +53,14 @@ export function Scraps({
     >
       {showBusyScraps && (
         <>
-          <TapedCard ready={ready} />
-          <StickyNote ready={ready} />
-          <TodoList ready={ready} />
+          <TapedCard ready={ready} isMobile={isMobile} />
+          <StickyNote ready={ready} isMobile={isMobile} />
+          <TodoList ready={ready} isMobile={isMobile} />
         </>
       )}
-      {showAnnotations && <MarginAnnotations ready={ready} />}
+      {showAnnotations && (
+        <MarginAnnotations ready={ready} isMobile={isMobile} />
+      )}
     </div>
   );
 }
@@ -152,7 +157,13 @@ function MagneticScrap({
 
 // ── Scrap variants ─────────────────────────────────────────────────────
 
-function TapedCard({ ready }: { ready: boolean }) {
+function TapedCard({
+  ready,
+  isMobile,
+}: {
+  ready: boolean;
+  isMobile: boolean;
+}) {
   return (
     <MagneticScrap
       baseRotation={3}
@@ -160,8 +171,14 @@ function TapedCard({ ready }: { ready: boolean }) {
       maxDrift={3}
       stiffnessMs={380}
       ready={ready}
-      position={{ right: "6%", top: 84 }}
-      size={{ width: 180, height: 110 }}
+      // Phone: 180px of a 390px viewport is nearly half the width, so the
+      // card shrinks and moves up out of the name's airspace.
+      position={isMobile ? { right: "6%", top: 52 } : { right: "6%", top: 84 }}
+      size={
+        isMobile
+          ? { width: 138, height: 88 }
+          : { width: 180, height: 110 }
+      }
     >
       {/* Fade card AND tapes together so the tape never appears alone
           during the 1.2s mount delay. The second animation adds the
@@ -256,7 +273,13 @@ function TapeStrip({ style }: { style: CSSProperties }) {
   );
 }
 
-function StickyNote({ ready }: { ready: boolean }) {
+function StickyNote({
+  ready,
+  isMobile,
+}: {
+  ready: boolean;
+  isMobile: boolean;
+}) {
   return (
     <MagneticScrap
       baseRotation={-3}
@@ -264,8 +287,17 @@ function StickyNote({ ready }: { ready: boolean }) {
       maxDrift={4}
       stiffnessMs={260}
       ready={ready}
-      position={{ right: "5%", bottom: "7%" }}
-      size={{ width: 120, height: 120 }}
+      // At bottom:7% on a phone the note lands on top of the centred
+      // "scroll" cue. Sitting it higher and narrower clears the cue and
+      // keeps the bottom of the screen readable.
+      position={
+        isMobile
+          ? { right: "4%", bottom: "15%" }
+          : { right: "5%", bottom: "7%" }
+      }
+      size={
+        isMobile ? { width: 104, height: 104 } : { width: 120, height: 120 }
+      }
     >
       <div
         style={
@@ -308,7 +340,13 @@ function StickyNote({ ready }: { ready: boolean }) {
   );
 }
 
-function TodoList({ ready: _ready }: { ready: boolean }) {
+function TodoList({
+  ready: _ready,
+  isMobile,
+}: {
+  ready: boolean;
+  isMobile: boolean;
+}) {
   // Each item manages its own check state locally. No persistence —
   // visitors can toggle for fun, reloads reset.
   const [items, setItems] = useState<{ text: string; done: boolean }[]>([
@@ -328,8 +366,12 @@ function TodoList({ ready: _ready }: { ready: boolean }) {
     <div
       style={{
         position: "absolute",
-        left: "6%",
-        top: "52%",
+        left: isMobile ? "5%" : "6%",
+        // On desktop the name sits left of centre with room beside it, so
+        // 52% puts the list in empty space. On a phone the name is the
+        // full width of the screen and its descenders reach past 52% —
+        // the list has to start below it, not beside it.
+        top: isMobile ? "62%" : "52%",
         width: 160,
         transform: "rotate(-2deg)",
         pointerEvents: "auto",
@@ -543,7 +585,13 @@ function InkAnnotation({
   );
 }
 
-function MarginAnnotations({ ready }: { ready: boolean }) {
+function MarginAnnotations({
+  ready,
+  isMobile,
+}: {
+  ready: boolean;
+  isMobile: boolean;
+}) {
   const strokeStyle = (delaySec: number): CSSProperties => ({
     animation: `drawLine 0.7s ease-out ${delaySec}s both`,
   });
@@ -596,7 +644,10 @@ function MarginAnnotations({ ready }: { ready: boolean }) {
         }}
       />
 
-      {/* "I wear lots of hats" — right margin, bracket under roles */}
+      {/* "I build stuff" — right margin, bracket under the roles. Hidden
+          on phones: at this width it lands in the same band as the todo
+          list and the two read as one jumbled block. */}
+      {!isMobile && (
       <InkAnnotation
         ready={ready}
         initialDelayMs={3800}
@@ -632,6 +683,7 @@ function MarginAnnotations({ ready }: { ready: boolean }) {
           ),
         }}
       />
+      )}
     </>
   );
 }

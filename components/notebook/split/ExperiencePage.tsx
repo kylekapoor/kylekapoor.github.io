@@ -41,7 +41,9 @@ export function ExperiencePage({
           position: "absolute",
           inset: 0,
           paddingTop: "calc(var(--line) * 3)",
-          paddingBottom: "calc(var(--line) * 3)",
+          paddingBottom: isMobile
+            ? "calc(var(--line) * 3 + 88px + env(safe-area-inset-bottom, 0px))"
+            : "calc(var(--line) * 3)",
           paddingLeft: isMobile
             ? "calc(var(--pad-content) + 44px)"
             : "calc(12% + var(--pad-content))",

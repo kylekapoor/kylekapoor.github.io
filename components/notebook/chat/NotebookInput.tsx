@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useIsMobile } from "@/lib/hooks/useIsMobile";
 import { SlashCommandRow } from "./SlashCommandRow";
 import { PromptSuggestions } from "./PromptSuggestions";
 
@@ -29,6 +30,7 @@ export function NotebookInput({
   /** Show the random-prompt chip row above the slash commands — only on empty-chat state. */
   showSuggestions?: boolean;
 }) {
+  const isMobile = useIsMobile();
   const [val, setVal] = useState("");
   const [focused, setFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -149,8 +151,11 @@ export function NotebookInput({
               onKeyDown={handleKeyDown}
               onFocus={() => setFocused(true)}
               onBlur={() => setFocused(false)}
+              // The full-width home input still gets the long hint on a
+              // desktop, but at phone width it runs past the send button
+              // and is cut off mid-word — so phones get the short one too.
               placeholder={
-                compact
+                compact || isMobile
                   ? "ask anything"
                   : "ask anything, or type a slash command"
               }
