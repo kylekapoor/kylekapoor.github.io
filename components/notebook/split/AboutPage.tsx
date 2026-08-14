@@ -25,7 +25,15 @@ const BODY_PARAGRAPHS = [
 // assign any photo to any slot on page open — same layout each time,
 // fresh placement every mount. After that, the user can drag them
 // anywhere (PolaroidFrame owns drag state).
-type Photo = { src: string; caption: string };
+type Photo = {
+  src: string;
+  caption: string;
+  /** Shown if `src` 404s. Lets the portrait be wired up before the image
+   *  file exists without ever rendering a broken frame. */
+  fallbackSrc?: string;
+  /** Caption to use once the fallback is showing. */
+  fallbackCaption?: string;
+};
 type PolaroidSlot = {
   top: number;
   right?: number | string;
@@ -48,7 +56,18 @@ const ILLUSTRATIONS: Photo[] = [
 ];
 
 const PHOTOS: Photo[] = PORTRAIT
-  ? [PORTRAIT, ILLUSTRATIONS[0], ILLUSTRATIONS[1]]
+  ? [
+      // The portrait carries the Toronto illustration as its fallback, so
+      // this entry is safe to leave wired up whether or not the image
+      // file has been added yet — see PolaroidPhoto.
+      {
+        ...PORTRAIT,
+        fallbackSrc: ILLUSTRATIONS[2].src,
+        fallbackCaption: ILLUSTRATIONS[2].caption,
+      },
+      ILLUSTRATIONS[0],
+      ILLUSTRATIONS[1],
+    ]
   : ILLUSTRATIONS;
 
 // Slots staggered horizontally (right values 325 / 120 / 220) so the
@@ -452,6 +471,72 @@ export function AboutPage({
   );
 }
 
+// ── Photo with fallback ──────────────────────────────────────────────
+
+/**
+ * The photo inside a polaroid frame.
+ *
+ * If `src` fails to load — which is exactly what happens while the
+ * portrait is wired up but the image file hasn't been added yet — this
+ * silently swaps to `fallbackSrc` instead of showing a broken frame.
+ * That's what makes the portrait a drop-the-file-in change with no code
+ * edit: present, and it renders; absent, and the page looks precisely as
+ * it did before.
+ */
+function useResolvedPhoto(photo: Photo) {
+  const [failed, setFailed] = useState(false);
+  const imgRef = useRef<HTMLImageElement | null>(null);
+
+  // The onError prop alone is not enough here. This page is
+  // server-rendered, so the browser starts fetching the image while
+  // parsing the HTML — a 404 fires its error event *before* React
+  // hydrates and attaches the handler. The event doesn't replay, so the
+  // frame would sit broken forever. Re-check on mount: a decoded image
+  // has a non-zero naturalWidth, so `complete` with naturalWidth 0 means
+  // it already failed.
+  useEffect(() => {
+    const el = imgRef.current;
+    if (el && el.complete && el.naturalWidth === 0) setFailed(true);
+  }, []);
+
+  const usingFallback = failed && !!photo.fallbackSrc;
+  return {
+    src: usingFallback ? photo.fallbackSrc! : photo.src,
+    // The caption is rendered by the frame, not the image, so it has to
+    // come from here too — otherwise a fallback shows the Toronto
+    // illustration under a caption describing the portrait.
+    caption: usingFallback
+      ? photo.fallbackCaption ?? photo.caption
+      : photo.caption,
+    imgRef,
+    onError: () => setFailed(true),
+  };
+}
+
+/** The photo inside a polaroid frame, wired to the resolver above. */
+function PolaroidPhoto({
+  resolved,
+}: {
+  resolved: ReturnType<typeof useResolvedPhoto>;
+}) {
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      ref={resolved.imgRef}
+      src={resolved.src}
+      alt={resolved.caption}
+      onError={resolved.onError}
+      style={{
+        width: "100%",
+        height: "100%",
+        objectFit: "cover",
+        display: "block",
+      }}
+      draggable={false}
+    />
+  );
+}
+
 // ── Mobile polaroid ──────────────────────────────────────────────────
 // Same visuals as the desktop PolaroidFrame, but flow-positioned (block)
 // inside the mobile strip instead of absolutely pinned. Drag teleports to
@@ -484,6 +569,7 @@ function MobilePolaroidFrame({
   delayMs: number;
 }) {
   const pageAnimate = usePageAnimate();
+  const resolved = useResolvedPhoto(photo);
   // `tracking`: a pointer is down and the gesture may become a drag.
   // `dragging`: the gesture committed — drives every visual (scale,
   // shadow, cursor, z-index) and gates writes to `pos`.
@@ -620,18 +706,7 @@ function MobilePolaroidFrame({
             background: "var(--color-card-well)",
           }}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={photo.src}
-            alt={photo.caption}
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              display: "block",
-            }}
-            draggable={false}
-          />
+          <PolaroidPhoto resolved={resolved} />
         </div>
         <div
           style={{
@@ -644,7 +719,7 @@ function MobilePolaroidFrame({
             lineHeight: 1.1,
           }}
         >
-          {photo.caption}
+          {resolved.caption}
         </div>
       </div>
       <TapeStrip
@@ -847,6 +922,7 @@ function PolaroidFrame({
   delayMs: number;
 }) {
   const pageAnimate = usePageAnimate();
+  const resolved = useResolvedPhoto(polaroid);
   const [hover, setHover] = useState(false);
   const [dragging, setDragging] = useState(false);
   // Null until the user drags → then absolute (x, y) in the content
@@ -956,18 +1032,7 @@ function PolaroidFrame({
             background: "var(--color-card-well)",
           }}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={polaroid.src}
-            alt={polaroid.caption}
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              display: "block",
-            }}
-            draggable={false}
-          />
+          <PolaroidPhoto resolved={resolved} />
         </div>
         {/* Handwritten caption */}
         <div
@@ -981,7 +1046,7 @@ function PolaroidFrame({
             lineHeight: 1.1,
           }}
         >
-          {polaroid.caption}
+          {resolved.caption}
         </div>
       </div>
       {/* Tape strip at top */}

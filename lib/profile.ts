@@ -245,27 +245,22 @@ export const PROJECTS: Project[] = [
 ];
 
 /**
- * Portrait photo, shown as one of the polaroids taped to /about.
+ * Portrait photo, shown as the top-right polaroid on /about.
  *
- * To turn it on: drop the image in `public/photos/` and set `src` to its
- * path. Anything roughly 4:5 fits the frame best; other ratios are
- * center-cropped rather than squashed. While this is `null` the About
- * page shows three illustrated cards instead, so the page is complete
- * either way — setting this swaps the portrait in for one of them.
+ * This is wired up and pointing at `public/photos/kyle.jpg`. **Adding
+ * that file is the only step** — no code change needed. Until it exists
+ * the frame falls back to the Toronto illustration (see PolaroidPhoto in
+ * AboutPage), so the page is complete either way and never shows a
+ * broken image.
+ *
+ * Roughly 4:5 fits the frame best; other ratios are centre-cropped
+ * rather than squashed. Set this to `null` to drop the portrait slot
+ * entirely and go back to three illustrations.
  */
-export const PORTRAIT: { src: string; caption: string } | null = null;
-// To switch the portrait on, drop the image in `public/photos/` and
-// replace the line above with:
-//
-//   export const PORTRAIT: { src: string; caption: string } | null = {
-//     src: "/photos/kyle.jpg",
-//     caption: "banff, up top",
-//   };
-//
-// Verified end to end with a stand-in image: the portrait takes the
-// top-right polaroid on /about (pinned there, not shuffled — see
-// AboutPage) and the first card in the mobile strip. Roughly 4:5 fits
-// the frame; other ratios are centre-cropped, not squashed.
+export const PORTRAIT: { src: string; caption: string } | null = {
+  src: "/photos/kyle.jpg",
+  caption: "banff, up top",
+};
 
 /**
  * The human layer. Kept short on purpose — the bot pulls from this for
