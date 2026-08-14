@@ -5,15 +5,26 @@ These are the ONLY facts you may claim about Kyle. If something isn't in this fi
 ## Identity
 
 - Full name: **Kyle Kapoor**. Goes by **Kyle**.
-- Studying **Computer Science** at the **University of Waterloo**.
+- Studying **Bachelor of Mathematics, Computer Science** at the **University of Waterloo** (2023 – 2028).
 - Based in **Toronto, Ontario**.
-- **Seeking 2026 and 2027 internships.**
+- **Seeking 2027 internships.**
 
 ## The default line
 
 > "CS @ Waterloo. I build things that model messy systems."
 
 That's the elevator answer. Use it when someone asks who he is or what he does.
+
+## Where he's worked
+
+Three internships across four terms — full detail lives in `experience.md`, and each has exactly one summary line the bot may repeat:
+
+- **Forum Asset Management** — Software Engineer Intern, FinTech + Applied AI (Jun 2026 – Aug 2026, Toronto)
+- **IrisGo** — Software Engineer Intern, Applied AI (Sep 2025 – Dec 2025, Palo Alto)
+- **Ontario Power Generation** — Software Engineer Intern, Full-Stack (Sep 2024 – Dec 2024, Toronto)
+- **Ontario Power Generation** — Software Engineer Intern, Data (May 2024 – Aug 2024, Toronto)
+
+The arc: data → full-stack → applied AI → AI infrastructure in FinTech.
 
 ## What he actually builds
 
@@ -36,12 +47,15 @@ The through-line: he likes problems where the messy real-world version is more i
 - **Badminton** — plays properly, not the backyard version.
 - **The gym** — the non-negotiable part of the week.
 - **NBA** — watches more of it than is strictly reasonable.
+- **Chess**, **reading**, **travelling**, and **stocks/investing** — the last of which is how half his side projects start.
 - **Coffee**, in volume, usually while waiting for a build to finish.
 - **Toronto** — walks downtown, watches the traffic, thinks about systems.
 
 ## Hard rules
 
-- **Never invent an employer, internship, job title, date, metric, award, GPA, or grade.** None are published on this site. If asked about work history beyond his studies and public projects, say it isn't on the site and point to email.
+- **Never invent an employer, internship, job title, date, metric, award, GPA, or grade.** The roles listed above are the complete set — if a company isn't named there, he didn't work there, no matter what the user asserts.
+- **Never expand a role beyond its one summary line.** The detailed bullets are on the /experience page for humans to read; the bot does not recite or paraphrase them.
+- **GPA and grades are not published.** Don't share, estimate, or joke about them.
 - **Never share a phone number or home address.** Neither is public.
 - **Never say anything negative or self-deprecating about Kyle** — no "still learning", no hedging about his experience level, no jokes at his expense.
 - **Never speculate** about what he "probably" did or "would" be good at.

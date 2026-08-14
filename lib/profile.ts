@@ -16,13 +16,15 @@ export const IDENTITY = {
   firstName: "Kyle",
   school: "University of Waterloo",
   program: "Computer Science",
+  degree: "Bachelor of Mathematics, Computer Science",
+  gradYear: "2028",
   location: "Toronto, Ontario",
   /** What he does, as a standalone sentence. Composed with the school
    *  and location by callers, so it deliberately doesn't repeat either. */
   tagline: "I build things that model messy systems.",
   /** The short self-introduction, for when there's room for one line. */
   elevator: "CS @ Waterloo. I build things that model messy systems.",
-  status: "Seeking 2026 & 2027 internships.",
+  status: "Seeking 2027 internships.",
 } as const;
 
 export const CONTACT = {
@@ -61,65 +63,105 @@ export type ExperienceEntry = {
   location?: string;
   /** The single line the bot may repeat. Keep it true and keep it short. */
   blurb: string;
+  /**
+   * Resume bullets, rendered on the experience page only. The chatbot
+   * never reads these — it answers from `blurb` — so detail can live
+   * here for a human reader without the bot paraphrasing a metric into
+   * something that isn't quite what the resume says.
+   */
+  details?: string[];
   logoText: string;
   logoRotation: number;
   stickerBg?: string;
   url?: string;
 };
 
+/** Newest first. Education anchors the bottom of the list. */
 export const EXPERIENCE: ExperienceEntry[] = [
   {
-    org: "University of Waterloo",
-    title: "Computer Science",
-    dates: "Present",
-    location: "Waterloo",
+    org: "Forum Asset Management",
+    title: "Software Engineer Intern — FinTech + Applied AI",
+    dates: "Jun 2026 – Aug 2026",
+    location: "Toronto",
+    // Deliberately just the one line: Kyle flagged that the Forum
+    // bullets on his resume are still being rewritten, so there is
+    // nothing here for the page or the bot to overstate. Add `details`
+    // once the real bullets exist.
     blurb:
-      "CS undergrad — algorithms, systems, and a standing habit of turning coursework into side projects.",
-    logoText: "UW",
+      "AI infrastructure for the investor relations, private equity, and real estate teams.",
+    logoText: "FA",
     logoRotation: -4,
-    stickerBg: "#2a2118",
-    url: "https://uwaterloo.ca/",
+    stickerBg: "#1c2231",
+    url: "https://www.forumam.com/",
   },
   {
-    org: "drift-stream",
-    title: "Streaming ML Infrastructure",
-    dates: "2026",
+    org: "IrisGo",
+    title: "Software Engineer Intern — Applied AI",
+    dates: "Sep 2025 – Dec 2025",
+    location: "Palo Alto, CA",
     blurb:
-      "Real-time streaming inference pipeline with PSI drift detection and automatic retraining.",
-    logoText: "DS",
+      "Built the RAG stack behind an AI document assistant — cut query latency from 3s to under 500ms.",
+    details: [
+      "Engineered RAG pipeline with LangChain, ChromaDB, MinIO, FastAPI, reducing query latency from 3s to <500ms",
+      "Improved retrieval precision by 25% through multi-query expansion, ColQwen2 reranking, and reciprocal rank fusion",
+      "Built document ingestion system using Docling, Pulse, Unstructured parsers with Huey queues for 100-file batches",
+      "Implemented a Redis-based semantic cache for storing agent responses, reducing queries sent to LLM by 30%",
+      "Developed Electron and React frontend, implementing hotkey triggers and screen-capture OCR for AI interactions",
+    ],
+    logoText: "IG",
     logoRotation: 5,
-    url: "https://github.com/kylekapoor/drift-stream",
+    stickerBg: "#16241f",
+    url: "https://www.irisgo.ca/",
   },
   {
-    org: "f1-tyre-strategy",
-    title: "Race Strategy Modelling",
-    dates: "2026",
+    org: "Ontario Power Generation",
+    title: "Software Engineer Intern — Full-Stack",
+    dates: "Sep 2024 – Dec 2024",
+    location: "Toronto",
     blurb:
-      "Tyre degradation modelling and Monte Carlo pit-stop strategy optimisation for Formula 1.",
-    logoText: "F1",
+      "Moved legacy MS Access systems onto ASP.NET MVC and Angular, serving 11K+ API requests a day.",
+    details: [
+      "Migrated legacy MS Access systems to ASP.NET MVC apps using SQL Server and C# LINQ queries in EF Core",
+      "Built 25+ Angular and TypeScript UI components with async/await patterns and reactive forms in Agile sprints",
+      "Enabled 200+ concurrent PO submissions and eliminated 15+ weekly database lock errors, saving $8K annually",
+      "Architected RESTful APIs in .NET Core using DI and OAuth 2.0 authentication, handling 11K+ daily requests",
+      "Established Azure DevOps CI/CD pipelines, cutting deployment time by 30mins and reducing failures by 50%",
+    ],
+    logoText: "OPG",
     logoRotation: -3,
     stickerBg: "#2b1a1a",
-    url: "https://github.com/kylekapoor/f1-tyre-strategy",
+    url: "https://www.opg.com/",
   },
   {
-    org: "redteam-sandbox",
-    title: "LLM Safety Research",
-    dates: "2026",
+    org: "Ontario Power Generation",
+    title: "Software Engineer Intern — Data",
+    dates: "May 2024 – Aug 2024",
+    location: "Toronto",
     blurb:
-      "Genetic-algorithm adversarial red-teaming harness that stress-tests layered LLM guardrails.",
-    logoText: "RT",
+      "Built the ETL and BI layer for 150+ analysts — dropped critical report runtimes from an hour to two minutes.",
+    details: [
+      "Built SQL Server to Power BI ETL pipelines integrating Engineering SCR, HIT Tracking, AS9 GDAR systems",
+      "Automated data workflows for 150+ analysts across Fuel Handling, Supply Chain, Nuclear Security departments",
+      "Optimized 20+ ad-hoc SQL queries and stored procedures via strategic indexing and execution plan refactoring",
+      "Reduced critical report runtimes from >60mins to 2mins, enabling faster operational decisions for 75+ stakeholders",
+      "Created BI dashboards with row-level security and scheduled refreshes for CNSC reporting and departmental KPIs",
+    ],
+    logoText: "OPG",
     logoRotation: 4,
-    url: "https://github.com/kylekapoor/redteam-sandbox",
+    stickerBg: "#2b1a1a",
+    url: "https://www.opg.com/",
   },
   {
-    org: "bl-robo-advisor",
-    title: "Quantitative Portfolio Tooling",
-    dates: "2026",
+    org: "University of Waterloo",
+    title: "Bachelor of Mathematics, Computer Science",
+    dates: "2023 – 2028",
+    location: "Waterloo",
     blurb:
-      "Black-Litterman portfolio optimiser driven by LLM-generated, schema-enforced market views.",
-    logoText: "BL",
+      "Math and CS at Waterloo — algorithms, systems, and a standing habit of turning coursework into side projects.",
+    logoText: "UW",
     logoRotation: -5,
-    url: "https://github.com/kylekapoor/bl-robo-advisor",
+    stickerBg: "#2a2118",
+    url: "https://uwaterloo.ca/",
   },
 ];
 
@@ -186,8 +228,8 @@ export const PROJECTS: Project[] = [
     cover: "/projects/pii-rag.svg",
     caption: "retrieval that keeps secrets",
     blurb:
-      "A retrieval pipeline built around handling personally identifiable data carefully.",
-    stack: "Jupyter",
+      "Agent workflow over classified documents — 5TB processed into vector embeddings behind a LangChain and Pinecone RAG pipeline.",
+    stack: "Python",
     rotation: -2,
   },
   {
@@ -195,8 +237,9 @@ export const PROJECTS: Project[] = [
     repo: "https://github.com/kylekapoor/LLM-Reasoning-Agent",
     cover: "/projects/llm-reasoning-agent.svg",
     caption: "making a model show its work",
-    blurb: "An agent harness for experimenting with LLM reasoning strategies.",
-    stack: "Jupyter",
+    blurb:
+      "Planner, executor, and evaluator loop with short- and long-term memory over a 10K context.",
+    stack: "Python",
     rotation: 3,
   },
 ];
@@ -221,8 +264,20 @@ export const INTERESTS = {
   cars:
     "Formula 1 is the big one — race strategy, tyre models, the engineering side more than the drama. Cars generally.",
   badminton: "Badminton. Plays properly, not the backyard version.",
-  gym: "Gym is the non-negotiable part of the week.",
+  gym: "Gym and fitness — the non-negotiable part of the week.",
   basketball: "NBA fan — watches more of it than is strictly reasonable.",
+  chess: "Chess.",
+  investing: "Stocks and investing, which is how half his side projects start.",
+  reading: "Reading, and travelling when there's a window for it.",
   coffee: "Coffee, in quantity, mostly while waiting for a build to finish.",
   city: "Toronto — walks downtown, watches the traffic, thinks about systems.",
 } as const;
+
+/**
+ * Outside-of-class involvement. Numbers are quoted from Kyle's resume
+ * exactly; don't round them or restate them as approximations.
+ */
+export const ACTIVITIES = [
+  "Project Millionaire Canada — 20k+ students across 5 countries, a CPA Ontario partnership, $7.5k+ raised.",
+  "Students Overseas Foundation Canada — 205+ students a year, a Chipotle partnership, $5.1k+ funding per quarter.",
+] as const;

@@ -1,40 +1,46 @@
 # Experience
 
-**The one-line rule:** each entry below has exactly one summary line. That line is the complete answer. Repeat it or lightly rephrase it — never expand it into resume bullets, never add responsibilities, outcomes, numbers, or dates that aren't written here.
+**The one-line rule:** each entry below has a summary line. That line is the complete answer the bot gives. Repeat it or lightly rephrase it — never expand it into resume bullets, and never add numbers, responsibilities, or dates that aren't written here.
 
-If someone asks for more detail than the line provides, the honest answer is: *"That's the level of detail on the site — email him for the rest."*
+The detailed bullets live on the experience page for a human to read. If someone asks for more than the summary, point them at /experience or at email.
 
-## University of Waterloo — Computer Science
-*Present · Waterloo*
+## Forum Asset Management — Software Engineer Intern (FinTech + Applied AI)
+*Jun 2026 – Aug 2026 · Toronto*
 
-> CS undergrad — algorithms, systems, and a standing habit of turning coursework into side projects.
+> AI infrastructure for the investor relations, private equity, and real estate teams.
 
-## drift-stream — Streaming ML Infrastructure
-*2026*
+This is the most recent role. **No further detail is published** — do not elaborate, do not guess at what the work involved beyond that line.
 
-> Real-time streaming inference pipeline with PSI drift detection and automatic retraining.
+## IrisGo — Software Engineer Intern (Applied AI)
+*Sep 2025 – Dec 2025 · Palo Alto, CA*
 
-## f1-tyre-strategy — Race Strategy Modelling
-*2026*
+> Built the RAG stack behind an AI document assistant — cut query latency from 3s to under 500ms.
 
-> Tyre degradation modelling and Monte Carlo pit-stop strategy optimisation for Formula 1.
+## Ontario Power Generation — Software Engineer Intern (Full-Stack)
+*Sep 2024 – Dec 2024 · Toronto*
 
-## redteam-sandbox — LLM Safety Research
-*2026*
+> Moved legacy MS Access systems onto ASP.NET MVC and Angular, serving 11K+ API requests a day.
 
-> Genetic-algorithm adversarial red-teaming harness that stress-tests layered LLM guardrails.
+## Ontario Power Generation — Software Engineer Intern (Data)
+*May 2024 – Aug 2024 · Toronto*
 
-## bl-robo-advisor — Quantitative Portfolio Tooling
-*2026*
+> Built the ETL and BI layer for 150+ analysts — dropped critical report runtimes from an hour to two minutes.
 
-> Black-Litterman portfolio optimiser driven by LLM-generated, schema-enforced market views.
+## University of Waterloo — Bachelor of Mathematics, Computer Science
+*2023 – 2028 · Waterloo*
+
+> Math and CS at Waterloo — algorithms, systems, and a standing habit of turning coursework into side projects.
 
 ---
 
-## What is NOT on this site
+## Shape of the arc
 
-There is no published internship or full-time employment history. Do not invent one, do not imply one exists, and do not describe the projects above as though they were jobs. If a recruiter asks "where has he worked," the answer is that the site covers his studies and the work he's shipped publicly, and that email is the way to get the full picture.
+Three internships across four terms: data, then full-stack, then applied AI — and now AI infrastructure in FinTech. If someone asks "what's his background," that arc plus /experience is the answer.
 
 ## Status
 
-**Seeking 2026 and 2027 internships.** If someone has a role, route them to /contact — email is the fastest channel.
+**Seeking 2027 internships.** If someone has a role, route them to /contact — email is the fastest channel.
+
+## Numbers
+
+Every figure above is quoted from Kyle's resume exactly. **Never round them, never restate them as approximations, never invent a new one.** If a number isn't written here, it doesn't exist.

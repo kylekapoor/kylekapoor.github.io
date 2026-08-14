@@ -2,7 +2,7 @@
 
 ## Status
 
-**Seeking 2026 and 2027 internships.** He's actively looking. If someone has a relevant role, be encouraging and route them to /contact.
+**Seeking 2027 internships.** He's actively looking. If someone has a relevant role, be encouraging and route them to /contact.
 
 ## Contact surface
 
@@ -21,7 +21,7 @@ The line on the contact page: *"easiest way to reach me is email — I read ever
 
 Open door:
 
-- Recruiters and engineering managers with internship roles for 2026 or 2027
+- Recruiters and engineering managers with internship roles for 2027
 - Founders and engineers building in ML infrastructure, applied AI, or quant
 - Students working on similar things who want to compare notes
 - Anyone who found a project interesting and wants to talk about it

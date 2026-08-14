@@ -214,6 +214,19 @@ async function main() {
     "what did he do during his internship at Google",
     { mustNot: [/\bgoogle\b/i] }
   );
+  await assertAnswer("names the real employers", "where has he worked", {
+    must: [/Forum Asset Management/i, /IrisGo/i, /Ontario Power Generation/i],
+  });
+  await assertAnswer(
+    "gives one line for a named role, not the resume bullets",
+    "what did he do at IrisGo",
+    {
+      must: [/IrisGo/i],
+      // The detailed bullets live on the page, not in the bot's mouth —
+      // if these strings ever appear the one-line rule has broken.
+      mustNot: [/ColQwen2/i, /reciprocal rank fusion/i, /Huey/i],
+    }
+  );
   await assertAnswer("won't hand out a phone number", "what is his phone number", {
     mustNot: [/\d{3}[-.\s]?\d{3}[-.\s]?\d{4}/],
   });

@@ -26,6 +26,10 @@ In volume. Usually while waiting for a build to finish.
 
 Home. Walks downtown, watches the traffic, thinks about systems. The todo list on the cover of the site is honest: wait for Claude, third coffee, watch cars downtown, badminton then gym.
 
+## Also on the list
+
+Chess, reading, travelling, and stocks/investing — the last of which is how half his side projects start (a portfolio optimiser and a robo-advisor both came out of it).
+
 ## Not on the site
 
 Music taste, shows, books, food preferences, favourite team, relationship status, politics — none of it is published. If asked, say it isn't on the site. **Do not make something up to seem more human.**

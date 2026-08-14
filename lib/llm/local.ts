@@ -107,6 +107,48 @@ function specificProjectAnswer(message: string): Answer | null {
 }
 
 /**
+ * Ways a user might name an employer. Keyed by `org` in lib/profile.ts.
+ *
+ * The University of Waterloo is deliberately absent — the dedicated
+ * school rule below answers that one and adds his status, which is more
+ * useful than the bare education line.
+ */
+const ORG_KEYWORDS: Record<string, RegExp> = {
+  "Forum Asset Management": /\bforum(\s+asset)?\b/i,
+  IrisGo: /\biris\s?go\b/i,
+  "Ontario Power Generation": /\b(opg|ontario\s+power)\b/i,
+};
+
+/**
+ * A question about one named employer — "what did he do at IrisGo".
+ *
+ * Answers with that role's single summary line and nothing else. Both
+ * OPG terms match the same keyword, so asking about OPG returns both
+ * lines rather than silently picking one.
+ */
+function specificRoleAnswer(message: string): Answer | null {
+  const matches = EXPERIENCE.filter((role) =>
+    ORG_KEYWORDS[role.org]?.test(message),
+  );
+  if (matches.length === 0) return null;
+
+  const lines = matches
+    .map((r) => `${r.org} — ${r.title}, ${r.dates}\n${r.blurb}`)
+    .join("\n\n");
+  // Only promise more detail when there actually is some. Forum has no
+  // bullets yet, and pointing someone at a page that repeats the line
+  // they just read is worse than saying nothing.
+  const hasDetail = matches.some((r) => r.details && r.details.length > 0);
+  const tail = hasDetail
+    ? "\n\nThe full bullets are on the experience page."
+    : "";
+  return {
+    text: `${lines}${tail}`,
+    tool: "showExperience",
+  };
+}
+
+/**
  * Rules are checked in order, so the specific ones go first. A question
  * mentioning both "projects" and "experience" should open projects,
  * because that's the narrower ask.
@@ -152,21 +194,21 @@ const RULES: Rule[] = [
   },
   {
     test: /\b(experience|background|resume|cv|work\s*history|worked|jobs?|career|where\s+(has|did)\s+(he|you))\b/i,
-    // The framing line matters: this list is his studies plus the work
-    // he's shipped publicly, not an employment history. Presenting it as
-    // a job list would be the exact kind of quiet inflation this whole
-    // grounding layer exists to prevent.
+    // One line per role and no more. The detailed bullets live on the
+    // experience page; the bot paraphrasing them is exactly how a "25%"
+    // turns into "about a third" and the site starts misquoting his
+    // own resume.
     answer: () => ({
       text:
-        `Here's what's on the site — his studies and the work he's shipped:\n${experienceLines()}\n\n` +
-        `Anything beyond that isn't written up here; email him for the full picture.`,
+        `Here's the short version:\n${experienceLines()}\n\n` +
+        `The full bullets are on the experience page.`,
       tool: "showExperience",
     }),
   },
   {
     test: /\b(school|university|waterloo|degree|studying|student|major|classes|course)\b/i,
     answer: () => ({
-      text: `${IDENTITY.program} at the ${IDENTITY.school}. ${IDENTITY.status}`,
+      text: `${IDENTITY.degree} at the ${IDENTITY.school}, ${EXPERIENCE[EXPERIENCE.length - 1].dates}. ${IDENTITY.status}`,
       tool: "showExperience",
     }),
   },
@@ -195,6 +237,18 @@ const RULES: Rule[] = [
     answer: () => ({ text: INTERESTS.coffee }),
   },
   {
+    test: /\b(chess)\b/i,
+    answer: () => ({ text: INTERESTS.chess }),
+  },
+  {
+    test: /\b(stocks?|investing|markets?|trading|finance|portfolio\s+theory)\b/i,
+    answer: () => ({ text: INTERESTS.investing }),
+  },
+  {
+    test: /\b(read(s|ing)?|books?|travel(ling|ing)?)\b/i,
+    answer: () => ({ text: INTERESTS.reading }),
+  },
+  {
     test: /\b(toronto|based|live|located|location|city|where\s+(is|are)\s+(he|you))\b/i,
     answer: () => ({ text: `${IDENTITY.location}. ${INTERESTS.city}` }),
   },
@@ -204,7 +258,7 @@ const RULES: Rule[] = [
     // concatenating full sentences produced a run-on, and lowercasing
     // them to fix that mangled "Formula 1" into "formula 1".
     answer: () => ({
-      text: `Formula 1, badminton, the gym, and more NBA than is strictly reasonable. Coffee in volume, usually while a build finishes.`,
+      text: `Formula 1, badminton, the gym, chess, and more NBA than is strictly reasonable. Reading and travelling when there's a window, plus enough interest in markets that half his side projects start there.`,
     }),
   },
 
@@ -250,6 +304,9 @@ export function answerFor(message: string): Answer {
 
   const specific = specificProjectAnswer(text);
   if (specific) return specific;
+
+  const role = specificRoleAnswer(text);
+  if (role) return role;
 
   for (const rule of RULES) {
     if (rule.test.test(text)) return rule.answer();

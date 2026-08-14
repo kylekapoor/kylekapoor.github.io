@@ -224,6 +224,49 @@ function RoleEntry({ role, delayMs }: { role: Role; delayMs: number }) {
       >
         {role.blurb}
       </div>
+
+      {/* Resume bullets, when the entry has them. Set a step smaller and
+          dimmer than the blurb so the one-line summary stays the thing
+          you read first and this reads as supporting detail. Rendered
+          here only — the chatbot never sees these (see lib/profile.ts). */}
+      {role.details && role.details.length > 0 && (
+        <ul
+          style={{
+            listStyle: "none",
+            margin: 0,
+            marginTop: "calc(var(--line) * 0.5)",
+            padding: 0,
+            maxWidth: 620,
+          }}
+        >
+          {role.details.map((line) => (
+            <li
+              key={line}
+              style={{
+                fontFamily: "var(--font-script)",
+                fontSize: "var(--fs-script)",
+                color: "var(--color-ink-soft)",
+                lineHeight: "var(--line)",
+                display: "flex",
+                gap: 10,
+                alignItems: "baseline",
+              }}
+            >
+              <span
+                aria-hidden
+                style={{
+                  flexShrink: 0,
+                  color: "var(--color-rule-red)",
+                  opacity: 0.75,
+                }}
+              >
+                ◦
+              </span>
+              <span>{line}</span>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

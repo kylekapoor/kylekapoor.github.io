@@ -15,9 +15,10 @@ import {
 import { Sticker } from "../primitives/Sticker";
 
 const BODY_PARAGRAPHS = [
-  "Computer Science at the University of Waterloo, based in Toronto. I like problems where the messy real-world version is more interesting than the textbook one — tyre wear across a race stint, a model quietly drifting in production, a guardrail that holds until it doesn't.",
-  "What I actually build:\n\u2192 streaming ML that notices when it's wrong\n\u2192 race-strategy simulation for F1\n\u2192 adversarial testing for LLM guardrails\n\u2192 portfolio optimisation with enforced structure\nAll of it is on GitHub. Open /projects and click any card.",
-  "Outside of that: Formula 1 (the strategy, not the drama), badminton, the gym, and enough NBA to lose a full evening. Coffee in volume, usually while waiting for Claude to finish a build. Currently looking for 2026 and 2027 internships.",
+  "Math and Computer Science at the University of Waterloo, based in Toronto. I like problems where the messy real-world version is more interesting than the textbook one — tyre wear across a race stint, a model quietly drifting in production, a guardrail that holds until it doesn't.",
+  "Where I've worked:\n\u2192 Forum Asset Management — AI infra, FinTech\n\u2192 IrisGo — applied AI in Palo Alto\n\u2192 Ontario Power Generation — full-stack, then data\nMostly retrieval systems, pipelines, and making slow things fast.",
+  "On my own time: F1 race-strategy simulation, streaming ML that notices when it's wrong, adversarial testing for LLM guardrails, portfolio optimisation with enforced structure. All of it is on GitHub — open /projects and click any card.",
+  "Outside of that: Formula 1 (the strategy, not the drama), badminton, the gym, chess, and enough NBA to lose a full evening. Coffee in volume, usually while waiting for a build to finish.",
 ];
 
 // Photos + slot positions split into two lists so the site can randomly
