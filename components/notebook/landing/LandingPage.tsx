@@ -1,12 +1,14 @@
 "use client";
 
 import { useEffect } from "react";
+import { useIsMobile } from "@/lib/hooks/useIsMobile";
 import { useRouter } from "next/navigation";
 import { DrawnText } from "../primitives/DrawnText";
 import { FitToWidth } from "../primitives/FitToWidth";
 import { Float } from "../primitives/Float";
 import { RoleCycler } from "../primitives/RoleCycler";
 import { CornerPeel } from "./CornerPeel";
+import { DriftingTowers } from "./DriftingTowers";
 import { Scraps } from "./Scraps";
 import { ScrollCue } from "./ScrollCue";
 import { Starfield } from "./Starfield";
@@ -32,6 +34,7 @@ const PREFETCH_ROUTES = [
 
 export function LandingPage({ onAdvance }: { onAdvance: () => void }) {
   const router = useRouter();
+  const isMobile = useIsMobile();
 
   // Warm up the content-route bundles during the landing animation.
   // Each router.prefetch triggers Next to download the route chunk +
@@ -60,6 +63,9 @@ export function LandingPage({ onAdvance }: { onAdvance: () => void }) {
     >
       {/* Night sky behind everything on the cover. */}
       <Starfield />
+
+      {/* A few CN towers adrift in the empty corners. */}
+      <DriftingTowers isMobile={isMobile} />
 
       {/* Kicker — "journal". Each floating element below gets its own
           drift duration and phase, so the group breathes independently

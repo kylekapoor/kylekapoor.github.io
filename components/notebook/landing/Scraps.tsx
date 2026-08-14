@@ -220,7 +220,7 @@ function TapedCard({
               marginBottom: 4,
             }}
           >
-            now playing:
+            now on:
           </div>
           <div
             style={{
@@ -602,20 +602,20 @@ function MarginAnnotations({
       <InkAnnotation
         ready={ready}
         initialDelayMs={2800}
-        position={{ left: "max(15%, 140px)", top: "38%" }}
-        rotation={-8}
+        position={{ left: "max(17%, 150px)", top: "35%" }}
+        rotation={4}
         align="center"
         gap={8}
         textOrder="before"
         text={<>hi, I&apos;m</>}
         textStyle={{ fontSize: "var(--fs-script)" }}
         svg={{
-          width: 60,
-          height: 30,
+          width: 70,
+          height: 44,
           children: (
             <>
               <path
-                d="M 2 20 Q 25 10, 52 10"
+                d="M 2 6 Q 32 2, 58 32"
                 stroke="var(--color-ink)"
                 strokeWidth="1.5"
                 fill="none"
@@ -626,8 +626,10 @@ function MarginAnnotations({
                   ...strokeStyle(2.8),
                 }}
               />
+              {/* Head sits on the curve's end tangent (~49° down-right)
+                  so it reads as aiming at the name rather than past it. */}
               <path
-                d="M 48 6 L 56 10 L 48 16"
+                d="M 54.7 20.5 L 58 32 L 47.1 27.1"
                 stroke="var(--color-ink)"
                 strokeWidth="1.5"
                 fill="none"
@@ -644,7 +646,7 @@ function MarginAnnotations({
         }}
       />
 
-      {/* "I build stuff" — right margin, bracket under the roles. Hidden
+      {/* "systems, mostly" — right margin, bracket under the roles. Hidden
           on phones: at this width it lands in the same band as the todo
           list and the two read as one jumbled block. */}
       {!isMobile && (
@@ -658,9 +660,9 @@ function MarginAnnotations({
         textOrder="after"
         text={
           <span style={{ display: "inline-block", maxWidth: 140 }}>
-            I build
+            systems,
             <br />
-            stuff
+            mostly
           </span>
         }
         textStyle={{ fontSize: "var(--fs-chip)", lineHeight: 1.15, whiteSpace: "normal" }}
