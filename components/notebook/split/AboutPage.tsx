@@ -191,7 +191,17 @@ export function AboutPage({
     STICKERS.map((_, i) => i),
   );
   useEffect(() => {
-    setPhotoOrder(shuffleIndexes(PHOTOS.length));
+    // Photos shuffle across slots on each open — except the portrait,
+    // which is pinned to slot 0. Slot 2 sits at top: 900, well below the
+    // fold, so leaving the portrait in the shuffle meant a coin-flip
+    // whether the one photo of an actual person was visible on arrival.
+    // Only the illustrations rotate.
+    if (PORTRAIT) {
+      const rest = shuffleIndexes(PHOTOS.length - 1).map((i) => i + 1);
+      setPhotoOrder([0, ...rest]);
+    } else {
+      setPhotoOrder(shuffleIndexes(PHOTOS.length));
+    }
     setStickerOrder(shuffleIndexes(STICKERS.length));
   }, []);
 

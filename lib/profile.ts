@@ -254,6 +254,18 @@ export const PROJECTS: Project[] = [
  * either way — setting this swaps the portrait in for one of them.
  */
 export const PORTRAIT: { src: string; caption: string } | null = null;
+// To switch the portrait on, drop the image in `public/photos/` and
+// replace the line above with:
+//
+//   export const PORTRAIT: { src: string; caption: string } | null = {
+//     src: "/photos/kyle.jpg",
+//     caption: "banff, up top",
+//   };
+//
+// Verified end to end with a stand-in image: the portrait takes the
+// top-right polaroid on /about (pinned there, not shuffled — see
+// AboutPage) and the first card in the mobile strip. Roughly 4:5 fits
+// the frame; other ratios are centre-cropped, not squashed.
 
 /**
  * The human layer. Kept short on purpose — the bot pulls from this for
