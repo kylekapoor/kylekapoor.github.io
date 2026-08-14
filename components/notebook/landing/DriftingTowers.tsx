@@ -63,6 +63,19 @@ const TOWERS: Tower[] = [
     floatY: -11,
     floatX: 3,
   },
+  // Bottom-right gap: right of the scroll cue, left of the sticky note.
+  // The sticky occupies roughly the rightmost 8% below 70% height, and
+  // the cue is centred, so this sits in the wide empty band between them.
+  {
+    pos: { left: "60%", bottom: "13%" },
+    size: 21,
+    rotate: 9,
+    opacity: 0.11,
+    durationS: 13,
+    delayS: 3.1,
+    floatY: -8,
+    floatX: -4,
+  },
 ];
 
 export function DriftingTowers({ isMobile = false }: { isMobile?: boolean }) {
