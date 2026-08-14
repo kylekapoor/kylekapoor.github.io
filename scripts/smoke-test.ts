@@ -218,12 +218,12 @@ async function main() {
     must: [/Forum Asset Management/i, /IrisGo/i, /Ontario Power Generation/i],
   });
   await assertAnswer(
-    "gives one line for a named role, not the resume bullets",
+    "gives one line plus the role type for a named employer",
     "what did he do at IrisGo",
     {
-      must: [/IrisGo/i],
-      // The detailed bullets live on the page, not in the bot's mouth —
-      // if these strings ever appear the one-line rule has broken.
+      must: [/IrisGo/i, /Applied AI/i],
+      // The site publishes no resume bullets. If any of these ever
+      // appear, something has started reconstructing them.
       mustNot: [/ColQwen2/i, /reciprocal rank fusion/i, /Huey/i],
     }
   );

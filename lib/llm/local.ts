@@ -50,7 +50,7 @@ type Rule = {
 
 function experienceLines(): string {
   // One line per entry, exactly the profile's blurb. Nothing added.
-  return EXPERIENCE.map((e) => `• ${e.org} — ${e.blurb}`).join("\n");
+  return EXPERIENCE.map((e) => `• ${e.org} (${e.focus}) — ${e.blurb}`).join("\n");
 }
 
 function projectLines(): string {
@@ -133,17 +133,10 @@ function specificRoleAnswer(message: string): Answer | null {
   if (matches.length === 0) return null;
 
   const lines = matches
-    .map((r) => `${r.org} — ${r.title}, ${r.dates}\n${r.blurb}`)
+    .map((r) => `${r.org} — ${r.title} (${r.focus}), ${r.dates}\n${r.blurb}`)
     .join("\n\n");
-  // Only promise more detail when there actually is some. Forum has no
-  // bullets yet, and pointing someone at a page that repeats the line
-  // they just read is worse than saying nothing.
-  const hasDetail = matches.some((r) => r.details && r.details.length > 0);
-  const tail = hasDetail
-    ? "\n\nThe full bullets are on the experience page."
-    : "";
   return {
-    text: `${lines}${tail}`,
+    text: lines,
     tool: "showExperience",
   };
 }
@@ -194,14 +187,11 @@ const RULES: Rule[] = [
   },
   {
     test: /\b(experience|background|resume|cv|work\s*history|worked|jobs?|career|where\s+(has|did)\s+(he|you))\b/i,
-    // One line per role and no more. The detailed bullets live on the
-    // experience page; the bot paraphrasing them is exactly how a "25%"
-    // turns into "about a third" and the site starts misquoting his
-    // own resume.
+    // One line per role and no more — the bot never elaborates past the
+    // blurb, which is how a "25%" would turn into "about a third" and
+    // the site would start misquoting his own resume.
     answer: () => ({
-      text:
-        `Here's the short version:\n${experienceLines()}\n\n` +
-        `The full bullets are on the experience page.`,
+      text: `Here's the short version:\n${experienceLines()}`,
       tool: "showExperience",
     }),
   },
@@ -217,7 +207,7 @@ const RULES: Rule[] = [
   {
     test: /\b(f1|formula\s*1|racing|race|car|cars|motorsport|driving|tyres?|tires?)\b/i,
     answer: () => ({
-      text: `${INTERESTS.cars} It's also why one of his projects is a tyre-degradation and pit-strategy model — the F1 obsession leaked into the code.`,
+      text: `${INTERESTS.f1} ${INTERESTS.cars} It also leaked into the code — one of his projects is a tyre-degradation and pit-strategy model.`,
     }),
   },
   {
@@ -230,7 +220,7 @@ const RULES: Rule[] = [
   },
   {
     test: /\b(basketball|nba|hoops|ball)\b/i,
-    answer: () => ({ text: INTERESTS.basketball }),
+    answer: () => ({ text: INTERESTS.nba }),
   },
   {
     test: /\b(coffee|caffeine|espresso|latte)\b/i,
@@ -258,7 +248,7 @@ const RULES: Rule[] = [
     // concatenating full sentences produced a run-on, and lowercasing
     // them to fix that mangled "Formula 1" into "formula 1".
     answer: () => ({
-      text: `Formula 1, badminton, the gym, chess, and more NBA than is strictly reasonable. Reading and travelling when there's a window, plus enough interest in markets that half his side projects start there.`,
+      text: `He watches a ridiculous amount of F1 and NBA. When he's actually moving it's badminton or the gym. Otherwise: chess, cars, reading, travel, and markets.`,
     }),
   },
 

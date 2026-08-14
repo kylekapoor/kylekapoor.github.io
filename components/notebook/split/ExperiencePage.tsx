@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useIsMobile } from "@/lib/hooks/useIsMobile";
 import { EXPERIENCE, type ExperienceEntry } from "@/lib/profile";
+import { useImageFallback } from "../primitives/useImageFallback";
 import { PageBackButton } from "../chrome/PageBackButton";
 import { PageCorner } from "../chrome/PageCorner";
 import { Paper } from "../chrome/Paper";
@@ -225,48 +226,26 @@ function RoleEntry({ role, delayMs }: { role: Role; delayMs: number }) {
         {role.blurb}
       </div>
 
-      {/* Resume bullets, when the entry has them. Set a step smaller and
-          dimmer than the blurb so the one-line summary stays the thing
-          you read first and this reads as supporting detail. Rendered
-          here only — the chatbot never sees these (see lib/profile.ts). */}
-      {role.details && role.details.length > 0 && (
-        <ul
-          style={{
-            listStyle: "none",
-            margin: 0,
-            marginTop: "calc(var(--line) * 0.5)",
-            padding: 0,
-            maxWidth: 620,
-          }}
-        >
-          {role.details.map((line) => (
-            <li
-              key={line}
-              style={{
-                fontFamily: "var(--font-script)",
-                fontSize: "var(--fs-script)",
-                color: "var(--color-ink-soft)",
-                lineHeight: "var(--line)",
-                display: "flex",
-                gap: 10,
-                alignItems: "baseline",
-              }}
-            >
-              <span
-                aria-hidden
-                style={{
-                  flexShrink: 0,
-                  color: "var(--color-rule-red)",
-                  opacity: 0.75,
-                }}
-              >
-                ◦
-              </span>
-              <span>{line}</span>
-            </li>
-          ))}
-        </ul>
-      )}
+      {/* The kind of work the role was, in place of resume bullets.
+          Set in mono against the handwriting so it reads as a label
+          rather than another sentence. */}
+      <div
+        style={{
+          display: "inline-block",
+          marginTop: "calc(var(--line) * 0.5)",
+          padding: "2px 10px",
+          border:
+            "1px dashed color-mix(in srgb, var(--color-ink-soft) 35%, transparent)",
+          borderRadius: 999,
+          fontFamily: "var(--font-mono)",
+          fontSize: "var(--fs-meta)",
+          letterSpacing: "0.16em",
+          textTransform: "uppercase",
+          color: "var(--color-ink-soft)",
+        }}
+      >
+        {role.focus}
+      </div>
     </div>
   );
 }
@@ -277,35 +256,57 @@ function LogoSticker({ role }: { role: Role }) {
   const size = 70;
   const bg = role.stickerBg ?? "var(--color-card)";
 
+  const logo = useImageFallback();
+  const showImage = !!role.logoSrc && !logo.failed;
+
   const inner = (
     <div
       style={{
         width: "100%",
         height: "100%",
         background: bg,
-        padding: 4,
+        padding: showImage ? 8 : 4,
         border: "1px solid var(--color-card-border)",
         borderRadius: 6,
         overflow: "hidden",
       }}
     >
-      <div
+      {/* Both are rendered; the failed one is hidden rather than
+          unmounted, so the img keeps its ref and its load/error events
+          instead of being torn out before they fire. */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        ref={logo.ref}
+        src={role.logoSrc}
+        alt={`${role.org} logo`}
+        onError={logo.onError}
         style={{
           width: "100%",
           height: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontFamily: "var(--font-mono)",
-          fontSize: "var(--fs-chip)",
-          letterSpacing: "0.08em",
-          fontWeight: 500,
-          color: "var(--color-ink)",
-          opacity: 0.8,
+          objectFit: "contain",
+          display: showImage ? "block" : "none",
         }}
-      >
-        {role.logoText}
-      </div>
+        draggable={false}
+      />
+      {!showImage && (
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontFamily: "var(--font-mono)",
+            fontSize: "var(--fs-chip)",
+            letterSpacing: "0.08em",
+            fontWeight: 500,
+            color: "var(--color-ink)",
+            opacity: 0.8,
+          }}
+        >
+          {role.logoText}
+        </div>
+      )}
     </div>
   );
 

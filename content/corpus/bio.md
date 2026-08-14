@@ -43,10 +43,9 @@ The through-line: he likes problems where the messy real-world version is more i
 
 ## Interests
 
-- **Formula 1** — the engineering and strategy side more than the drama. Cars generally.
-- **Badminton** — plays properly, not the backyard version.
-- **The gym** — the non-negotiable part of the week.
-- **NBA** — watches more of it than is strictly reasonable.
+- **Watches** a ridiculous amount of **Formula 1** and **NBA** — F1 for the strategy and engineering more than the drama.
+- **Plays badminton** and **hits the gym** — that's what the free time actually goes to.
+- **Cars** generally, F1 being the sharp end of it.
 - **Chess**, **reading**, **travelling**, and **stocks/investing** — the last of which is how half his side projects start.
 - **Coffee**, in volume, usually while waiting for a build to finish.
 - **Toronto** — walks downtown, watches the traffic, thinks about systems.

@@ -53,23 +53,27 @@ export const CONTACT = {
  * to fill gaps on its own.
  *
  * To add a real internship: copy an entry, keep the same field shape.
- * `logoText` renders as initials in a sticker frame when there's no
- * logo image to point at.
+ * `logoText` renders as initials in a sticker frame whenever `logoSrc`
+ * is absent or its file is missing.
  */
 export type ExperienceEntry = {
   org: string;
   title: string;
+  /**
+   * The kind of SWE work the role actually was — "Applied AI",
+   * "Full-Stack", "Data". Rendered as a tag on the experience page.
+   */
+  focus: string;
   dates: string;
   location?: string;
   /** The single line the bot may repeat. Keep it true and keep it short. */
   blurb: string;
   /**
-   * Resume bullets, rendered on the experience page only. The chatbot
-   * never reads these — it answers from `blurb` — so detail can live
-   * here for a human reader without the bot paraphrasing a metric into
-   * something that isn't quite what the resume says.
+   * Official company logo, served from /public/logos. Falls back to
+   * `logoText` initials when the file isn't there, so an entry can name
+   * a logo before the image exists without rendering a broken tile.
    */
-  details?: string[];
+  logoSrc?: string;
   logoText: string;
   logoRotation: number;
   stickerBg?: string;
@@ -80,15 +84,13 @@ export type ExperienceEntry = {
 export const EXPERIENCE: ExperienceEntry[] = [
   {
     org: "Forum Asset Management",
-    title: "Software Engineer Intern — FinTech + Applied AI",
+    title: "Software Engineer Intern",
+    focus: "FinTech + Applied AI",
     dates: "Jun 2026 – Aug 2026",
     location: "Toronto",
-    // Deliberately just the one line: Kyle flagged that the Forum
-    // bullets on his resume are still being rewritten, so there is
-    // nothing here for the page or the bot to overstate. Add `details`
-    // once the real bullets exist.
     blurb:
       "AI infrastructure for the investor relations, private equity, and real estate teams.",
+    logoSrc: "/logos/forum.svg",
     logoText: "FA",
     logoRotation: -4,
     stickerBg: "#1c2231",
@@ -96,37 +98,27 @@ export const EXPERIENCE: ExperienceEntry[] = [
   },
   {
     org: "IrisGo",
-    title: "Software Engineer Intern — Applied AI",
+    title: "Software Engineer Intern",
+    focus: "Applied AI",
     dates: "Sep 2025 – Dec 2025",
     location: "Palo Alto, CA",
     blurb:
       "Built the RAG stack behind an AI document assistant — cut query latency from 3s to under 500ms.",
-    details: [
-      "Engineered RAG pipeline with LangChain, ChromaDB, MinIO, FastAPI, reducing query latency from 3s to <500ms",
-      "Improved retrieval precision by 25% through multi-query expansion, ColQwen2 reranking, and reciprocal rank fusion",
-      "Built document ingestion system using Docling, Pulse, Unstructured parsers with Huey queues for 100-file batches",
-      "Implemented a Redis-based semantic cache for storing agent responses, reducing queries sent to LLM by 30%",
-      "Developed Electron and React frontend, implementing hotkey triggers and screen-capture OCR for AI interactions",
-    ],
+    logoSrc: "/logos/irisgo.svg",
     logoText: "IG",
     logoRotation: 5,
     stickerBg: "#16241f",
-    url: "https://www.irisgo.ca/",
+    url: "https://irisgo.ai/",
   },
   {
     org: "Ontario Power Generation",
-    title: "Software Engineer Intern — Full-Stack",
+    title: "Software Engineer Intern",
+    focus: "Full-Stack",
     dates: "Sep 2024 – Dec 2024",
     location: "Toronto",
     blurb:
       "Moved legacy MS Access systems onto ASP.NET MVC and Angular, serving 11K+ API requests a day.",
-    details: [
-      "Migrated legacy MS Access systems to ASP.NET MVC apps using SQL Server and C# LINQ queries in EF Core",
-      "Built 25+ Angular and TypeScript UI components with async/await patterns and reactive forms in Agile sprints",
-      "Enabled 200+ concurrent PO submissions and eliminated 15+ weekly database lock errors, saving $8K annually",
-      "Architected RESTful APIs in .NET Core using DI and OAuth 2.0 authentication, handling 11K+ daily requests",
-      "Established Azure DevOps CI/CD pipelines, cutting deployment time by 30mins and reducing failures by 50%",
-    ],
+    logoSrc: "/logos/opg.svg",
     logoText: "OPG",
     logoRotation: -3,
     stickerBg: "#2b1a1a",
@@ -134,18 +126,13 @@ export const EXPERIENCE: ExperienceEntry[] = [
   },
   {
     org: "Ontario Power Generation",
-    title: "Software Engineer Intern — Data",
+    title: "Software Engineer Intern",
+    focus: "Data",
     dates: "May 2024 – Aug 2024",
     location: "Toronto",
     blurb:
       "Built the ETL and BI layer for 150+ analysts — dropped critical report runtimes from an hour to two minutes.",
-    details: [
-      "Built SQL Server to Power BI ETL pipelines integrating Engineering SCR, HIT Tracking, AS9 GDAR systems",
-      "Automated data workflows for 150+ analysts across Fuel Handling, Supply Chain, Nuclear Security departments",
-      "Optimized 20+ ad-hoc SQL queries and stored procedures via strategic indexing and execution plan refactoring",
-      "Reduced critical report runtimes from >60mins to 2mins, enabling faster operational decisions for 75+ stakeholders",
-      "Created BI dashboards with row-level security and scheduled refreshes for CNSC reporting and departmental KPIs",
-    ],
+    logoSrc: "/logos/opg.svg",
     logoText: "OPG",
     logoRotation: 4,
     stickerBg: "#2b1a1a",
@@ -154,10 +141,12 @@ export const EXPERIENCE: ExperienceEntry[] = [
   {
     org: "University of Waterloo",
     title: "Bachelor of Mathematics, Computer Science",
+    focus: "Math + CS",
     dates: "2023 – 2028",
     location: "Waterloo",
     blurb:
       "Math and CS at Waterloo — algorithms, systems, and a standing habit of turning coursework into side projects.",
+    logoSrc: "/logos/waterloo.svg",
     logoText: "UW",
     logoRotation: -5,
     stickerBg: "#2a2118",
@@ -268,14 +257,17 @@ export const PORTRAIT: { src: string; caption: string } | null = {
  * claim that could embarrass anyone if quoted back verbatim.
  */
 export const INTERESTS = {
-  cars:
-    "Formula 1 is the big one — race strategy, tyre models, the engineering side more than the drama. Cars generally.",
-  badminton: "Badminton. Plays properly, not the backyard version.",
-  gym: "Gym and fitness — the non-negotiable part of the week.",
-  basketball: "NBA fan — watches more of it than is strictly reasonable.",
+  // Watching vs. doing is a real distinction here and the copy should
+  // keep it: F1 and the NBA are spectator obsessions, badminton and the
+  // gym are what he actually goes out and does.
+  f1: "Watches a ridiculous amount of Formula 1 — the strategy and the engineering more than the drama.",
+  nba: "Watches a lot of NBA, too.",
+  badminton: "Badminton is what he actually plays.",
+  gym: "The gym is the other half of the free time.",
+  cars: "Cars generally, F1 being the sharp end of it.",
   chess: "Chess.",
   investing: "Stocks and investing, which is how half his side projects start.",
-  reading: "Reading, and travelling when there's a window for it.",
+  reading: "Reading and travelling when there's a window.",
   coffee: "Coffee, in quantity, mostly while waiting for a build to finish.",
   city: "Toronto — walks downtown, watches the traffic, thinks about systems.",
 } as const;

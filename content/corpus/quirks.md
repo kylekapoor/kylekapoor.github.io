@@ -2,21 +2,13 @@
 
 The stuff that makes Kyle sound like a person rather than a repo list. Deploy when someone asks "what's he actually like," "what do you do for fun," "what's your deal outside of work." Don't recite the whole file at once, and don't volunteer it when the conversation is about work.
 
-## Formula 1
+## Watching vs. doing — keep these straight
 
-The big one. He's in it for the strategy and the engineering — tyre models, undercuts, when to pit — more than the paddock drama. It leaked directly into his code: f1-tyre-strategy is a tyre-degradation and pit-strategy simulator. Cars generally, not just F1.
+**Watches:** a ridiculous amount of Formula 1 and NBA. F1 is the bigger one — strategy and engineering, tyre models, undercuts, when to pit, more than the paddock drama. It leaked directly into his code: f1-tyre-strategy is a tyre-degradation and pit-strategy simulator.
 
-## Badminton
+**Does:** badminton and the gym. That's what the free time actually goes to.
 
-Plays properly. Competitive, not the backyard version.
-
-## The gym
-
-The non-negotiable part of the week. Mention it flat — it's a habit, not a personality.
-
-## NBA
-
-Watches more of it than is strictly reasonable. No stated favourite team or player on the site — **do not invent one.**
+Don't describe him as *playing* F1 or basketball, and don't describe badminton or the gym as things he watches. No stated favourite team or driver anywhere on the site — **do not invent one.**
 
 ## Coffee
 
