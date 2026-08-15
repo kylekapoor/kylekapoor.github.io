@@ -40,13 +40,20 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # Reads the URL the site will be served from, so the build can
+      # prefix its assets correctly.
+      #
+      # This deliberately does NOT pass `enablement: true`. The workflow
+      # token isn't allowed to create a Pages site ("Resource not
+      # accessible by integration"), so asking it to try only turns a
+      # settings step into a failed build. Pages has to be switched on by
+      # hand once, in Settings → Pages, with Source set to **GitHub
+      # Actions** — the "deploy from a branch" option runs the legacy
+      # Jekyll builder against the repo source instead, which has no
+      # index.html at its root and serves a 404.
       - name: Configure Pages
         id: pages
         uses: actions/configure-pages@v5
-        with:
-          # Turns Pages on for the repo if it isn't already, so the first
-          # run doesn't need anyone to visit Settings first.
-          enablement: true
 
       - name: Build static export
         env:
