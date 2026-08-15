@@ -13,7 +13,7 @@
 
 import { z } from "zod";
 import { isLikelyGarbage } from "./sanitize";
-import { estimateTokens } from "./llm/prompt";
+import { estimateTokens } from "./llm/tokens";
 
 export const MAX_MESSAGE_CHARS = 2000;
 export const MAX_MESSAGES_PER_REQUEST = 30;

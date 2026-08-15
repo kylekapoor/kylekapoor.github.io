@@ -1,6 +1,11 @@
 import { ImageResponse } from "next/og";
 
-export const runtime = "edge";
+// Rendered once at build time and served as a static PNG. The card is
+// identical for every visitor, so there's nothing to gain from
+// generating it per request — and in the static export there is no
+// runtime to generate it on. (This replaced `runtime = "edge"`, which
+// the exporter can't prerender.)
+export const dynamic = "force-static";
 export const alt = "Kyle Kapoor";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { useIsMobile } from "@/lib/hooks/useIsMobile";
+import { asset } from "@/lib/basePath";
 import { PORTRAIT } from "@/lib/profile";
 import { PageBackButton } from "../chrome/PageBackButton";
 import { PageCorner } from "../chrome/PageCorner";
@@ -500,7 +501,10 @@ function useResolvedPhoto(photo: Photo) {
 
   const usingFallback = failed && !!photo.fallbackSrc;
   return {
-    src: usingFallback ? photo.fallbackSrc! : photo.src,
+    // asset() so the path survives a deploy under a subdirectory; it's a
+    // no-op at a domain root. Applied here rather than at the <img> so
+    // the fallback path gets the same treatment.
+    src: asset(usingFallback ? photo.fallbackSrc! : photo.src),
     // The caption is rendered by the frame, not the image, so it has to
     // come from here too — otherwise a fallback shows the Toronto
     // illustration under a caption describing the portrait.

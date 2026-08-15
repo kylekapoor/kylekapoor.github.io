@@ -31,8 +31,7 @@ import {
   PROJECTS,
 } from "@/lib/profile";
 import type { ToolName } from "@/lib/tools";
-import { logChat } from "@/lib/logger";
-import type { ChatMessage, LogContext } from "./index";
+import type { ChatMessage } from "./index";
 
 /** An answer the bot can give: some text, optionally opening a page. */
 type Answer = {
@@ -311,28 +310,23 @@ export function answerFor(message: string): Answer {
 const CHUNK_CHARS = 3;
 const CHUNK_DELAY_MS = 12;
 
+/**
+ * Stream an answer in the AI SDK data-stream format.
+ *
+ * Deliberately free of server-only imports — no logger, no fs, no
+ * Upstash. This module runs unchanged in three places: the /api/chat
+ * route on a Node host, the same route on Vercel, and directly in the
+ * browser on the static GitHub Pages build (see lib/chat/staticTransport).
+ * Request logging is the caller's job precisely so that stays true;
+ * lib/llm/index.ts does it for the server paths.
+ */
 export async function streamLocal({
   messages,
-  logContext,
 }: {
   messages: ChatMessage[];
-  logContext?: LogContext;
 }): Promise<Response> {
   const lastUser = [...messages].reverse().find((m) => m.role === "user");
   const answer = answerFor(lastUser?.content ?? "");
-
-  if (logContext) {
-    logChat({
-      ts: logContext.startedAt,
-      ip_hash: logContext.ipHash,
-      provider: "local",
-      model: "grounded-profile",
-      tool_calls: answer.tool ? [answer.tool] : [],
-      latency_ms: Date.now() - logContext.startedAt,
-      status: "ok",
-      feedback_flag: logContext.feedbackFlag,
-    });
-  }
 
   return createDataStreamResponse({
     execute: async (writer) => {

@@ -1,0 +1,74 @@
+name: Deploy to GitHub Pages
+
+# Builds the static export and publishes it to GitHub Pages on every
+# push. Nothing here is repo-specific: configure-pages reports the URL
+# the site will actually be served from, and the build adapts to it — so
+# this same workflow produces a correct site whether it runs in
+# `kylekapoor.github.io` (served at the domain root) or in any other
+# repo (served from /<repo-name>).
+
+on:
+  push:
+    branches:
+      - main
+      - claude/kyle-portfolio-customization-iiqpgh
+  # Lets the site be rebuilt from the Actions tab without a code change.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deploy at a time. In-progress runs are allowed to finish rather
+# than being cancelled, so a half-published site is never left live.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Configure Pages
+        id: pages
+        uses: actions/configure-pages@v5
+        with:
+          # Turns Pages on for the repo if it isn't already, so the first
+          # run doesn't need anyone to visit Settings first.
+          enablement: true
+
+      - name: Build static export
+        env:
+          # base_path is "" for a user site (owner.github.io) and
+          # "/repo-name" for a project site. lib/basePath.ts prefixes
+          # every hand-written asset URL with it; next.config.ts hands it
+          # to Next for the bundles and links.
+          NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          # Absolute origin for the canonical URL and the social card.
+          NEXT_PUBLIC_SITE_URL: ${{ steps.pages.outputs.origin }}
+        run: npm run build:static
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

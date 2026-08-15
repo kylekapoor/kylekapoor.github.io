@@ -29,7 +29,8 @@ import { streamOllama } from "./ollama";
 import { streamClaude } from "./claude";
 import { streamOpenAI } from "./openai";
 import { streamGitHub } from "./github";
-import { streamLocal } from "./local";
+import { answerFor, streamLocal } from "./local";
+import { logChat } from "@/lib/logger";
 
 export type ChatMessage = {
   role: "user" | "assistant" | "system";
@@ -86,8 +87,30 @@ async function callProvider(
 ): Promise<Response> {
   // The local provider answers from lib/profile.ts and has no prompt to
   // assemble — building one would read the corpus off disk for nothing.
+  //
+  // It also emits no log of its own: streamLocal is deliberately kept
+  // free of server-only imports so the static build can call it straight
+  // from the browser, which means logging has to happen out here.
   if (provider === "local") {
-    return streamLocal(req);
+    const response = await streamLocal(req);
+    if (req.logContext) {
+      // answerFor is pure and cheap, so re-running it here to recover
+      // the tool call for the log costs nothing and keeps the log shape
+      // identical to the model-backed providers'.
+      const lastUser = [...req.messages].reverse().find((m) => m.role === "user");
+      const tool = answerFor(lastUser?.content ?? "").tool;
+      logChat({
+        ts: req.logContext.startedAt,
+        ip_hash: req.logContext.ipHash,
+        provider: "local",
+        model: DEFAULT_MODELS.local,
+        tool_calls: tool ? [tool] : [],
+        latency_ms: Date.now() - req.logContext.startedAt,
+        status: "ok",
+        feedback_flag: req.logContext.feedbackFlag,
+      });
+    }
+    return response;
   }
 
   const system = buildSystemPrompt(provider);

@@ -5,6 +5,11 @@ node_modules/
 /.next/
 /out/
 
+# scripts/build-static.mjs parks app/api here while the static export
+# runs and moves it straight back. Only ever present mid-build, or after
+# one was interrupted.
+/.static-build-backup/
+
 # production
 /build
 /dist

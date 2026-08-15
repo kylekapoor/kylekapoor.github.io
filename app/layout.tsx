@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { IS_STATIC_BUILD, asset } from "@/lib/basePath";
 import "./globals.css";
 
 const SITE_URL =
@@ -8,6 +9,7 @@ const SITE_URL =
   (process.env.VERCEL_PROJECT_PRODUCTION_URL
     ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
     : "http://localhost:3000");
+
 
 const TITLE = "Kyle Kapoor";
 const DESCRIPTION =
@@ -25,10 +27,10 @@ export const metadata: Metadata = {
   applicationName: TITLE,
   authors: [{ name: "Kyle Kapoor" }],
   creator: "Kyle Kapoor",
-  manifest: "/manifest.webmanifest",
+  manifest: asset("/manifest.webmanifest"),
   icons: {
-    icon: "/favicon.svg",
-    apple: "/favicon.svg",
+    icon: asset("/favicon.svg"),
+    apple: asset("/favicon.svg"),
   },
   openGraph: {
     type: "website",
@@ -76,8 +78,15 @@ export default function RootLayout({
     <html lang="en">
       <body>
         {children}
-        <Analytics />
-        <SpeedInsights />
+        {/* Both of these fetch their script from /_vercel/*, which only
+            exists on Vercel. On the static Pages build they'd be two
+            guaranteed 404s in the console and nothing else. */}
+        {!IS_STATIC_BUILD && (
+          <>
+            <Analytics />
+            <SpeedInsights />
+          </>
+        )}
       </body>
     </html>
   );

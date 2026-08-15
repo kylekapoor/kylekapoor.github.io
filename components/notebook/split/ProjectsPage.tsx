@@ -8,6 +8,7 @@ import {
   type CSSProperties,
 } from "react";
 import { useIsMobile } from "@/lib/hooks/useIsMobile";
+import { asset } from "@/lib/basePath";
 import { PROJECTS, type Project } from "@/lib/profile";
 import { PageBackButton } from "../chrome/PageBackButton";
 import { PageCorner } from "../chrome/PageCorner";
@@ -460,7 +461,7 @@ function ProjectCard({
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={project.cover}
+            src={asset(project.cover)}
             alt={`${project.name} — ${project.blurb}`}
             style={{
               width: "100%",

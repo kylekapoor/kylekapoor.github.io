@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useChat } from "@ai-sdk/react";
 import { matchIntent } from "@/lib/intents";
+import { IS_STATIC_BUILD, staticChatFetch } from "@/lib/chat/staticTransport";
 import { useIsMobile } from "@/lib/hooks/useIsMobile";
 import { useStageStore, type StageView } from "@/lib/store";
 import type { ToolName } from "@/lib/tools";
@@ -250,6 +251,10 @@ export function NotebookShell({
     isLoading,
   } = useChat({
     api: "/api/chat",
+    // On the static build there's no /api/chat to post to, so the
+    // grounded responder runs in the browser instead. Same protocol,
+    // same answers — see lib/chat/staticTransport.
+    fetch: IS_STATIC_BUILD ? staticChatFetch : undefined,
     onToolCall: ({ toolCall }) => {
       // Just dispatch the navigation. The empty-content fallback used to
       // be patched into the last assistant message here, but in streaming

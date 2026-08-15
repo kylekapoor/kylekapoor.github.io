@@ -36,6 +36,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
+import { estimateTokens } from "./tokens";
 import { VOICE } from "@/lib/persona/voice";
 import { override as ollamaOverride } from "@/lib/persona/overrides/ollama";
 import { override as claudeOverride } from "@/lib/persona/overrides/claude";
@@ -126,7 +127,7 @@ export function getSystemPromptTokens(provider: LLMProvider): number {
   return estimateTokens(buildSystemPrompt(provider));
 }
 
-/** Estimated token count (for logging). Cheap, rough, good enough. */
-export function estimateTokens(text: string): number {
-  return Math.round(text.length / 4);
-}
+// estimateTokens lives in ./tokens so client-side callers can use it
+// without pulling this module's node:fs corpus reader into their
+// bundle. Re-exported here because this was its original home.
+export { estimateTokens };

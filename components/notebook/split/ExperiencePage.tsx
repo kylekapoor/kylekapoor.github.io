@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useIsMobile } from "@/lib/hooks/useIsMobile";
+import { asset } from "@/lib/basePath";
 import { EXPERIENCE, type ExperienceEntry } from "@/lib/profile";
 import { useImageFallback } from "../primitives/useImageFallback";
 import { PageBackButton } from "../chrome/PageBackButton";
@@ -277,7 +278,7 @@ function LogoSticker({ role }: { role: Role }) {
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         ref={logo.ref}
-        src={role.logoSrc}
+        src={role.logoSrc ? asset(role.logoSrc) : undefined}
         alt={`${role.org} logo`}
         onError={logo.onError}
         style={{
