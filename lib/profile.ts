@@ -90,7 +90,7 @@ export const EXPERIENCE: ExperienceEntry[] = [
     location: "Toronto",
     blurb:
       "AI infrastructure for the investor relations, private equity, and real estate teams.",
-    logoSrc: "/logos/forum.svg",
+    logoSrc: "/logos/forum.png",
     logoText: "FA",
     logoRotation: -4,
     stickerBg: "#1c2231",
@@ -104,7 +104,7 @@ export const EXPERIENCE: ExperienceEntry[] = [
     location: "Palo Alto, CA",
     blurb:
       "Built the RAG stack behind an AI document assistant — cut query latency from 3s to under 500ms.",
-    logoSrc: "/logos/irisgo.svg",
+    logoSrc: "/logos/irisgo.png",
     logoText: "IG",
     logoRotation: 5,
     stickerBg: "#16241f",
