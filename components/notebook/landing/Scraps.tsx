@@ -646,7 +646,10 @@ function MarginAnnotations({
         }}
       />
 
-      {/* "systems, mostly" — right margin, bracket under the roles. Hidden
+      {/* "git commit -m 'fix'" — right margin, bracket under the roles.
+          Kept in the handwriting rather than mono: a dev scrawling a git
+          command into a paper notebook is the joke, and mono would read
+          as UI chrome instead of a margin note. Hidden
           on phones: at this width it lands in the same band as the todo
           list and the two read as one jumbled block. */}
       {!isMobile && (
@@ -659,10 +662,10 @@ function MarginAnnotations({
         gap={6}
         textOrder="after"
         text={
-          <span style={{ display: "inline-block", maxWidth: 140 }}>
-            systems,
+          <span style={{ display: "inline-block", maxWidth: 150 }}>
+            git commit
             <br />
-            mostly
+            -m &apos;fix&apos;
           </span>
         }
         textStyle={{ fontSize: "var(--fs-chip)", lineHeight: 1.15, whiteSpace: "normal" }}
