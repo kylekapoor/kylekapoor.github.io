@@ -8,7 +8,10 @@ import {
   type ReactNode,
 } from "react";
 import { useIsMobile } from "@/lib/hooks/useIsMobile";
+import { asset } from "@/lib/basePath";
+import { COVER_PHOTO } from "@/lib/profile";
 import { Float } from "../primitives/Float";
+import { useImageFallback } from "../primitives/useImageFallback";
 
 const ACTIVATE_AFTER_MS = 3500;
 const INTRO_DURATION = 2.5;
@@ -56,6 +59,7 @@ export function Scraps({
           <TapedCard ready={ready} isMobile={isMobile} />
           <StickyNote ready={ready} isMobile={isMobile} />
           <TodoList ready={ready} isMobile={isMobile} />
+          {!isMobile && <PhotoScrap ready={ready} />}
         </>
       )}
       {showAnnotations && (
@@ -251,6 +255,99 @@ function TapedCard({
         />
         <TapeStrip
           style={{ top: -8, right: "20%", transform: "rotate(6deg)" }}
+        />
+      </div>
+    </MagneticScrap>
+  );
+}
+
+/**
+ * The "that's me" polaroid, taped into the empty upper-left of the cover.
+ *
+ * Renders nothing at all when the photo file is missing, rather than
+ * falling back to an illustration the way the /about frames do — a
+ * stand-in drawing captioned "that's me" would be a small lie, and an
+ * empty corner of the cover costs nothing. So this is safe to ship
+ * before the image exists: add public/photos (see COVER_PHOTO in
+ * lib/profile.ts) and it appears with no code change.
+ *
+ * Desktop only. The phone cover has no whitespace to spare.
+ */
+function PhotoScrap({ ready }: { ready: boolean }) {
+  const photo = useImageFallback();
+  if (!COVER_PHOTO) return null;
+
+  return (
+    <MagneticScrap
+      baseRotation={-4}
+      activationRadius={200}
+      maxDrift={4}
+      stiffnessMs={420}
+      ready={ready}
+      // Upper-left gap: below the date, above and left of the "hi, I'm"
+      // annotation (which starts at 35% height), clear of the todo list
+      // further down.
+      position={{ left: "6%", top: "15%" }}
+      size={{ width: 112, height: 136 }}
+    >
+      <div
+        style={
+          {
+            position: "absolute",
+            inset: 0,
+            // Hidden until the image is known to have loaded, so a
+            // missing file never flashes an empty frame on first paint.
+            visibility: photo.failed ? "hidden" : "visible",
+            "--float-y": "-8px",
+            "--float-x": "-3px",
+            animation:
+              "fadeIn 0.8s ease 1.6s both, spaceFloat 15s ease-in-out 1.6s infinite",
+          } as CSSProperties
+        }
+      >
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            background: "var(--color-paper-warm)",
+            border: "1px solid var(--color-card-border)",
+            padding: 7,
+            paddingBottom: 0,
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            ref={photo.ref}
+            src={asset(COVER_PHOTO.src)}
+            alt={COVER_PHOTO.caption}
+            onError={photo.onError}
+            draggable={false}
+            style={{
+              width: "100%",
+              flex: 1,
+              minHeight: 0,
+              objectFit: "cover",
+              display: "block",
+            }}
+          />
+          <div
+            style={{
+              fontFamily: "var(--font-script)",
+              fontSize: "var(--fs-chip)",
+              color: "var(--color-ink)",
+              opacity: 0.7,
+              textAlign: "center",
+              lineHeight: 1,
+              padding: "5px 0 7px",
+            }}
+          >
+            {COVER_PHOTO.caption}
+          </div>
+        </div>
+        <TapeStrip
+          style={{ top: -8, left: "50%", transform: "translateX(-50%) rotate(-5deg)" }}
         />
       </div>
     </MagneticScrap>

@@ -213,23 +213,26 @@ function RoleEntry({ role, delayMs }: { role: Role; delayMs: number }) {
       </div>
 
       {/* The kind of work the role was — the only thing said about it.
-          No description line and no bullets: the page names the company,
-          the title, and the type of engineering, and stops there. Set in
-          mono against the handwriting so it reads as a label rather than
-          a sentence. */}
+          Written as a line of the journal in the same handwriting as
+          everything else, not set in a chip: a mono pill reads as UI
+          furniture on a page that's pretending to be paper. Uses
+          --fs-body (not --fs-script) so the baseline lands on the rule
+          at 0.76 × --line; the smaller --fs-script sits ~0.72 and
+          drifts above it. */}
       <div
         style={{
-          display: "inline-block",
-          marginTop: "calc(var(--line) * 0.5)",
-          padding: "2px 10px",
-          border:
-            "1px dashed color-mix(in srgb, var(--color-ink-soft) 35%, transparent)",
-          borderRadius: 999,
-          fontFamily: "var(--font-mono)",
-          fontSize: "var(--fs-meta)",
-          letterSpacing: "0.16em",
-          textTransform: "uppercase",
-          color: "var(--color-ink-soft)",
+          // Indented past the logo sticker (70) plus the header row's
+          // gap (16) so it starts on the same left edge as the dates and
+          // the company name. Left flush with the sticker instead, a
+          // short label like "Data" reads as orphaned rather than as the
+          // last line of the entry.
+          marginLeft: 86,
+          fontFamily: "var(--font-script)",
+          fontSize: "var(--fs-body)",
+          fontWeight: 400,
+          color: "var(--color-ink)",
+          lineHeight: "var(--line)",
+          maxWidth: 560,
         }}
       >
         {role.focus}

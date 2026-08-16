@@ -100,7 +100,7 @@ function buildStars(): Star[] {
     // rather than sliding one way as a sheet — that's what the slow
     // layer-wide parallax underneath is already for. Bigger stars move
     // a little further, which reads as them being nearer.
-    const amplitude = size > 1.5 ? 5 + rand() * 5 : 3 + rand() * 4;
+    const amplitude = size > 1.5 ? 9 + rand() * 8 : 5 + rand() * 7;
     const direction = rand() * Math.PI * 2;
     return {
       top: `${(rand() * 100).toFixed(3)}%`,
@@ -108,13 +108,13 @@ function buildStars(): Star[] {
       size,
       min,
       max: min + 0.35 + rand() * 0.45,
-      durationS: 2.4 + rand() * 4.5,
+      durationS: 2 + rand() * 3.6,
       delayS: rand() * 6,
       color: `hsl(${hue} ${sat}% ${light.toFixed(0)}%)`,
       driftX: +(Math.cos(direction) * amplitude).toFixed(2),
       driftY: +(Math.sin(direction) * amplitude).toFixed(2),
-      // Long, unrelated periods: nothing in the field ever lines up.
-      driftDurationS: +(9 + rand() * 13).toFixed(1),
+      // Unrelated periods: nothing in the field ever lines up.
+      driftDurationS: +(6 + rand() * 9).toFixed(1),
       driftDelayS: +(rand() * 10).toFixed(1),
     };
   });
@@ -160,6 +160,10 @@ export function Starfield() {
         inset: 0,
         overflow: "hidden",
         pointerEvents: "none",
+        // Bottom of the cover's stacking context. Everything on the
+        // cover carries an explicit z-index above this, so a streak
+        // always passes *behind* whatever it crosses — the name, the
+        // scraps, the todo list — rather than over it.
         zIndex: 0,
       }}
     >
@@ -187,7 +191,7 @@ export function Starfield() {
           left: "-4%",
           width: "108%",
           height: "108%",
-          animation: "starFieldDrift 120s ease-in-out infinite alternate",
+          animation: "starFieldDrift 80s ease-in-out infinite alternate",
         }}
       >
         {stars.map((star, i) => (

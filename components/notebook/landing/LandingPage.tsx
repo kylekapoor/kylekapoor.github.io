@@ -58,13 +58,25 @@ export function LandingPage({ onAdvance }: { onAdvance: () => void }) {
         zIndex: 2,
       }}
     >
-      {/* Night sky behind everything on the cover. */}
+      {/* Night sky behind everything on the cover. It sits at z-index 0
+          and every sibling below carries an explicit z-index above it,
+          so a shooting star always passes *under* whatever it crosses.
+          Painting order would mostly do this on its own — the layer is
+          first in the DOM — but "mostly" is how a streak ends up drawn
+          over the name the next time something is reordered. */}
       <Starfield />
 
       {/* Kicker — "journal". Each floating element below gets its own
           drift duration and phase, so the group breathes independently
           rather than sliding as one block. */}
-      <Float y={-6} x={3} rotate={-0.3} durationS={11} delayS={0.4}>
+      <Float
+        y={-6}
+        x={3}
+        rotate={-0.3}
+        durationS={11}
+        delayS={0.4}
+        style={{ zIndex: 3 }}
+      >
         <div
           style={{
             fontFamily: "var(--font-mono)",
@@ -89,7 +101,7 @@ export function LandingPage({ onAdvance }: { onAdvance: () => void }) {
         x={6}
         rotate={-0.5}
         durationS={14}
-        style={{ width: "min(88vw, 820px)", flex: "none" }}
+        style={{ width: "min(88vw, 820px)", flex: "none", zIndex: 3 }}
       >
         <FitToWidth>
           <DrawnText
@@ -107,7 +119,14 @@ export function LandingPage({ onAdvance }: { onAdvance: () => void }) {
       </Float>
 
       {/* Role cycler */}
-      <Float y={-9} x={-4} rotate={0.4} durationS={10} delayS={1.2}>
+      <Float
+        y={-9}
+        x={-4}
+        rotate={0.4}
+        durationS={10}
+        delayS={1.2}
+        style={{ zIndex: 3 }}
+      >
         <RoleCycler
           roles={ROLES}
           color={INK_DIM}
@@ -130,6 +149,7 @@ export function LandingPage({ onAdvance }: { onAdvance: () => void }) {
           right: 0,
           display: "flex",
           justifyContent: "center",
+          zIndex: 3,
         }}
       >
         <ScrollCue delay={INTRO_DURATION * 1000 + 1000} />

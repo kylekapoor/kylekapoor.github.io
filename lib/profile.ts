@@ -225,6 +225,21 @@ export const PORTRAIT: { src: string; caption: string } | null = {
 };
 
 /**
+ * The taped photo on the cover, captioned "that's me".
+ *
+ * Wants a **full-length / zoomed-out** shot — the frame is small and a
+ * tight headshot loses its context at 112px wide. Save it as
+ * `public/photos/kyle-banff.jpg` and it appears; until then the cover
+ * simply doesn't render the scrap (see PhotoScrap in landing/Scraps).
+ * Portrait orientation fits best; the frame centre-crops rather than
+ * squashing. Set to `null` to drop it from the cover.
+ */
+export const COVER_PHOTO: { src: string; caption: string } | null = {
+  src: "/photos/kyle-banff.jpg",
+  caption: "that's me",
+};
+
+/**
  * The human layer. Kept short on purpose — the bot pulls from this for
  * "what's he actually like" questions and nothing here should be a
  * claim that could embarrass anyone if quoted back verbatim.
