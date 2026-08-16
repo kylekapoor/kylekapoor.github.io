@@ -288,7 +288,7 @@ function PhotoScrap({ ready }: { ready: boolean }) {
       // annotation (~17%) and the JOURNAL kicker (centred), high enough
       // to clear both, with the date well to its left and the taped card
       // far right. Nothing else is up here, which is the point.
-      position={{ left: "32%", top: "8%" }}
+      position={{ left: "28%", top: "8%" }}
       // Tall enough that the image well lands near 4:5 once the padding
       // and the caption strip are taken out — a full-length shot in a
       // near-square well gets cropped to a torso.
