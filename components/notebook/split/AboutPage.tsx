@@ -20,8 +20,8 @@ import { Sticker } from "../primitives/Sticker";
 // company each of those happened at is the experience page's job, and
 // keeping the two apart is what stops the site telling one story twice.
 const BODY_PARAGRAPHS = [
-  "Grew up in Toronto, 3rd year CS at the University of Waterloo. Obsessed with this era of tech \u2014 catch me in Cursor or Claude Code at basically any hour, thinking a bit too hard about how to get that Ferrari before 25.",
-  "Career path so far:\n\u2192 data\n\u2192 full-stack\n\u2192 applied AI\n\u2192 FinTech + applied AI\nSide projects are all on GitHub. Open /projects and click any card.",
+  "Grew up in Toronto, 3rd year CS at the University of Waterloo. Obsessed with this era of tech. Basically on Cursor or Claude Code 24/7. Yes, I'm addicted. Otherwise I'm probably thinking a bit too hard about how to get that Ferrari before 25.",
+  "Career path so far:\n\u2192 data\n\u2192 full-stack\n\u2192 applied AI\n\u2192 FinTech + applied AI\nKept trying things until one clicked. Forever grateful.",
   "Outside of that: far too much Formula 1 and NBA, badminton (99% chance I get smoked), permanently at the gym, watching the car market more closely than the stock market, reading whatever book swears it'll make me $1M by tomorrow, or booking another flight to Europe for no real reason.",
 ];
 
