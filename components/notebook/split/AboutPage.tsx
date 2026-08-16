@@ -21,7 +21,7 @@ import { Sticker } from "../primitives/Sticker";
 // keeping the two apart is what stops the site telling one story twice.
 const BODY_PARAGRAPHS = [
   "Grew up in Toronto, 3rd year CS at the University of Waterloo. Obsessed with this era of AI. Basically on Cursor or Claude Code 24/7. Otherwise probably thinking a bit too hard about how to get that Ferrari before 25.",
-  "Career path so far:\n\u2192 data\n\u2192 full-stack\n\u2192 applied AI\n\u2192 FinTech + applied AI\nKept trying things until one clicked. Forever grateful.",
+  "career path so far:\n\u2192 data\n\u2192 full-stack\n\u2192 applied ai\n\u2192 fintech + applied ai",
   "Outside of that: far too much Formula 1 and NBA, badminton (99% chance I get smoked), permanently at the gym, watching the car market more closely than the stock market, reading whatever book swears it'll make me $1M by tomorrow, or booking another flight to Europe for no real reason.",
 ];
 
