@@ -3,8 +3,8 @@
 import { useMemo } from "react";
 
 /**
- * The cover's night sky: a static twinkling star field plus occasional
- * shooting stars.
+ * The cover's night sky: a drifting, twinkling star field in mixed
+ * colours, with shooting stars crossing it every few seconds.
  *
  * Determinism matters here. Star positions are generated from a seeded
  * PRNG rather than Math.random() so the server render and the client
@@ -18,7 +18,10 @@ import { useMemo } from "react";
  */
 
 const STAR_COUNT = 150;
-const SHOOTING_STAR_COUNT = 5;
+// Enough streaks, on short enough cycles, that one is nearly always
+// crossing the cover somewhere — the brief was "often", not "if you
+// wait long enough".
+const SHOOTING_STAR_COUNT = 10;
 
 /** Mulberry32 — small, fast, good enough for scattering dots. */
 function makeRandom(seed: number): () => number {
@@ -42,6 +45,11 @@ type Star = {
   delayS: number;
   /** A handful of stars get a warm/cool tint instead of plain white. */
   color: string;
+  /** Per-star wander, in px, on its own clock — see starDrift. */
+  driftX: number;
+  driftY: number;
+  driftDurationS: number;
+  driftDelayS: number;
 };
 
 type ShootingStar = {
@@ -88,6 +96,12 @@ function buildStars(): Star[] {
     // plain dust again. Bigger stars go darker still, because their glow
     // adds brightness back and would otherwise blow out to a white blob.
     const light = size > 1.5 ? 66 + rand() * 12 : 74 + rand() * 14;
+    // Direction is free (either sign on both axes) so the field wanders
+    // rather than sliding one way as a sheet — that's what the slow
+    // layer-wide parallax underneath is already for. Bigger stars move
+    // a little further, which reads as them being nearer.
+    const amplitude = size > 1.5 ? 5 + rand() * 5 : 3 + rand() * 4;
+    const direction = rand() * Math.PI * 2;
     return {
       top: `${(rand() * 100).toFixed(3)}%`,
       left: `${(rand() * 100).toFixed(3)}%`,
@@ -97,26 +111,37 @@ function buildStars(): Star[] {
       durationS: 2.4 + rand() * 4.5,
       delayS: rand() * 6,
       color: `hsl(${hue} ${sat}% ${light.toFixed(0)}%)`,
+      driftX: +(Math.cos(direction) * amplitude).toFixed(2),
+      driftY: +(Math.sin(direction) * amplitude).toFixed(2),
+      // Long, unrelated periods: nothing in the field ever lines up.
+      driftDurationS: +(9 + rand() * 13).toFixed(1),
+      driftDelayS: +(rand() * 10).toFixed(1),
     };
   });
 }
 
 function buildShootingStars(): ShootingStar[] {
   const rand = makeRandom(77712);
-  // Stagger the cycle lengths with prime-ish spacing so two streaks
-  // rarely fire together — "occasional" was the brief, not "meteor
-  // shower".
-  const cycles = [13, 19, 23, 31, 17];
+  // Prime-ish cycle lengths, none of them shared: the streaks drift out
+  // of phase with each other and never settle into a visible rhythm.
+  // Short enough that something is crossing the sky every few seconds,
+  // spread enough that they don't arrive as a volley.
+  const cycles = [7, 11, 13, 9, 17, 8, 19, 12, 23, 10];
   return Array.from({ length: SHOOTING_STAR_COUNT }, (_, i) => ({
-    // Kept in the upper half — streaks near the bottom edge would cut
-    // across the todo list and scroll cue.
-    top: `${(rand() * 46).toFixed(2)}%`,
-    left: `${(rand() * 55).toFixed(2)}%`,
-    angle: 12 + rand() * 26,
+    // Anywhere on the cover, top to bottom. They pass behind the
+    // handwriting (this whole layer sits at z-index 0) so a streak
+    // crossing the todo list reads as depth rather than clutter.
+    top: `${(rand() * 88).toFixed(2)}%`,
+    left: `${(rand() * 78).toFixed(2)}%`,
+    // Mostly shallow downward streaks, with a few running the other way
+    // so the sky doesn't look like it's raining in one direction.
+    angle: rand() > 0.78 ? -(8 + rand() * 20) : 12 + rand() * 26,
     distance: 420 + rand() * 460,
     width: 90 + rand() * 90,
     durationS: cycles[i],
-    delayS: 2 + rand() * 14,
+    // Offsets are spread across the full cycle length so the first
+    // minute isn't front-loaded and the streaks stay interleaved after.
+    delayS: +(rand() * cycles[i]).toFixed(1),
     // Full spectrum, one hue per streak — each pass is a different
     // colour rather than the usual white.
     hue: Math.floor(rand() * 360),
@@ -185,7 +210,11 @@ export function Starfield() {
                     : "none",
                 "--twinkle-min": star.min,
                 "--twinkle-max": star.max,
-                animation: `starTwinkle ${star.durationS}s ease-in-out ${star.delayS}s infinite`,
+                "--drift-x": `${star.driftX}px`,
+                "--drift-y": `${star.driftY}px`,
+                animation:
+                  `starTwinkle ${star.durationS}s ease-in-out ${star.delayS}s infinite, ` +
+                  `starDrift ${star.driftDurationS}s ease-in-out ${star.driftDelayS}s infinite`,
               } as React.CSSProperties
             }
           />

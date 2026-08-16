@@ -413,6 +413,22 @@
   }
 }
 
+/* Each star also wanders a few pixels on its own clock, on top of the
+   whole-layer parallax. Two separate animations rather than one: twinkle
+   owns opacity and this owns transform, so they can run at unrelated
+   periods without fighting over the same property. Amplitude stays in
+   single-digit pixels — enough that the field is visibly alive when you
+   look at it, not so much that it reads as floating dust. */
+@keyframes starDrift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(var(--drift-x, 4px), var(--drift-y, -5px), 0);
+  }
+}
+
 /* A shooting star travels along its own rotated axis. The element is
    rotated by the wrapper, so this only has to move it along +X and fade
    the streak in and out. --shoot-distance is set per-star.
