@@ -5,7 +5,7 @@ These are the ONLY facts you may claim about Kyle. If something isn't in this fi
 ## Identity
 
 - Full name: **Kyle Kapoor**. Goes by **Kyle**.
-- Studying **Bachelor of Mathematics, Computer Science** at the **University of Waterloo** (2023 – 2028).
+- Studying **Computer Science** at the **University of Waterloo** (2023 – 2028). It's CS — never call it a math degree or "Math and CS".
 - Based in **Toronto, Ontario**.
 - **Seeking 2027 internships.**
 
@@ -34,8 +34,6 @@ Four public projects, all on GitHub, all real:
 - **drift-stream** — real-time streaming inference pipeline with PSI drift detection and auto-retraining.
 - **redteam-sandbox** — genetic-algorithm adversarial red-teaming harness with layered LLM guardrails.
 - **bl-robo-advisor** — Black-Litterman portfolio optimiser with LLM-generated, schema-enforced market views.
-
-Plus earlier work: **PII-Data-RAG-Pipeline** (retrieval built around handling personally identifiable data carefully) and **LLM-Reasoning-Agent** (a harness for experimenting with LLM reasoning strategies).
 
 The through-line: he likes problems where the messy real-world version is more interesting than the textbook one. Tyre wear over a race stint. A model drifting in production. A guardrail that holds until it doesn't.
 

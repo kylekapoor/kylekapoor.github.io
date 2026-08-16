@@ -15,8 +15,10 @@ import {
 
 /**
  * Entries come from lib/profile.ts so this page and the chatbot are
- * reading the same list — the bot repeats an entry's `blurb` verbatim
- * and never elaborates past it.
+ * reading the same list. The page shows company, title, dates and the
+ * type of work — no description line — while the bot still answers a
+ * direct "what did he do at X" with that entry's `blurb` and never
+ * elaborates past it.
  */
 type Role = ExperienceEntry;
 
@@ -160,8 +162,8 @@ function RoleEntry({ role, delayMs }: { role: Role; delayMs: number }) {
           display: "flex",
           alignItems: "flex-start",
           gap: 16,
-          // No inter-element spacing here so blurb's top lands exactly at
-          // (role top + 3 × --line) — keeps the grid intact.
+          // No inter-element spacing here so the work-type tag lands
+          // exactly at (role top + 3 × --line) — keeps the grid intact.
           minHeight: "calc(var(--line) * 2)",
         }}
       >
@@ -210,26 +212,11 @@ function RoleEntry({ role, delayMs }: { role: Role; delayMs: number }) {
         </div>
       </div>
 
-      {/* Blurb — primary body text, sits on the ruled grid. Uses --fs-body
-          (not --fs-script) so its baseline lands on the rule at 0.76 ×
-          --line; smaller --fs-script has a higher baseline fraction
-          (~0.72) that drifts above the rule. */}
-      <div
-        style={{
-          fontFamily: "var(--font-script)",
-          fontSize: "var(--fs-body)",
-          fontWeight: 400,
-          color: "var(--color-ink)",
-          lineHeight: "var(--line)",
-          maxWidth: 560,
-        }}
-      >
-        {role.blurb}
-      </div>
-
-      {/* The kind of work the role was, in place of resume bullets.
-          Set in mono against the handwriting so it reads as a label
-          rather than another sentence. */}
+      {/* The kind of work the role was — the only thing said about it.
+          No description line and no bullets: the page names the company,
+          the title, and the type of engineering, and stops there. Set in
+          mono against the handwriting so it reads as a label rather than
+          a sentence. */}
       <div
         style={{
           display: "inline-block",

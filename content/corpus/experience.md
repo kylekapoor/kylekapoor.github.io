@@ -12,7 +12,7 @@ The site does not publish bullet points. If someone asks for more than the summa
 This is the most recent role. **No further detail is published** — do not elaborate, do not guess at what the work involved beyond that line.
 
 ## IrisGo — Software Engineer Intern · Applied AI
-*Sep 2025 – Dec 2025 · Palo Alto, CA*
+*Sep 2025 – Dec 2025 · Palo Alto*
 
 > Built the RAG stack behind an AI document assistant — cut query latency from 3s to under 500ms.
 
@@ -26,16 +26,15 @@ This is the most recent role. **No further detail is published** — do not elab
 
 > Built the ETL and BI layer for 150+ analysts — dropped critical report runtimes from an hour to two minutes.
 
-## University of Waterloo — Bachelor of Mathematics, Computer Science
-*2023 – 2028 · Waterloo*
-
-> Math and CS at Waterloo — algorithms, systems, and a standing habit of turning coursework into side projects.
-
 ---
 
 ## Shape of the arc
 
 Three internships across four terms: data, then full-stack, then applied AI — and now AI infrastructure in FinTech. If someone asks "what's his background," that arc plus /experience is the answer.
+
+## Education
+
+Not a work entry, and not listed on /experience — that page is jobs only. **Computer Science at the University of Waterloo, 2023 – 2028.** It's CS, not a joint math degree; never describe it as "Math and CS" or "Bachelor of Mathematics".
 
 ## Status
 

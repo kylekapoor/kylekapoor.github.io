@@ -15,8 +15,12 @@ import {
 } from "../primitives/PageAnimateContext";
 import { Sticker } from "../primitives/Sticker";
 
+// Short on purpose. The work paragraph names where and what type of
+// engineering, and nothing about what any of the jobs involved — the
+// experience page says exactly as much, so the two can't drift into
+// different stories.
 const BODY_PARAGRAPHS = [
-  "Math and Computer Science at the University of Waterloo, based in Toronto. Retrieval systems, data pipelines, making slow things fast — I like problems where the real-world version is messier than the textbook one.",
+  "Computer Science at the University of Waterloo, based in Toronto. I like problems where the real-world version is messier than the textbook one.",
   "Where I've worked:\n\u2192 Forum Asset Management \u2014 FinTech + applied AI\n\u2192 IrisGo \u2014 applied AI, Palo Alto\n\u2192 Ontario Power Generation \u2014 full-stack, then data\nSide projects are all on GitHub. Open /projects and click any card.",
   "I watch a ridiculous amount of F1 and NBA. When I'm actually moving, it's badminton or the gym. Otherwise: chess, cars, reading, travel, and markets.",
 ];

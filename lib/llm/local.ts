@@ -25,6 +25,7 @@
 import { createDataStreamResponse, formatDataStreamPart } from "ai";
 import {
   CONTACT,
+  EDUCATION,
   EXPERIENCE,
   IDENTITY,
   INTERESTS,
@@ -75,8 +76,6 @@ const PROJECT_KEYWORDS: Record<string, RegExp> = {
   "drift-stream": /\b(drift|streaming|psi|retrain|inference\s*pipeline)\b/i,
   "redteam-sandbox": /\b(red[\s-]?team|adversarial|guardrails?|jailbreak|genetic)\b/i,
   "bl-robo-advisor": /\b(black[\s-]?litterman|portfolio|robo[\s-]?advisor|quant|market\s*views?)\b/i,
-  "PII-Data-RAG-Pipeline": /\b(pii|rag|retrieval|redact)\b/i,
-  "LLM-Reasoning-Agent": /\b(reasoning|agent\s*harness)\b/i,
 };
 
 /**
@@ -197,7 +196,7 @@ const RULES: Rule[] = [
   {
     test: /\b(school|university|waterloo|degree|studying|student|major|classes|course)\b/i,
     answer: () => ({
-      text: `${IDENTITY.degree} at the ${IDENTITY.school}, ${EXPERIENCE[EXPERIENCE.length - 1].dates}. ${IDENTITY.status}`,
+      text: `${EDUCATION.degree} at the ${EDUCATION.school}, ${EDUCATION.dates}. ${IDENTITY.status}`,
       tool: "showExperience",
     }),
   },

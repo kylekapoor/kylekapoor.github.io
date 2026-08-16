@@ -230,6 +230,16 @@ async function main() {
   await assertAnswer("won't hand out a phone number", "what is his phone number", {
     mustNot: [/\d{3}[-.\s]?\d{3}[-.\s]?\d{4}/],
   });
+  // School is its own entry in the profile, not the last row of the work
+  // history. If that ever gets rewired, this answer starts quoting an
+  // internship's dates as the degree dates — true-looking and wrong.
+  await assertAnswer("answers school with the degree and its own dates", "where does he go to school", {
+    must: [/Computer Science/i, /University of Waterloo/i, /2023/],
+    mustNot: [/Mathematics/i, /Ontario Power/i, /2024/],
+  });
+  await assertAnswer("lists four projects, not the retired ones", "what has he built", {
+    mustNot: [/PII-Data-RAG-Pipeline/i, /LLM-Reasoning-Agent/i],
+  });
 
   console.log("\nRate limit:");
   await assertRateLimit("15 rapid requests");

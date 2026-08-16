@@ -16,7 +16,8 @@ export const IDENTITY = {
   firstName: "Kyle",
   school: "University of Waterloo",
   program: "Computer Science",
-  degree: "Bachelor of Mathematics, Computer Science",
+  // Just CS — the site never frames it as a joint math degree.
+  degree: "Computer Science",
   gradYear: "2028",
   location: "Toronto, Ontario",
   /** What he does, as a standalone sentence. Composed with the school
@@ -101,7 +102,7 @@ export const EXPERIENCE: ExperienceEntry[] = [
     title: "Software Engineer Intern",
     focus: "Applied AI",
     dates: "Sep 2025 – Dec 2025",
-    location: "Palo Alto, CA",
+    location: "Palo Alto",
     blurb:
       "Built the RAG stack behind an AI document assistant — cut query latency from 3s to under 500ms.",
     logoSrc: "/logos/irisgo.png",
@@ -118,10 +119,10 @@ export const EXPERIENCE: ExperienceEntry[] = [
     location: "Toronto",
     blurb:
       "Moved legacy MS Access systems onto ASP.NET MVC and Angular, serving 11K+ API requests a day.",
-    logoSrc: "/logos/opg.svg",
+    logoSrc: "/logos/opg.png",
     logoText: "OPG",
     logoRotation: -3,
-    stickerBg: "#2b1a1a",
+    stickerBg: "#12180f",
     url: "https://www.opg.com/",
   },
   {
@@ -132,27 +133,26 @@ export const EXPERIENCE: ExperienceEntry[] = [
     location: "Toronto",
     blurb:
       "Built the ETL and BI layer for 150+ analysts — dropped critical report runtimes from an hour to two minutes.",
-    logoSrc: "/logos/opg.svg",
+    logoSrc: "/logos/opg.png",
     logoText: "OPG",
     logoRotation: 4,
-    stickerBg: "#2b1a1a",
+    stickerBg: "#12180f",
     url: "https://www.opg.com/",
   },
-  {
-    org: "University of Waterloo",
-    title: "Bachelor of Mathematics, Computer Science",
-    focus: "Math + CS",
-    dates: "2023 – 2028",
-    location: "Waterloo",
-    blurb:
-      "Math and CS at Waterloo — algorithms, systems, and a standing habit of turning coursework into side projects.",
-    logoSrc: "/logos/waterloo.svg",
-    logoText: "UW",
-    logoRotation: -5,
-    stickerBg: "#2a2118",
-    url: "https://uwaterloo.ca/",
-  },
 ];
+
+/**
+ * School. Deliberately NOT an EXPERIENCE entry — that list is work only,
+ * so anything that needs the degree or the dates (the chat's "where does
+ * he study" answer, mainly) reads them from here rather than assuming
+ * education is the last row of the work history.
+ */
+export const EDUCATION = {
+  school: IDENTITY.school,
+  degree: IDENTITY.degree,
+  dates: "2023 – 2028",
+  location: "Waterloo",
+} as const;
 
 /**
  * Projects carousel. Each card links straight to the GitHub repo.
@@ -210,26 +210,6 @@ export const PROJECTS: Project[] = [
       "Black-Litterman portfolio optimiser with LLM-generated, schema-enforced market views.",
     stack: "Python",
     rotation: 4,
-  },
-  {
-    name: "PII-Data-RAG-Pipeline",
-    repo: "https://github.com/kylekapoor/PII-Data-RAG-Pipeline",
-    cover: "/projects/pii-rag.svg",
-    caption: "retrieval that keeps secrets",
-    blurb:
-      "Agent workflow over classified documents — 5TB processed into vector embeddings behind a LangChain and Pinecone RAG pipeline.",
-    stack: "Python",
-    rotation: -2,
-  },
-  {
-    name: "LLM-Reasoning-Agent",
-    repo: "https://github.com/kylekapoor/LLM-Reasoning-Agent",
-    cover: "/projects/llm-reasoning-agent.svg",
-    caption: "making a model show its work",
-    blurb:
-      "Planner, executor, and evaluator loop with short- and long-term memory over a 10K context.",
-    stack: "Python",
-    rotation: 3,
   },
 ];
 
