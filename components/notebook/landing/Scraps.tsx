@@ -284,14 +284,15 @@ function PhotoScrap({ ready }: { ready: boolean }) {
       maxDrift={4}
       stiffnessMs={420}
       ready={ready}
-      // Upper-left gap: below the date, above and left of the "hi, I'm"
-      // annotation (which starts at 35% height), clear of the todo list
-      // further down.
-      position={{ left: "6%", top: "15%" }}
+      // The open band across the top: horizontally between the "hi, I'm"
+      // annotation (~17%) and the JOURNAL kicker (centred), high enough
+      // to clear both, with the date well to its left and the taped card
+      // far right. Nothing else is up here, which is the point.
+      position={{ left: "32%", top: "8%" }}
       // Tall enough that the image well lands near 4:5 once the padding
       // and the caption strip are taken out — a full-length shot in a
       // near-square well gets cropped to a torso.
-      size={{ width: 112, height: 152 }}
+      size={{ width: 128, height: 172 }}
     >
       <div
         style={

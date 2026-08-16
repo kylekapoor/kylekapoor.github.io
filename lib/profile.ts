@@ -207,30 +207,23 @@ export const PROJECTS: Project[] = [
 ];
 
 /**
- * Portrait photo, shown as the top-right polaroid on /about.
+ * Portrait photo for /about — deliberately OFF.
  *
- * This is wired up and pointing at `public/photos/kyle.jpg`. **Adding
- * that file is the only step** — no code change needed. Until it exists
- * the frame falls back to the Toronto illustration (see PolaroidPhoto in
- * AboutPage), so the page is complete either way and never shows a
- * broken image.
- *
- * Roughly 4:5 fits the frame best; other ratios are centre-cropped
- * rather than squashed. Set this to `null` to drop the portrait slot
- * entirely and go back to three illustrations.
+ * The about page keeps its three illustrated polaroids (the Toronto one
+ * included); the only photograph of Kyle on the site is the cover scrap
+ * below, and one is the right number. Set this to
+ * `{ src, caption }` to put a portrait back in the top-right frame —
+ * roughly 4:5, centre-cropped rather than squashed.
  */
-export const PORTRAIT: { src: string; caption: string } | null = {
-  src: "/photos/kyle.jpg",
-  caption: "banff, up top",
-};
+export const PORTRAIT: { src: string; caption: string } | null = null;
 
 /**
  * The taped photo on the cover, captioned "that's me".
  *
  * Wants a **full-length / zoomed-out** shot — the frame is small and a
- * tight headshot loses its context at 112px wide. Save it as
- * `public/photos/kyle-banff.jpg` and it appears; until then the cover
- * simply doesn't render the scrap (see PhotoScrap in landing/Scraps).
+ * tight headshot loses its context at this size. The file lives at
+ * `public/photos/kyle-banff.jpg`; without it the cover simply doesn't
+ * render the scrap (see PhotoScrap in landing/Scraps).
  * Portrait orientation fits best; the frame centre-crops rather than
  * squashing. Set to `null` to drop it from the cover.
  */
