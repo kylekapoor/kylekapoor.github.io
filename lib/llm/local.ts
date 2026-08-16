@@ -13,9 +13,10 @@
  * unflattering. When a question falls outside what it knows, it says so
  * and routes the user somewhere useful rather than guessing.
  *
- * For experience questions it emits the `blurb` one-liners from
- * lib/profile.ts and nothing more — it never expands them into invented
- * resume bullets.
+ * For experience questions it names the company, the role type and the
+ * dates, and stops. There is no description field in the profile for it
+ * to read, so there is nothing to expand, paraphrase, or quietly turn
+ * into a resume bullet.
  *
  * It speaks the AI SDK v4 data-stream protocol (via formatDataStreamPart)
  * so `useChat` on the client treats it exactly like a model-backed
@@ -49,8 +50,11 @@ type Rule = {
 // ── Composed answer fragments ─────────────────────────────────────────
 
 function experienceLines(): string {
-  // One line per entry, exactly the profile's blurb. Nothing added.
-  return EXPERIENCE.map((e) => `• ${e.org} (${e.focus}) — ${e.blurb}`).join("\n");
+  // Company, role type, dates. The profile holds nothing else about a
+  // role, which is what makes this answer safe by construction.
+  return EXPERIENCE.map(
+    (e) => `• ${e.org} — ${e.focus} (${e.dates})`,
+  ).join("\n");
 }
 
 function projectLines(): string {
@@ -58,7 +62,7 @@ function projectLines(): string {
 }
 
 const ABOUT_TEXT =
-  `${IDENTITY.program} at the ${IDENTITY.school}, based in ${IDENTITY.location}. ` +
+  `Third-year ${IDENTITY.program} at the ${IDENTITY.school}, grew up in Toronto. ` +
   `${IDENTITY.tagline} ${IDENTITY.status}`;
 
 const CONTACT_TEXT =
@@ -120,9 +124,12 @@ const ORG_KEYWORDS: Record<string, RegExp> = {
 /**
  * A question about one named employer — "what did he do at IrisGo".
  *
- * Answers with that role's single summary line and nothing else. Both
- * OPG terms match the same keyword, so asking about OPG returns both
- * lines rather than silently picking one.
+ * Answers with the role's title, type and dates. What the work actually
+ * involved isn't published anywhere on the site, so the honest answer to
+ * "what did he do there" is the type of engineering it was — a fuller
+ * one would have to be invented. Both OPG terms match the same keyword,
+ * so asking about OPG returns both rows rather than silently picking
+ * one.
  */
 function specificRoleAnswer(message: string): Answer | null {
   const matches = EXPERIENCE.filter((role) =>
@@ -131,8 +138,11 @@ function specificRoleAnswer(message: string): Answer | null {
   if (matches.length === 0) return null;
 
   const lines = matches
-    .map((r) => `${r.org} — ${r.title} (${r.focus}), ${r.dates}\n${r.blurb}`)
-    .join("\n\n");
+    .map(
+      (r) =>
+        `${r.org} — ${r.title} (${r.focus}), ${r.dates}${r.location ? ` · ${r.location}` : ""}`,
+    )
+    .join("\n");
   return {
     text: lines,
     tool: "showExperience",
@@ -185,9 +195,9 @@ const RULES: Rule[] = [
   },
   {
     test: /\b(experience|background|resume|cv|work\s*history|worked|jobs?|career|where\s+(has|did)\s+(he|you))\b/i,
-    // One line per role and no more — the bot never elaborates past the
-    // blurb, which is how a "25%" would turn into "about a third" and
-    // the site would start misquoting his own resume.
+    // Company, type of work, dates — nothing about what the work was.
+    // Kyle's resume bullets are not on the site and the bot has no copy
+    // of them to misquote.
     answer: () => ({
       text: `Here's the short version:\n${experienceLines()}`,
       tool: "showExperience",
@@ -210,7 +220,7 @@ const RULES: Rule[] = [
   },
   {
     test: /\b(badminton|shuttle(cock)?|racket|racquet)\b/i,
-    answer: () => ({ text: `${INTERESTS.badminton} Bring a racket.` }),
+    answer: () => ({ text: `${INTERESTS.badminton} Bring a racket anyway.` }),
   },
   {
     test: /\b(gym|lift(ing)?|workout|training|fitness|weights)\b/i,
@@ -225,6 +235,10 @@ const RULES: Rule[] = [
     answer: () => ({ text: INTERESTS.coffee }),
   },
   {
+    test: /\b(cursor|claude\s*code|copilot|ai\s*tool(ing|s)?|editor|ide|vibe\s*cod)\b/i,
+    answer: () => ({ text: INTERESTS.tech }),
+  },
+  {
     test: /\b(chess)\b/i,
     answer: () => ({ text: INTERESTS.chess }),
   },
@@ -233,8 +247,12 @@ const RULES: Rule[] = [
     answer: () => ({ text: INTERESTS.investing }),
   },
   {
-    test: /\b(read(s|ing)?|books?|travel(ling|ing)?)\b/i,
+    test: /\b(read(s|ing)?|books?)\b/i,
     answer: () => ({ text: INTERESTS.reading }),
+  },
+  {
+    test: /\b(travel(ling|ing)?|trips?|europe|flights?|holiday|vacation)\b/i,
+    answer: () => ({ text: INTERESTS.travel }),
   },
   {
     test: /\b(toronto|based|live|located|location|city|where\s+(is|are)\s+(he|you))\b/i,
@@ -246,13 +264,17 @@ const RULES: Rule[] = [
     // concatenating full sentences produced a run-on, and lowercasing
     // them to fix that mangled "Formula 1" into "formula 1".
     answer: () => ({
-      text: `He watches a ridiculous amount of F1 and NBA. When he's actually moving it's badminton or the gym. Otherwise: chess, cars, reading, travel, and markets.`,
+      text: `Far too much Formula 1 and NBA. Badminton, where he'll tell you he gets smoked, and the gym, permanently. Otherwise: the car market, chess, whatever book promises him a million dollars, and finding an excuse to fly to Europe.`,
     }),
   },
 
   // ── Meta ────────────────────────────────────────────────────────────
   {
-    test: /\b(built\s+(with|using)|tech\s*stack|what\s+is\s+this\s+(site|built)|how\s+(was|did)\s+(this|you)\s+(site\s+)?(made|built)|framework|next\.?js)\b/i,
+    // "what tech is this built on" and "why is this site a chatbot" are
+    // both suggestion chips, so both have to land here rather than in
+    // the fallback — a chip that answers "that's not on the site" makes
+    // the whole chat look broken.
+    test: /\b(built\s+(with|using|on)|tech\s*stack|what\s+tech|what\s+is\s+this\s+(site|built)|how\s+(was|did)\s+(this|you)\s+(site\s+)?(made|built)|framework|next\.?js|why\s+(is|does)\s+this\s+(site|page|thing)|why\s+a\s+chat|chat\s*bot)\b/i,
     answer: () => ({
       text: `Next.js 15 and the Vercel AI SDK, rendered as a spiral-bound journal. This chat answers from a single profile file, so it can't make things up about him.`,
     }),
@@ -264,7 +286,9 @@ const RULES: Rule[] = [
     }),
   },
   {
-    test: /\b(about\s+(you|him|yourself|kyle)|tell\s+me\s+about|who\s+is\s+kyle|your\s+story|his\s+story|bio|introduce)\b/i,
+    // Catch-all for "who is this person" phrasings, including the
+    // "what's his deal" suggestion chip.
+    test: /\b(about\s+(you|him|yourself|kyle)|tell\s+me\s+about|who\s+(is|are)\s+(he|kyle|this\s+guy)|what('?s|\s+is)\s+(his|the)\s+deal|what\s+is\s+he\s+like|your\s+story|his\s+story|bio|introduce)\b/i,
     answer: () => ({
       text: ABOUT_TEXT,
       tool: "showAbout",

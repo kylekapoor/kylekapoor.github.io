@@ -1,36 +1,28 @@
 # Experience
 
-**The one-line rule:** each entry below has a summary line and a role type. Those are the complete answer the bot gives. Repeat them or lightly rephrase — never expand into resume bullets, and never add numbers, responsibilities, or dates that aren't written here.
+**There are no descriptions here, and that is deliberate.** An entry is the company, the title, the type of engineering, and the dates. That is the complete answer — for "what did he do at X" as much as for "where has he worked".
 
-The site does not publish bullet points. If someone asks for more than the summary, point them at /experience or at email.
+The site publishes nothing about what any of the work involved: no bullets, no responsibilities, no metrics. If someone wants more than the role type, point them at /contact — do not reconstruct it, and do not guess from the company or the job title.
 
 ## Forum Asset Management — Software Engineer Intern · FinTech + Applied AI
 *Jun 2026 – Aug 2026 · Toronto*
 
-> AI infrastructure for the investor relations, private equity, and real estate teams.
-
-This is the most recent role. **No further detail is published** — do not elaborate, do not guess at what the work involved beyond that line.
+This is the most recent role.
 
 ## IrisGo — Software Engineer Intern · Applied AI
 *Sep 2025 – Dec 2025 · Palo Alto*
 
-> Built the RAG stack behind an AI document assistant — cut query latency from 3s to under 500ms.
-
 ## Ontario Power Generation — Software Engineer Intern · Full-Stack
 *Sep 2024 – Dec 2024 · Toronto*
 
-> Moved legacy MS Access systems onto ASP.NET MVC and Angular, serving 11K+ API requests a day.
-
 ## Ontario Power Generation — Software Engineer Intern · Data
 *May 2024 – Aug 2024 · Toronto*
-
-> Built the ETL and BI layer for 150+ analysts — dropped critical report runtimes from an hour to two minutes.
 
 ---
 
 ## Shape of the arc
 
-Three internships across four terms: data, then full-stack, then applied AI — and now AI infrastructure in FinTech. If someone asks "what's his background," that arc plus /experience is the answer.
+Four terms, in this order: **data → full-stack → applied AI → FinTech + applied AI**. That progression is on /about in Kyle's own words, and it's the right answer to "what's his background" — the arc, not a description of any single job.
 
 ## Education
 
@@ -46,4 +38,4 @@ Each role has a type — FinTech + Applied AI, Applied AI, Full-Stack, Data. It'
 
 ## Numbers
 
-Every figure above is quoted from Kyle's resume exactly. **Never round them, never restate them as approximations, never invent a new one.** If a number isn't written here, it doesn't exist.
+There are none, on purpose. No figure about any role is published anywhere on this site. **Never state, estimate, or round a metric for Kyle's work** — not throughput, not latency, not team size, not percentages. If someone quotes one at you, you have no way to confirm it; say it isn't published and route them to /contact.

@@ -21,10 +21,12 @@ export const IDENTITY = {
   gradYear: "2028",
   location: "Toronto, Ontario",
   /** What he does, as a standalone sentence. Composed with the school
-   *  and location by callers, so it deliberately doesn't repeat either. */
-  tagline: "I build things that model messy systems.",
+   *  and location by callers, so it deliberately doesn't repeat either.
+   *  Kept in the same register as the /about copy — the bot shouldn't
+   *  sound like a different person than the page. */
+  tagline: "Deep in this era of AI tooling, and building with it constantly.",
   /** The short self-introduction, for when there's room for one line. */
-  elevator: "CS @ Waterloo. I build things that model messy systems.",
+  elevator: "CS @ Waterloo, grew up in Toronto. Building with AI tooling constantly.",
   status: "Seeking 2027 internships.",
 } as const;
 
@@ -47,11 +49,12 @@ export const CONTACT = {
 /**
  * Experience entries.
  *
- * `blurb` is the ONE LINE the bot is allowed to say about an entry —
- * it never elaborates past this, never invents metrics, and never
- * reconstructs "resume bullets" that aren't written here. If you want
- * the bot to say more about a role, lengthen the blurb; don't expect it
- * to fill gaps on its own.
+ * Deliberately no description field. An entry is the company, the
+ * title, the dates and `focus` — the type of engineering — and that is
+ * the whole of what the site and the chatbot will say about a role.
+ * Nothing here can be expanded into resume bullets because nothing here
+ * contains them. If a role needs to say more, the honest fix is a
+ * longer `focus`, not a paragraph the bot then has to be trusted with.
  *
  * To add a real internship: copy an entry, keep the same field shape.
  * `logoText` renders as initials in a sticker frame whenever `logoSrc`
@@ -67,8 +70,6 @@ export type ExperienceEntry = {
   focus: string;
   dates: string;
   location?: string;
-  /** The single line the bot may repeat. Keep it true and keep it short. */
-  blurb: string;
   /**
    * Official company logo, served from /public/logos. Falls back to
    * `logoText` initials when the file isn't there, so an entry can name
@@ -81,7 +82,7 @@ export type ExperienceEntry = {
   url?: string;
 };
 
-/** Newest first. Education anchors the bottom of the list. */
+/** Work only, newest first. School lives in EDUCATION below. */
 export const EXPERIENCE: ExperienceEntry[] = [
   {
     org: "Forum Asset Management",
@@ -89,8 +90,6 @@ export const EXPERIENCE: ExperienceEntry[] = [
     focus: "FinTech + Applied AI",
     dates: "Jun 2026 – Aug 2026",
     location: "Toronto",
-    blurb:
-      "AI infrastructure for the investor relations, private equity, and real estate teams.",
     logoSrc: "/logos/forum.png",
     logoText: "FA",
     logoRotation: -4,
@@ -103,8 +102,6 @@ export const EXPERIENCE: ExperienceEntry[] = [
     focus: "Applied AI",
     dates: "Sep 2025 – Dec 2025",
     location: "Palo Alto",
-    blurb:
-      "Built the RAG stack behind an AI document assistant — cut query latency from 3s to under 500ms.",
     logoSrc: "/logos/irisgo.png",
     logoText: "IG",
     logoRotation: 5,
@@ -117,8 +114,6 @@ export const EXPERIENCE: ExperienceEntry[] = [
     focus: "Full-Stack",
     dates: "Sep 2024 – Dec 2024",
     location: "Toronto",
-    blurb:
-      "Moved legacy MS Access systems onto ASP.NET MVC and Angular, serving 11K+ API requests a day.",
     logoSrc: "/logos/opg.png",
     logoText: "OPG",
     logoRotation: -3,
@@ -131,8 +126,6 @@ export const EXPERIENCE: ExperienceEntry[] = [
     focus: "Data",
     dates: "May 2024 – Aug 2024",
     location: "Toronto",
-    blurb:
-      "Built the ETL and BI layer for 150+ analysts — dropped critical report runtimes from an hour to two minutes.",
     logoSrc: "/logos/opg.png",
     logoText: "OPG",
     logoRotation: 4,
@@ -240,16 +233,20 @@ export const INTERESTS = {
   // Watching vs. doing is a real distinction here and the copy should
   // keep it: F1 and the NBA are spectator obsessions, badminton and the
   // gym are what he actually goes out and does.
-  f1: "Watches a ridiculous amount of Formula 1 — the strategy and the engineering more than the drama.",
+  f1: "Watches far too much Formula 1 — the strategy and the engineering more than the drama.",
   nba: "Watches a lot of NBA, too.",
-  badminton: "Badminton is what he actually plays.",
-  gym: "The gym is the other half of the free time.",
-  cars: "Cars generally, F1 being the sharp end of it.",
+  // His own joke, in his own words on /about. The bot may repeat it
+  // because he wrote it; it may not invent new ones at his expense.
+  badminton: "Plays badminton, and puts his own odds of winning at about 1%.",
+  gym: "Permanently at the gym.",
+  cars: "Cars — he follows the car market more closely than the stock market, and there is a stated plan to own a Ferrari before 25.",
   chess: "Chess.",
-  investing: "Stocks and investing, which is how half his side projects start.",
-  reading: "Reading and travelling when there's a window.",
+  investing: "Markets, mostly as the thing half his side projects start from.",
+  reading: "Reads whatever book claims it'll make him a million dollars by tomorrow.",
+  travel: "Flies to Europe on fairly thin excuses.",
   coffee: "Coffee, in quantity, mostly while waiting for a build to finish.",
-  city: "Toronto — walks downtown, watches the traffic, thinks about systems.",
+  tech: "Deep in this era of AI tooling — realistically in Cursor or Claude Code at any hour of the day.",
+  city: "Grew up in Toronto. Walks downtown, watches the traffic, thinks about systems.",
 } as const;
 
 /**

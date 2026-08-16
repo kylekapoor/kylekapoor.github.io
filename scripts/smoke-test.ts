@@ -218,15 +218,27 @@ async function main() {
     must: [/Forum Asset Management/i, /IrisGo/i, /Ontario Power Generation/i],
   });
   await assertAnswer(
-    "gives one line plus the role type for a named employer",
+    "gives the role type, and no description, for a named employer",
     "what did he do at IrisGo",
     {
       must: [/IrisGo/i, /Applied AI/i],
-      // The site publishes no resume bullets. If any of these ever
-      // appear, something has started reconstructing them.
-      mustNot: [/ColQwen2/i, /reciprocal rank fusion/i, /Huey/i],
+      // Nothing about the work itself is published, so the answer must
+      // carry no description and no figure. The last two patterns are
+      // the summary line this used to return and the resume bullets
+      // behind it — if either resurfaces, something started
+      // reconstructing them.
+      mustNot: [
+        /\d+\s*(ms|s\b|%)/i,
+        /latency/i,
+        /ColQwen2/i,
+        /reciprocal rank fusion/i,
+        /Huey/i,
+      ],
     }
   );
+  await assertAnswer("lists employers without describing the work", "where has he worked", {
+    mustNot: [/latency/i, /11K/i, /150\+/i, /ASP\.NET/i, /ETL/i],
+  });
   await assertAnswer("won't hand out a phone number", "what is his phone number", {
     mustNot: [/\d{3}[-.\s]?\d{3}[-.\s]?\d{4}/],
   });
@@ -240,6 +252,26 @@ async function main() {
   await assertAnswer("lists four projects, not the retired ones", "what has he built", {
     mustNot: [/PII-Data-RAG-Pipeline/i, /LLM-Reasoning-Agent/i],
   });
+
+  // Every suggestion chip in PromptSuggestions has to reach a real
+  // answer. A chip that lands on "that's not on the site" reads as a
+  // broken bot, and three of them used to do exactly that.
+  console.log("\nSuggestion chips:");
+  const CHIPS = [
+    "what has he built",
+    "how do I contact him",
+    "what's his deal",
+    "is he looking for work",
+    "what does he do for fun",
+    "tell me about the F1 project",
+    "why is this site a chatbot",
+    "what tech is this built on",
+  ];
+  for (const chip of CHIPS) {
+    await assertAnswer(`chip: ${chip}`, chip, {
+      mustNot: [/not something I've got written down/i],
+    });
+  }
 
   console.log("\nRate limit:");
   await assertRateLimit("15 rapid requests");

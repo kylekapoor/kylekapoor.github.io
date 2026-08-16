@@ -15,14 +15,14 @@ import {
 } from "../primitives/PageAnimateContext";
 import { Sticker } from "../primitives/Sticker";
 
-// Short on purpose. The work paragraph names where and what type of
-// engineering, and nothing about what any of the jobs involved — the
-// experience page says exactly as much, so the two can't drift into
-// different stories.
+// Kyle's own words, tidied — not a bio written *about* him. The middle
+// paragraph is the career arc as role types only, oldest first; which
+// company each of those happened at is the experience page's job, and
+// keeping the two apart is what stops the site telling one story twice.
 const BODY_PARAGRAPHS = [
-  "Computer Science at the University of Waterloo, based in Toronto. I like problems where the real-world version is messier than the textbook one.",
-  "Where I've worked:\n\u2192 Forum Asset Management \u2014 FinTech + applied AI\n\u2192 IrisGo \u2014 applied AI, Palo Alto\n\u2192 Ontario Power Generation \u2014 full-stack, then data\nSide projects are all on GitHub. Open /projects and click any card.",
-  "I watch a ridiculous amount of F1 and NBA. When I'm actually moving, it's badminton or the gym. Otherwise: chess, cars, reading, travel, and markets.",
+  "Grew up in Toronto, third-year CS at the University of Waterloo. Obsessed with this era of tech \u2014 catch me in Cursor or Claude Code at basically any hour, thinking a bit too hard about how to get the Ferrari before 25.",
+  "Career path so far:\n\u2192 data\n\u2192 full-stack\n\u2192 applied AI\n\u2192 FinTech + applied AI\nSide projects are all on GitHub. Open /projects and click any card.",
+  "Outside of that: far too much Formula 1 and NBA, badminton (99% chance I get smoked), permanently at the gym, watching the car market more closely than the stock market, reading whatever book swears it'll make me $1M by tomorrow, or booking another flight to Europe for no real reason.",
 ];
 
 // Photos + slot positions split into two lists so the site can randomly
@@ -169,7 +169,7 @@ const MARGIN_NOTES: Array<{
     delayMs: 1800,
   },
   {
-    text: "badminton:\nask me about my smash",
+    text: "gym:\nask me about skipping legs",
     top: "calc(var(--line) * 18)",
     left: "4%",
     rotate: 5,
