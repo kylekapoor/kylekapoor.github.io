@@ -220,15 +220,15 @@ export const PORTRAIT: { src: string; caption: string } | null = null;
 /**
  * The taped photo on the cover, captioned "that's me".
  *
- * Wants a **full-length / zoomed-out** shot — the frame is small and a
- * tight headshot loses its context at this size. The file lives at
- * `public/photos/kyle-banff.jpg`; without it the cover simply doesn't
- * render the scrap (see PhotoScrap in landing/Scraps).
- * Portrait orientation fits best; the frame centre-crops rather than
- * squashing. Set to `null` to drop it from the cover.
+ * The file lives at `public/photos/kyle.jpg`; without it the cover
+ * simply doesn't render the scrap (see PhotoScrap in landing/Scraps).
+ * The frame's well is 4:5 and centre-crops rather than squashing, and
+ * the file wants to be about 3x its painted size (~384px wide) — hand a
+ * much larger one to the browser and it downscales it soft.
+ * Set to `null` to drop it from the cover.
  */
 export const COVER_PHOTO: { src: string; caption: string } | null = {
-  src: "/photos/kyle-banff.jpg",
+  src: "/photos/kyle.jpg",
   caption: "that's me",
 };
 
