@@ -472,7 +472,12 @@ function TodoList({
         // full width of the screen and its descenders reach past 52% —
         // the list has to start below it, not beside it.
         top: isMobile ? "62%" : "52%",
-        width: 160,
+        // Sized to the longest item rather than a fixed 160px, which
+        // wrapped "crash out over leetcode" onto a second line and left
+        // its checkbox floating beside the gap. Capped so a longer entry
+        // can't run off a phone screen.
+        width: "max-content",
+        maxWidth: "min(72vw, 260px)",
         transform: "rotate(-2deg)",
         pointerEvents: "auto",
         fontFamily: "var(--font-script)",
@@ -535,6 +540,9 @@ function TodoItem({
         gap: 8,
         alignItems: "center",
         marginBottom: 3,
+        // One line per item — a wrapped item breaks the checkbox's
+        // vertical alignment as well as the list's rhythm.
+        whiteSpace: "nowrap",
         textDecoration: done ? "line-through" : "none",
         cursor: "pointer",
         userSelect: "none",
