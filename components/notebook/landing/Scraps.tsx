@@ -288,7 +288,10 @@ function PhotoScrap({ ready }: { ready: boolean }) {
       // annotation (which starts at 35% height), clear of the todo list
       // further down.
       position={{ left: "6%", top: "15%" }}
-      size={{ width: 112, height: 136 }}
+      // Tall enough that the image well lands near 4:5 once the padding
+      // and the caption strip are taken out — a full-length shot in a
+      // near-square well gets cropped to a torso.
+      size={{ width: 112, height: 152 }}
     >
       <div
         style={
