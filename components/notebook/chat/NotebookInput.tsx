@@ -1,10 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import { useIsMobile } from "@/lib/hooks/useIsMobile";
 import { SlashCommandRow } from "./SlashCommandRow";
-import { PromptSuggestions } from "./PromptSuggestions";
 
 /**
  * Fixed-bottom chat input. Two static layouts by `compact`:
@@ -13,22 +11,17 @@ import { PromptSuggestions } from "./PromptSuggestions";
  *   - Sidebar: no sender label, tighter padding, compact placeholder, smaller
  *     paper-plane send button (14px).
  *
- * `AnimatePresence` kept on the prompt-suggestion chip row only — that one
- * fades out smoothly when the user sends their first message (within the same
- * rendered page). Everything else is static; whole-page flips handle
- * compact↔full transitions via FlipStage.
+ * Static in both layouts — whole-page flips handle compact↔full
+ * transitions via FlipStage.
  */
 export function NotebookInput({
   onSubmit,
   compact = false,
   autoFocus = true,
-  showSuggestions = false,
 }: {
   onSubmit: (text: string) => void;
   compact?: boolean;
   autoFocus?: boolean;
-  /** Show the random-prompt chip row above the slash commands — only on empty-chat state. */
-  showSuggestions?: boolean;
 }) {
   const isMobile = useIsMobile();
   const [val, setVal] = useState("");
@@ -82,36 +75,15 @@ export function NotebookInput({
           pointerEvents: "auto",
         }}
       >
-        {/* Prompt suggestion chips fade + slide away when user sends first
-            message. Stays as AnimatePresence because it's an intra-page
-            mount/unmount, not a page-mode transition. */}
-        <AnimatePresence initial={false}>
-          {showSuggestions && (
-            <motion.div
-              key="prompt-suggestions"
-              initial={{ opacity: 0, y: -4, height: 0 }}
-              animate={{ opacity: 1, y: 0, height: "auto" }}
-              exit={{ opacity: 0, y: 6, height: 0 }}
-              transition={{
-                duration: 0.3,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-              style={{ overflow: "hidden" }}
-            >
-              <PromptSuggestions onSelect={submit} compact={compact} />
-            </motion.div>
-          )}
-        </AnimatePresence>
-
         <SlashCommandRow onDispatch={submit} compact={compact} />
 
-        {/* Input row layout matches the SlashCommandRow / PromptSuggestions
-            rows directly above it (natural label width, gap 18) so the
-            three rows form a clean visual rhythm. NotebookMessage's
+        {/* Input row layout matches the SlashCommandRow directly above
+            it (natural label width, gap 18) so the two rows form a clean
+            visual rhythm. NotebookMessage's
             label column (width 64) is intentionally not mirrored here —
             chat history scrolls separately so the slight misalignment
             is invisible, and matching it would create a visibly wider
-            label-to-content gap on this row vs the chip rows. */}
+            label-to-content gap on this row vs the command row. */}
         <div
           style={{
             position: "relative",

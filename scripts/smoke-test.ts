@@ -253,26 +253,6 @@ async function main() {
     mustNot: [/PII-Data-RAG-Pipeline/i, /LLM-Reasoning-Agent/i],
   });
 
-  // Every suggestion chip in PromptSuggestions has to reach a real
-  // answer. A chip that lands on "that's not on the site" reads as a
-  // broken bot, and three of them used to do exactly that.
-  console.log("\nSuggestion chips:");
-  const CHIPS = [
-    "what has he built",
-    "how do I contact him",
-    "what's his deal",
-    "is he looking for work",
-    "what does he do for fun",
-    "tell me about the F1 project",
-    "why is this site a chatbot",
-    "what tech is this built on",
-  ];
-  for (const chip of CHIPS) {
-    await assertAnswer(`chip: ${chip}`, chip, {
-      mustNot: [/not something I've got written down/i],
-    });
-  }
-
   console.log("\nRate limit:");
   await assertRateLimit("15 rapid requests");
 

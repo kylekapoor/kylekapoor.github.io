@@ -62,7 +62,7 @@ function projectLines(): string {
 }
 
 const ABOUT_TEXT =
-  `Third-year ${IDENTITY.program} at the ${IDENTITY.school}, grew up in Toronto. ` +
+  `3rd year ${IDENTITY.program} at the ${IDENTITY.school}, grew up in Toronto. ` +
   `${IDENTITY.tagline} ${IDENTITY.status}`;
 
 const CONTACT_TEXT =

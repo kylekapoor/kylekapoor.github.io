@@ -165,8 +165,6 @@ export function ChatPage({
         onSubmit={onSubmit}
         compact={compact}
         autoFocus={autoFocus}
-        // Prompt chips only on the empty-chat state.
-        showSuggestions={!messages.some((m) => m.role === "user")}
       />
     </div>
   );
