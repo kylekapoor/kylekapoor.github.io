@@ -20,7 +20,7 @@ import { HomePage } from "./home/HomePage";
 import { ContentPage } from "./content/ContentPage";
 
 const WELCOME_BUBBLES = [
-  "You've opened Kyle's journal. I'm KyleBot — I answer from what's written in here, so I won't make anything up.",
+  "You've opened Kyle's journal. I'm KyleBot — handling the easy questions while he works.",
   "Ask anything about him, or try the slash commands below.",
 ];
 

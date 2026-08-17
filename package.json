@@ -11,7 +11,8 @@
     "logs:errors": "tsx --env-file=.env.local scripts/logs-recent.ts --errors",
     "smoke": "tsx scripts/smoke-test.ts",
     "build:static": "node scripts/build-static.mjs",
-    "serve:static": "npx --yes serve out -l 4173"
+    "serve:static": "npx --yes serve out -l 4173",
+    "chat:coverage": "tsx scripts/chat-coverage.ts"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^1.2.12",

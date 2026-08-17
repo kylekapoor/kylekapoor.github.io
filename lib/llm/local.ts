@@ -76,10 +76,10 @@ const CONTACT_TEXT =
  * by the repo name in lib/profile.ts.
  */
 const PROJECT_KEYWORDS: Record<string, RegExp> = {
-  "f1-tyre-strategy": /\b(f1|formula\s*1|tyres?|tires?|pit|race\s*strateg|degradation)\b/i,
-  "drift-stream": /\b(drift|streaming|psi|retrain|inference\s*pipeline)\b/i,
-  "redteam-sandbox": /\b(red[\s-]?team|adversarial|guardrails?|jailbreak|genetic)\b/i,
-  "bl-robo-advisor": /\b(black[\s-]?litterman|portfolio|robo[\s-]?advisor|quant|market\s*views?)\b/i,
+  "f1-tyre-strategy": /\b(f1|formula\s*1|tyres?|tires?|pit|race\s*strateg|degradation|stint)\b/i,
+  "drift-stream": /\b(drift|streaming|psi|retrain|inference\s*pipeline|fraud|card\s*transactions?|kafka)\b/i,
+  "redteam-sandbox": /\b(red[\s-]?team|adversarial|guardrails?|jailbreak|genetic|password|prompt\s*injection)\b/i,
+  "bl-robo-advisor": /\b(black[\s-]?litterman|portfolio|robo[\s-]?advisor|quant|market\s*views?|sec\s*filings?|stock\s*pick)\b/i,
 };
 
 /**
@@ -178,9 +178,50 @@ const RULES: Rule[] = [
     }),
   },
 
+  // ── Meta ────────────────────────────────────────────────────────────
+  // Above skills and projects on purpose: both of these questions
+  // are about the site, and both contain words ("made", "built")
+  // that the projects rule claims — asked lower down they came back
+  // with a list of repos.
+  {
+    // "what tech is this built on" and "why is this site a chatbot" are
+    // both suggestion chips, so both have to land here rather than in
+    // the fallback — a chip that answers "that's not on the site" makes
+    // the whole chat look broken.
+    test: /\b(this\s+(site|page)\s+(is\s+)?built|what\s+tech(nology)?\s+(is|was)\s+this|what\s+is\s+this\s+(site|built)|how\s+(was|did)\s+(this|you)\s+(site\s+)?(made|built)|who\s+(made|built|wrote)\s+(this|the\s+site)|framework|next\.?js|why\s+(is|does)\s+this\s+(site|page|thing)|why\s+a\s+chat|chat\s*bot)\b/i,
+    answer: () => ({
+      text: `Next.js 15 and the Vercel AI SDK, rendered as a spiral-bound journal. This chat answers from a single profile file, so it can't make things up about him.`,
+    }),
+  },
+  {
+    test: /\b(who\s+(are|r)\s+(you|u)|are\s+you\s+(a\s+)?(bot|ai|real|human)|is\s+this\s+(a\s+)?(bot|ai))\b/i,
+    answer: () => ({
+      text: `A small bot that only knows what's written on Kyle's profile page. For anything past that, email him — ${CONTACT.email}.`,
+    }),
+  },
+  // Skills. Sits above the projects rule because "does he know PyTorch"
+  // names no project and would otherwise fall through — which is exactly
+  // what it used to do. The answer is assembled from published facts
+  // only: the stack printed on each project card and the type of each
+  // role. It deliberately does not claim a proficiency level for
+  // anything, because the site doesn't state one.
+  {
+    test: /\b(skills?|tech\s*stack|stack|languages?|frameworks?|tools?|good\s+at|strengths?|know\s+(how\s+to\s+)?\w+|familiar|experienced\s+(in|with)|front[\s-]?end|back[\s-]?end|full[\s-]?stack|machine\s+learning|\bml\b|data\s+science|python|pytorch|tensorflow|langchain|kafka|docker|sql|react|typescript)\b/i,
+    answer: () => ({
+      text:
+        `What the site publishes: the stack on each project — ${PROJECTS.map(
+          (p) => `${p.name} (${p.stack})`,
+        ).join(", ")} — and the kind of work each role was: ${[
+          ...new Set(EXPERIENCE.map((e) => e.focus)),
+        ].join(", ")}. ` +
+        `The repos are public if you want the detail, and email him for anything past that — ${CONTACT.email}.`,
+      tool: "showProjects",
+    }),
+  },
+
   // ── Navigation-ish topics ───────────────────────────────────────────
   {
-    test: /\b(projects?|repos?|repositories|github|source\s*code|side\s*projects?|what\s+(has|have)\s+(he|you)\s+built|portfolio\s+pieces?)\b/i,
+    test: /\b(projects?|repos?|repositories|github|source\s*code|side\s*projects?|buil[dt]|building|made|working\s+on|portfolio\s+pieces?)\b/i,
     answer: () => ({
       text: `Here's what he's built:\n${projectLines()}\n\nEvery card on the projects page opens the repo on GitHub.`,
       tool: "showProjects",
@@ -193,20 +234,23 @@ const RULES: Rule[] = [
       tool: "showContact",
     }),
   },
+  // School sits above work history: "where does he go to school"
+  // matches the experience rule's `where does he ...` clause, so asked
+  // in the other order it came back with a list of internships.
   {
-    test: /\b(experience|background|resume|cv|work\s*history|worked|jobs?|career|where\s+(has|did)\s+(he|you))\b/i,
+    test: /\b(school|university|uni|college|waterloo|degree|stud(y|ies|ying|ent)|major|classes|course|what\s+year|graduat(e|es|ing|ion)|grad\s+year)\b/i,
+    answer: () => ({
+      text: `${EDUCATION.degree} at the ${EDUCATION.school}, ${EDUCATION.dates}. ${IDENTITY.status}`,
+      tool: "showExperience",
+    }),
+  },
+  {
+    test: /\b(experience|background|resume|cv|work(s|ed|ing)?|work\s*history|employ(er|ed|ment)|compan(y|ies)|jobs?|career|internships?|interned|what\s+kind\s+of\s+(engineer|developer|dev)|where\s+(has|have|did|does|do)\s+(he|you))\b/i,
     // Company, type of work, dates — nothing about what the work was.
     // Kyle's resume bullets are not on the site and the bot has no copy
     // of them to misquote.
     answer: () => ({
       text: `Here's the short version:\n${experienceLines()}`,
-      tool: "showExperience",
-    }),
-  },
-  {
-    test: /\b(school|university|waterloo|degree|studying|student|major|classes|course)\b/i,
-    answer: () => ({
-      text: `${EDUCATION.degree} at the ${EDUCATION.school}, ${EDUCATION.dates}. ${IDENTITY.status}`,
       tool: "showExperience",
     }),
   },
@@ -259,7 +303,7 @@ const RULES: Rule[] = [
     answer: () => ({ text: `${IDENTITY.location}. ${INTERESTS.city}` }),
   },
   {
-    test: /\b(hobb(y|ies)|fun|weekend|free\s*time|outside\s+of\s+work|interests?|for\s+fun|what\s+do\s+you\s+do\s+when)\b/i,
+    test: /\b(hobb(y|ies)|fun|weekend|free\s*time|outside\s+of\s+work|interests?|into|sports?|likes\b|enjoys\b|(?:does|do|did)\s+(?:he|you)\s+(?:like|enjoy)|for\s+fun|what\s+do\s+you\s+do\s+when)\b/i,
     // Written out rather than stitched from the INTERESTS strings —
     // concatenating full sentences produced a run-on, and lowercasing
     // them to fix that mangled "Formula 1" into "formula 1".
@@ -267,28 +311,10 @@ const RULES: Rule[] = [
       text: `Far too much Formula 1 and NBA. Badminton, where he'll tell you he gets smoked, and the gym, permanently. Otherwise: the car market, chess, whatever book promises him a million dollars, and finding an excuse to fly to Europe.`,
     }),
   },
-
-  // ── Meta ────────────────────────────────────────────────────────────
   {
-    // "what tech is this built on" and "why is this site a chatbot" are
-    // both suggestion chips, so both have to land here rather than in
-    // the fallback — a chip that answers "that's not on the site" makes
-    // the whole chat look broken.
-    test: /\b(built\s+(with|using|on)|tech\s*stack|what\s+tech|what\s+is\s+this\s+(site|built)|how\s+(was|did)\s+(this|you)\s+(site\s+)?(made|built)|framework|next\.?js|why\s+(is|does)\s+this\s+(site|page|thing)|why\s+a\s+chat|chat\s*bot)\b/i,
-    answer: () => ({
-      text: `Next.js 15 and the Vercel AI SDK, rendered as a spiral-bound journal. This chat answers from a single profile file, so it can't make things up about him.`,
-    }),
-  },
-  {
-    test: /\b(who\s+(are|r)\s+(you|u)|are\s+you\s+(a\s+)?(bot|ai|real|human)|is\s+this\s+(a\s+)?(bot|ai))\b/i,
-    answer: () => ({
-      text: `A small bot that only knows what's written on Kyle's profile page. For anything past that, email him — ${CONTACT.email}.`,
-    }),
-  },
-  {
-    // Catch-all for "who is this person" phrasings, including the
-    // "what's his deal" suggestion chip.
-    test: /\b(about\s+(you|him|yourself|kyle)|tell\s+me\s+about|who\s+(is|are)\s+(he|kyle|this\s+guy)|what('?s|\s+is)\s+(his|the)\s+deal|what\s+is\s+he\s+like|your\s+story|his\s+story|bio|introduce)\b/i,
+    // Catch-all for "who is this person" phrasings. Last, so a question
+    // with a specific topic in it reaches that topic's rule first.
+    test: /\b(about\s+(you|him|yourself)|tell\s+me\s+about|who\s+(is|are)\s+(he|this\s+guy)|what('?s| is)\s+(his|the)\s+deal|what('?s| is)\s+he\s+like|your\s+story|his\s+story|bio|introduce)\b/i,
     answer: () => ({
       text: ABOUT_TEXT,
       tool: "showAbout",
@@ -309,9 +335,25 @@ function fallbackAnswer(): Answer {
   };
 }
 
+/**
+ * Rewrite a question into the shape the rules expect.
+ *
+ * Nearly every rule was written around pronouns — "where has he worked"
+ * — so anyone who typed Kyle's name instead ("where did Kyle work")
+ * fell through to the fallback. Rather than doubling every pattern, the
+ * name folds into the pronoun here, once.
+ */
+function normalize(message: string): string {
+  return message
+    .replace(/\bkyle['’]s\b/gi, "his")
+    .replace(/\bkyle\b/gi, "he")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 /** Resolve a user message to an answer. Exported for the smoke test. */
 export function answerFor(message: string): Answer {
-  const text = message.trim();
+  const text = normalize(message);
   if (!text) return fallbackAnswer();
 
   const specific = specificProjectAnswer(text);
