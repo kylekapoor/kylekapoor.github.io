@@ -56,7 +56,11 @@ export function SlashCommandRow({
           style={{
             background: "transparent",
             border: "none",
-            padding: 0,
+            // Vertical padding only: it lifts a 21px-tall target to ~37px
+            // for a thumb without spacing the words apart, since the
+            // dashed underline is the affordance and horizontal padding
+            // would detach it from the text.
+            padding: "8px 0",
             cursor: "pointer",
             fontFamily: "var(--font-script)",
             fontSize: compact ? "var(--fs-chip)" : "var(--fs-script)",

@@ -32,17 +32,19 @@ export function CoverBackButton() {
         // sits at 1.76 × --line, so baseline target is 1.57 × --line.
         // With lineHeight:1, Caveat's baseline sits ~0.82 × fontSize
         // below the element's top.
-        top: "calc(var(--line) * 1.57 - var(--fs-script) * 0.82)",
+        top: "calc(var(--line) * 1.57 - var(--fs-script) * 0.82 - 12px)",
         // Sit just inside the red margin rule. Content pages use
         // `3% + 28px` because they're inside a narrower offset pane;
         // chat home is full-viewport, so we align with the chat-text
         // indent (12% + 20px) to land in the same visual column as
         // message text — which is also just to the right of the
         // vertical margin at ~12% viewport width.
-        left: "calc(12% + var(--pad-content-lg))",
+        left: "calc(12% + var(--pad-content-lg) - 12px)",
         background: "transparent",
         border: "none",
-        padding: 0,
+        // Padding grows the tap target from 18px tall to ~42px; the
+        // negative offsets above keep the ink itself on the rule.
+        padding: 12,
         display: "inline-flex",
         alignItems: "baseline",
         gap: 16,

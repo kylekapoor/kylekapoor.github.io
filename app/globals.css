@@ -131,9 +131,12 @@
   :root {
     --line: 28px;
 
-    --fs-kbd: 9px;
-    --fs-meta: 10px;
-    --fs-hint: 11px;
+    /* Nothing below 11px on a phone. The audit found 9px "esc" badges
+       and 9px project meta ("Python", "github ↗") — legible on a
+       desktop monitor at arm's length, squint-worthy at 393px. */
+    --fs-kbd: 11px;
+    --fs-meta: 11px;
+    --fs-hint: 12px;
     --fs-input: 14px;
     --fs-chip: 14px;
     --fs-script: 18px;

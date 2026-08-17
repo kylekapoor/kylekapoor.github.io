@@ -59,7 +59,7 @@ export function Scraps({
           <TapedCard ready={ready} isMobile={isMobile} />
           <StickyNote ready={ready} isMobile={isMobile} />
           <TodoList ready={ready} isMobile={isMobile} />
-          {!isMobile && <PhotoScrap ready={ready} />}
+          <PhotoScrap ready={ready} isMobile={isMobile} />
         </>
       )}
       {showAnnotations && (
@@ -271,9 +271,16 @@ function TapedCard({
  * before the image exists: add public/photos (see COVER_PHOTO in
  * lib/profile.ts) and it appears with no code change.
  *
- * Desktop only. The phone cover has no whitespace to spare.
+ * On a phone it shrinks and moves to the band under the date, left of
+ * the taped card — the one pocket of the phone cover nothing else uses.
  */
-function PhotoScrap({ ready }: { ready: boolean }) {
+function PhotoScrap({
+  ready,
+  isMobile = false,
+}: {
+  ready: boolean;
+  isMobile?: boolean;
+}) {
   const photo = useImageFallback();
   if (!COVER_PHOTO) return null;
 
@@ -284,15 +291,21 @@ function PhotoScrap({ ready }: { ready: boolean }) {
       maxDrift={4}
       stiffnessMs={420}
       ready={ready}
-      // The open band across the top: horizontally between the "hi, I'm"
-      // annotation (~17%) and the JOURNAL kicker (centred), high enough
-      // to clear both, with the date well to its left and the taped card
-      // far right. Nothing else is up here, which is the point.
-      position={{ left: "28%", top: "8%" }}
+      // Desktop: the open band across the top, horizontally between the
+      // "hi, I'm" annotation (~17%) and the JOURNAL kicker (centred),
+      // high enough to clear both. Phone: below the date and left of the
+      // taped card, which is the only pocket of that cover nothing else
+      // occupies.
+      position={
+        isMobile ? { left: "6%", top: 74 } : { left: "28%", top: "8%" }
+      }
       // Tall enough that the image well lands near 4:5 once the padding
-      // and the caption strip are taken out — a full-length shot in a
-      // near-square well gets cropped to a torso.
-      size={{ width: 128, height: 172 }}
+      // and the caption strip are taken out.
+      size={
+        isMobile
+          ? { width: 92, height: 126 }
+          : { width: 128, height: 172 }
+      }
     >
       <div
         style={
@@ -540,7 +553,11 @@ function TodoItem({
         display: "flex",
         gap: 8,
         alignItems: "center",
-        marginBottom: 3,
+        // These are real toggles, so they need a thumb-sized row: the
+        // padding does that, and the reduced margin keeps the list's
+        // overall rhythm close to what it was.
+        padding: "5px 0",
+        marginBottom: 0,
         // One line per item — a wrapped item breaks the checkbox's
         // vertical alignment as well as the list's rhythm.
         whiteSpace: "nowrap",

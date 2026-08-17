@@ -16,11 +16,14 @@ export function PageBackButton({ onClose }: { onClose: () => void }) {
         // Baseline floats 0.19 × --line above rule 1 — matches the
         // sender-label offset in chat home. See CoverBackButton for
         // the full explanation.
-        top: "calc(var(--line) * 1.57 - var(--fs-script) * 0.82)",
-        left: "calc(3% + var(--pad-chrome))",
+        top: "calc(var(--line) * 1.57 - var(--fs-script) * 0.82 - 12px)",
+        left: "calc(3% + var(--pad-chrome) - 12px)",
         background: "transparent",
         border: "none",
-        padding: 0,
+        // Ink stays where the baseline grid wants it; the padding (and
+        // the matching negative offsets above) only grow the hit area,
+        // which was 20px tall — half of what a thumb needs.
+        padding: 12,
         display: "inline-flex",
         alignItems: "baseline",
         gap: 16,

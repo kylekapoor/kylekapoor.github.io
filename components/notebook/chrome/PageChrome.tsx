@@ -1,30 +1,48 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 /**
  * Paper edge shadow on the right + handwritten date top-left.
  * Sits above the paper but below interactive content.
  */
+const MONTHS = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+
 export function PageChrome({ showDate = true }: { showDate?: boolean }) {
-  const [now] = useState(() => {
+  /**
+   * Filled in after mount, deliberately — never during render.
+   *
+   * These pages are prerendered, and on a static host the HTML is
+   * generated once at deploy time. Computing the date while rendering
+   * therefore bakes the *build date* into the file: the cover kept
+   * showing the day the site was last deployed, and drifted further
+   * every day after. It also broke hydration (React #418, text content
+   * mismatch) the moment a visitor arrived on a later day than the
+   * build.
+   *
+   * Reading the clock in an effect means the server emits no date at
+   * all and the browser fills in today's, so it is always correct and
+   * there is nothing for hydration to disagree with. The fade-in covers
+   * the one frame where it's absent.
+   */
+  const [now, setNow] = useState<string | null>(null);
+  useEffect(() => {
     const d = new Date();
-    const months = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ];
-    return `${months[d.getMonth()]} ${d.getDate()}`;
-  });
+    setNow(`${MONTHS[d.getMonth()]} ${d.getDate()}`);
+  }, []);
 
   return (
     <div
@@ -51,7 +69,7 @@ export function PageChrome({ showDate = true }: { showDate?: boolean }) {
         }}
       />
 
-      {showDate && (
+      {showDate && now && (
         <div
           style={{
             position: "absolute",

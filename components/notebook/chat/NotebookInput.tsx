@@ -133,7 +133,11 @@ export function NotebookInput({
               }
               style={{
                 width: "100%",
-                padding: 0,
+                // Vertical padding only — the underline is the input's
+                // visual edge, so horizontal padding would shift the
+                // caret away from it. Takes the row past 40px on a
+                // phone without moving anything visually.
+                padding: "8px 0",
                 background: "transparent",
                 border: "none",
                 outline: "none",
@@ -202,8 +206,10 @@ function SendButton({
       style={{
         background: "transparent",
         border: "none",
-        // Keep the click area generous (padding) without bloating visual size.
-        padding: 4,
+        // Keep the click area generous (padding) without bloating visual
+        // size. 10px takes the 18px icon to a ~38px target — the icon
+        // itself is unchanged.
+        padding: 10,
         cursor: disabled ? "not-allowed" : "pointer",
         color: "var(--color-ink)",
         opacity,

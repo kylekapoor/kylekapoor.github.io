@@ -233,7 +233,12 @@ export function ProjectsPage({
             <div
               style={{
                 position: "relative",
-                width: cardWidth,
+                // Fluid below ~390px: at 360 the fixed 240 pushed the
+                // next arrow 4px off-screen. 152 is the arrows, their
+                // gaps and the page's own padding.
+                width: isMobile
+                  ? `min(${cardWidth}px, calc(100vw - 152px))`
+                  : cardWidth,
                 height: cardHeight,
                 perspective: "1800px",
                 flexShrink: 0,
