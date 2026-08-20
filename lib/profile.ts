@@ -220,15 +220,25 @@ export const PORTRAIT: { src: string; caption: string } | null = null;
 /**
  * The taped photo on the cover, captioned "that's me".
  *
- * The file lives at `public/photos/kyle.jpg`; without it the cover
- * simply doesn't render the scrap (see PhotoScrap in landing/Scraps).
- * The frame's well is 4:5 and centre-crops rather than squashing, and
- * the file wants to be about 3x its painted size (~384px wide) — hand a
- * much larger one to the browser and it downscales it soft.
- * Set to `null` to drop it from the cover.
+ * `widths` are the rungs the browser can choose from — the frame paints
+ * at 128 CSS px (92 on a phone), so 256 serves a 2x screen, 512 a 3x
+ * phone or 2x at 200% browser zoom, 768 the extremes. Handing over one
+ * fixed file instead is what made this look soft: too small and the
+ * browser upscales it, too large and its downscale filter mushes the
+ * detail. Files live at `public/photos/kyle-<width>.jpg`; without them
+ * the cover simply doesn't render the scrap (PhotoScrap in
+ * landing/Scraps).
+ *
+ * The well is 4:5 and centre-crops rather than squashing. Set to `null`
+ * to drop the photo from the cover.
  */
-export const COVER_PHOTO: { src: string; caption: string } | null = {
-  src: "/photos/kyle.jpg",
+export const COVER_PHOTO: {
+  srcPattern: string;
+  widths: number[];
+  caption: string;
+} | null = {
+  srcPattern: "/photos/kyle-{w}.jpg",
+  widths: [256, 512, 768],
   caption: "that's me",
 };
 

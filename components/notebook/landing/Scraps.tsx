@@ -282,7 +282,11 @@ function PhotoScrap({
   isMobile?: boolean;
 }) {
   const photo = useImageFallback();
-  if (!COVER_PHOTO) return null;
+  // Bind once: TypeScript's narrowing of the module-level constant is
+  // lost inside the srcSet callback below.
+  const def = COVER_PHOTO;
+  if (!def) return null;
+  const srcFor = (w: number) => asset(def.srcPattern.replace("{w}", String(w)));
 
   return (
     <MagneticScrap
@@ -337,8 +341,15 @@ function PhotoScrap({
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             ref={photo.ref}
-            src={asset(COVER_PHOTO.src)}
-            alt={COVER_PHOTO.caption}
+            // srcset + sizes, not one fixed file. The frame is small, so
+            // a single large source got downscaled ~6x by the browser
+            // and came out soft, while a single small one blurred the
+            // moment anyone zoomed in. Handing over the rungs lets the
+            // browser pick per device pixel ratio and zoom level.
+            src={srcFor(def.widths[0])}
+            srcSet={def.widths.map((w) => `${srcFor(w)} ${w}w`).join(", ")}
+            sizes={isMobile ? "92px" : "128px"}
+            alt={def.caption}
             onError={photo.onError}
             draggable={false}
             style={{
@@ -360,7 +371,7 @@ function PhotoScrap({
               padding: "5px 0 7px",
             }}
           >
-            {COVER_PHOTO.caption}
+            {def.caption}
           </div>
         </div>
         <TapeStrip

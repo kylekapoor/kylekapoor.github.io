@@ -32,7 +32,15 @@ const BODY_PARAGRAPHS = [
 type Photo = {
   src: string;
   caption: string;
-  /** Shown if `src` 404s. Lets the portrait be wired up before the image
+  /**
+   * Wider rungs of the same photo. The frames paint at ~205px, so 448
+   * covers a 2x screen and 768 covers 3x or a zoomed-in browser; handing
+   * the browser one fixed file is what made the cover photo look soft.
+   */
+  srcSetWidths?: number[];
+  /** `src` with the width substituted, e.g. "/photos/track-{w}.jpg". */
+  srcPattern?: string;
+  /** Shown if `src` 404s. Lets a photo be wired up before the image
    *  file exists without ever rendering a broken frame. */
   fallbackSrc?: string;
   /** Caption to use once the fallback is showing. */
@@ -53,10 +61,40 @@ type PolaroidSlot = {
 // illustration steps aside — keeping the count at three means no slot
 // positions have to move, so adding a real photo can't reopen the
 // text-overlap problem the slot geometry below is tuned to avoid.
+// Photographs, not drawings. Each matches the caption above it and the
+// page's palette: Toronto at dusk with the tower lit, an F1 car in the
+// wet, a shuttlecock on the strings. All three got the same light grade
+// — a nudge toward blue, a touch of contrast, slightly less saturation —
+// so three photos by three photographers read as one wall of pictures
+// rather than a stock-image grab bag.
+//
+// All CC0 / public domain, so no attribution is required, but the
+// sources are recorded here anyway:
+//   downtown, late     Wikimedia Commons, CC0
+//                      https://commons.wikimedia.org/w/index.php?curid=174480273
+//   sunday, lights out rawpixel, CC0
+//                      https://www.rawpixel.com/image/6111692
+//   best two of three  rawpixel, CC0
+//                      https://www.rawpixel.com/image/5914299
 const ILLUSTRATIONS: Photo[] = [
-  { src: "/photos/track.svg", caption: "sunday, lights out" },
-  { src: "/photos/badminton.svg", caption: "best two of three" },
-  { src: "/photos/toronto.svg", caption: "downtown, late" },
+  {
+    src: "/photos/track-448.jpg",
+    srcPattern: "/photos/track-{w}.jpg",
+    srcSetWidths: [448, 768],
+    caption: "sunday, lights out",
+  },
+  {
+    src: "/photos/badminton-448.jpg",
+    srcPattern: "/photos/badminton-{w}.jpg",
+    srcSetWidths: [448, 768],
+    caption: "best two of three",
+  },
+  {
+    src: "/photos/toronto-448.jpg",
+    srcPattern: "/photos/toronto-{w}.jpg",
+    srcSetWidths: [448, 768],
+    caption: "downtown, late",
+  },
 ];
 
 const PHOTOS: Photo[] = PORTRAIT
@@ -515,6 +553,12 @@ function useResolvedPhoto(photo: Photo) {
     caption: usingFallback
       ? photo.fallbackCaption ?? photo.caption
       : photo.caption,
+    srcSet:
+      !usingFallback && photo.srcPattern && photo.srcSetWidths
+        ? photo.srcSetWidths
+            .map((w) => `${asset(photo.srcPattern!.replace("{w}", String(w)))} ${w}w`)
+            .join(", ")
+        : undefined,
     imgRef,
     onError: () => setFailed(true),
   };
@@ -531,6 +575,9 @@ function PolaroidPhoto({
     <img
       ref={resolved.imgRef}
       src={resolved.src}
+      srcSet={resolved.srcSet}
+      // The frames are 195-215px wide; one `sizes` covers all three.
+      sizes="205px"
       alt={resolved.caption}
       onError={resolved.onError}
       style={{
