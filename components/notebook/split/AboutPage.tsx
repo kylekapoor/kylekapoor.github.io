@@ -61,19 +61,24 @@ type PolaroidSlot = {
 // illustration steps aside — keeping the count at three means no slot
 // positions have to move, so adding a real photo can't reopen the
 // text-overlap problem the slot geometry below is tuned to avoid.
-// Photographs, not drawings. Each matches the caption above it and the
-// page's palette: Toronto at dusk with the tower lit, an F1 car in the
-// wet, a shuttlecock on the strings. All three got the same light grade
-// — a nudge toward blue, a touch of contrast, slightly less saturation —
-// so three photos by three photographers read as one wall of pictures
-// rather than a stock-image grab bag.
+// Photographs, not drawings. Each matches the caption above it: Toronto
+// at dusk with the tower lit, an empty circuit corner with the kerbs on
+// it, a shuttlecock resting on the strings.
+//
+// All three are graded down hard — brightness pulled, contrast up a
+// little, colour drained a little, a nudge toward blue, then a vignette.
+// The amounts differ per photo (badminton needs the most; its wall is
+// mid-grey and glowed against a near-black page) but they're tuned to
+// land within a few points of the same mean luminance, so three photos
+// from two sources read as one wall of pictures rather than a stock
+// grab bag.
 //
 // All CC0 / public domain, so no attribution is required, but the
 // sources are recorded here anyway:
 //   downtown, late     Wikimedia Commons, CC0
 //                      https://commons.wikimedia.org/w/index.php?curid=174480273
-//   sunday, lights out rawpixel, CC0
-//                      https://www.rawpixel.com/image/6111692
+//   sunday, lights out rawpixel, CC0 — an empty track, no car
+//                      https://www.rawpixel.com/image/8851870
 //   best two of three  rawpixel, CC0
 //                      https://www.rawpixel.com/image/5914299
 const ILLUSTRATIONS: Photo[] = [
