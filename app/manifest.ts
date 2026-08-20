@@ -24,6 +24,10 @@ export default function manifest(): MetadataRoute.Manifest {
         type: "image/svg+xml",
         purpose: "any",
       },
+      // Android's installer wants raster icons at these two sizes and
+      // will fall back to a generic glyph without them.
+      { src: asset("/icon-192.png"), sizes: "192x192", type: "image/png" },
+      { src: asset("/icon-512.png"), sizes: "512x512", type: "image/png" },
     ],
   };
 }

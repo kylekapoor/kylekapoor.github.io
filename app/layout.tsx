@@ -29,8 +29,12 @@ export const metadata: Metadata = {
   creator: "Kyle Kapoor",
   manifest: asset("/manifest.webmanifest"),
   icons: {
+    // SVG first for browsers that take it (it stays crisp at any tab
+    // size); app/favicon.ico is picked up automatically by Next as the
+    // fallback, and carries its own 16/32/48 renders.
     icon: asset("/favicon.svg"),
-    apple: asset("/favicon.svg"),
+    // iOS ignores SVG for home-screen shortcuts — it needs a PNG.
+    apple: asset("/apple-touch-icon.png"),
   },
   openGraph: {
     type: "website",
