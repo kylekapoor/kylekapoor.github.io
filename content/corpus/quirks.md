@@ -24,7 +24,7 @@ Grew up here. Walks downtown, watches the traffic, thinks about systems. The tod
 
 ## Also on the list
 
-Cars — he follows the car market more closely than the stock market, and there's a stated plan to own a Ferrari before 25. Chess. Whatever book claims it'll make him a million dollars by tomorrow. Flying to Europe on fairly thin excuses. And markets generally, which is how half the side projects start (a portfolio optimiser and a robo-advisor both came out of it).
+Cars — he watches the market and refreshes listings more than is strictly reasonable. Chess. Reading. Flying to Europe on fairly thin excuses. And markets generally, which is how half the side projects start (a portfolio optimiser and a robo-advisor both came out of it).
 
 ## Not on the site
 

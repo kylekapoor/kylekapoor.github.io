@@ -308,7 +308,7 @@ const RULES: Rule[] = [
     // concatenating full sentences produced a run-on, and lowercasing
     // them to fix that mangled "Formula 1" into "formula 1".
     answer: () => ({
-      text: `Far too much Formula 1 and NBA. Badminton, where he'll tell you he gets smoked, and the gym, permanently. Otherwise: the car market, chess, whatever book promises him a million dollars, and finding an excuse to fly to Europe.`,
+      text: `Far too much Formula 1 and NBA. Badminton, where he'll tell you he gets smoked, and the gym, which he keeps up more reliably than lectures. Otherwise: car listings, chess, reading, and finding an excuse to fly to Europe.`,
     }),
   },
   {

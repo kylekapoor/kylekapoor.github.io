@@ -257,10 +257,10 @@ export const INTERESTS = {
   // because he wrote it; it may not invent new ones at his expense.
   badminton: "Plays badminton, and puts his own odds of winning at about 1%.",
   gym: "Permanently at the gym.",
-  cars: "Cars — he follows the car market more closely than the stock market, and there is a stated plan to own a Ferrari before 25.",
+  cars: "Cars — he watches the market and refreshes listings more than is strictly reasonable, F1 being the sharp end of it.",
   chess: "Chess.",
   investing: "Markets, mostly as the thing half his side projects start from.",
-  reading: "Reads whatever book claims it'll make him a million dollars by tomorrow.",
+  reading: "Reads a fair amount, usually about markets or whatever he's currently curious about.",
   travel: "Flies to Europe on fairly thin excuses.",
   coffee: "Coffee, in quantity, mostly while waiting for a build to finish.",
   tech: "Deep in this era of AI tooling — realistically in Cursor or Claude Code at any hour of the day.",
