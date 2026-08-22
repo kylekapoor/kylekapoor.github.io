@@ -20,9 +20,9 @@ import { Sticker } from "../primitives/Sticker";
 // company each of those happened at is the experience page's job, and
 // keeping the two apart is what stops the site telling one story twice.
 const BODY_PARAGRAPHS = [
-  "Grew up in Toronto, 3rd year CS at the University of Waterloo. Obsessed with this era of AI. Basically on Cursor or Claude Code 24/7. Otherwise probably thinking a bit too hard about how to get that Ferrari before 25.",
+  "Grew up in Toronto, 3rd year CS at the University of Waterloo. Still figuring out what I'm best at, currently betting on the AI side of things, and enjoying the fact that nobody actually knows what this field looks like in five years.",
   "career path so far:\n\u2192 data\n\u2192 full-stack\n\u2192 applied ai\n\u2192 fintech + applied ai\nstill working out what's next. enjoying the detours.",
-  "Outside of that: far too much Formula 1 and NBA, badminton (99% chance I get smoked), permanently at the gym, watching the car market more closely than the stock market, reading whatever book swears it'll make me $1M by tomorrow, or booking another flight to Europe for no real reason.",
+  "Currently: watching too much F1, losing at badminton, going to the gym more reliably than I go to lectures, and refreshing car listings like they're going to change.",
 ];
 
 // Photos + slot positions split into two lists so the site can randomly
