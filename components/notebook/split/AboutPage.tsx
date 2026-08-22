@@ -67,11 +67,16 @@ type PolaroidSlot = {
 //
 // All three are graded to the same place rather than by the same
 // amounts — brightness is solved per photo to land each one on a mean
-// luminance of ~63, then contrast up slightly, colour drained slightly,
+// luminance of ~44, then contrast up slightly, colour drained slightly,
 // a nudge toward blue, and a vignette. Three sources shot in three
 // different lights therefore read as one wall of pictures instead of a
-// stock grab bag. (The badminton court needed brightening, at 1.17; the
-// skyline needed pulling down to 0.67.)
+// stock grab bag.
+//
+// 44 rather than the 63 they started at: the page itself sits around
+// 14, so photos in the 60s read as lit panels stuck onto a dark room
+// rather than as part of it. The multipliers that get there differ
+// wildly by source (0.47 for the skyline, 0.82 for the court), which is
+// exactly why the target is a measurement rather than a setting.
 //
 // Provenance, since it differs:
 //   downtown, late     Unsplash, Juan Rojas — Unsplash License, no
