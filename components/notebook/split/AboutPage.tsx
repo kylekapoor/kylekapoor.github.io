@@ -61,26 +61,26 @@ type PolaroidSlot = {
 // illustration steps aside — keeping the count at three means no slot
 // positions have to move, so adding a real photo can't reopen the
 // text-overlap problem the slot geometry below is tuned to avoid.
-// Photographs, not drawings. Each matches the caption above it: Toronto
-// at dusk with the tower lit, an empty circuit corner with the kerbs on
-// it, a shuttlecock resting on the strings.
+// Photographs, not drawings. Each matches the caption above it: the
+// Toronto skyline at dusk, a court from directly overhead with the
+// shuttlecocks still lying on it, two cars nose to tail in the spray.
 //
-// All three are graded down hard — brightness pulled, contrast up a
-// little, colour drained a little, a nudge toward blue, then a vignette.
-// The amounts differ per photo (badminton needs the most; its wall is
-// mid-grey and glowed against a near-black page) but they're tuned to
-// land within a few points of the same mean luminance, so three photos
-// from two sources read as one wall of pictures rather than a stock
-// grab bag.
+// All three are graded to the same place rather than by the same
+// amounts — brightness is solved per photo to land each one on a mean
+// luminance of ~63, then contrast up slightly, colour drained slightly,
+// a nudge toward blue, and a vignette. Three sources shot in three
+// different lights therefore read as one wall of pictures instead of a
+// stock grab bag. (The badminton court needed brightening, at 1.17; the
+// skyline needed pulling down to 0.67.)
 //
-// All CC0 / public domain, so no attribution is required, but the
-// sources are recorded here anyway:
-//   downtown, late     Wikimedia Commons, CC0
-//                      https://commons.wikimedia.org/w/index.php?curid=174480273
-//   sunday, lights out rawpixel, CC0 — an empty track, no car
-//                      https://www.rawpixel.com/image/8851870
-//   best two of three  rawpixel, CC0
-//                      https://www.rawpixel.com/image/5914299
+// Provenance, since it differs:
+//   downtown, late     Unsplash, Juan Rojas — Unsplash License, no
+//                      attribution required
+//   best two of three  Unsplash, Qui Nguyen — same
+//   sunday, lights out supplied by Kyle. Looks like an agency/press
+//                      frame (Imola 2021) and arrived with a content-hash
+//                      filename, so its licence is unverified — his call,
+//                      flagged here so nobody assumes it's cleared.
 const ILLUSTRATIONS: Photo[] = [
   {
     src: "/photos/track-448.jpg",
