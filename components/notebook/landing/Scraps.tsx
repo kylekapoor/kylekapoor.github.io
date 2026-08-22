@@ -421,7 +421,10 @@ function StickyNote({
           : { right: "5%", bottom: "7%" }
       }
       size={
-        isMobile ? { width: 104, height: 104 } : { width: 120, height: 120 }
+        // Square-ish, and wide enough for the longest line on it: at 120
+        // "for interview" wrapped, which put four lines on a note sized
+        // for three and pushed the text off the bottom.
+        isMobile ? { width: 118, height: 112 } : { width: 138, height: 128 }
       }
     >
       <div
@@ -443,10 +446,10 @@ function StickyNote({
         }
       >
         <div style={{ fontSize: "var(--fs-input)", opacity: 0.7, marginBottom: 4 }}>
-          4pm today
+          9am tomorrow
         </div>
-        <div style={{ fontSize: "var(--fs-script)" }}>coffee #4</div>
-        <div style={{ fontSize: "var(--fs-script)" }}>w/ Milan</div>
+        <div style={{ fontSize: "var(--fs-script)" }}>iron shirt</div>
+        <div style={{ fontSize: "var(--fs-script)" }}>for interview</div>
         <div
           style={{
             position: "absolute",
