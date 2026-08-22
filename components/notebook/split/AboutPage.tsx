@@ -20,7 +20,7 @@ import { Sticker } from "../primitives/Sticker";
 // company each of those happened at is the experience page's job, and
 // keeping the two apart is what stops the site telling one story twice.
 const BODY_PARAGRAPHS = [
-  "Grew up in Toronto, 3rd year CS at the University of Waterloo. Still figuring out what I'm best at, currently betting on the AI side of things, and enjoying the fact that nobody actually knows what this field looks like in five years.",
+  "Grew up in Toronto, 3rd year CS at the University of Waterloo. Four terms in, mostly on the AI side now, and enjoying the fact that nobody actually knows what this field looks like in five years.",
   "career path so far:\n\u2192 data\n\u2192 full-stack\n\u2192 applied ai\n\u2192 fintech + applied ai\nstill working out what's next. enjoying the detours.",
   "Currently: watching too much F1, losing at badminton, going to the gym more reliably than I go to lectures, and refreshing car listings like they're going to change.",
 ];
