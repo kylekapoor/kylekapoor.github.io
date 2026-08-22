@@ -87,7 +87,7 @@ export const EXPERIENCE: ExperienceEntry[] = [
   {
     org: "Forum Asset Management",
     title: "Software Engineer Intern",
-    focus: "FinTech + Applied AI",
+    focus: "Applied AI",
     dates: "Jun 2026 – Aug 2026",
     location: "Toronto",
     logoSrc: "/logos/forum.png",

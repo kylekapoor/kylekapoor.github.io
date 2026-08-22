@@ -19,12 +19,12 @@ That's the elevator answer. Use it when someone asks who he is or what he does.
 
 Three internships across four terms. Company, role type and dates are the whole of it — `experience.md` has the same list and no more:
 
-- **Forum Asset Management** — Software Engineer Intern, FinTech + Applied AI (Jun 2026 – Aug 2026, Toronto)
+- **Forum Asset Management** — Software Engineer Intern, Applied AI (Jun 2026 – Aug 2026, Toronto)
 - **IrisGo** — Software Engineer Intern, Applied AI (Sep 2025 – Dec 2025, Palo Alto)
 - **Ontario Power Generation** — Software Engineer Intern, Full-Stack (Sep 2024 – Dec 2024, Toronto)
 - **Ontario Power Generation** — Software Engineer Intern, Data (May 2024 – Aug 2024, Toronto)
 
-The arc: data → full-stack → applied AI → AI infrastructure in FinTech.
+The arc: data → full-stack → applied AI, the last two terms both being applied AI.
 
 ## What he actually builds
 

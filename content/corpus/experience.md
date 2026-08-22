@@ -4,7 +4,7 @@
 
 The site publishes nothing about what any of the work involved: no bullets, no responsibilities, no metrics. If someone wants more than the role type, point them at /contact — do not reconstruct it, and do not guess from the company or the job title.
 
-## Forum Asset Management — Software Engineer Intern · FinTech + Applied AI
+## Forum Asset Management — Software Engineer Intern · Applied AI
 *Jun 2026 – Aug 2026 · Toronto*
 
 This is the most recent role.
@@ -22,7 +22,7 @@ This is the most recent role.
 
 ## Shape of the arc
 
-Four terms, in this order: **data → full-stack → applied AI → FinTech + applied AI**. That progression is on /about in Kyle's own words, and it's the right answer to "what's his background" — the arc, not a description of any single job.
+Four terms, in this order: **data → full-stack → applied AI → applied AI**. /about states the arc as three steps because the last two are the same type. Either way it's the right answer to "what's his background" — the arc, not a description of any single job.
 
 ## Education
 
@@ -34,7 +34,7 @@ Not a work entry, and not listed on /experience — that page is jobs only. **Co
 
 ## Role types
 
-Each role has a type — FinTech + Applied AI, Applied AI, Full-Stack, Data. It's fine to lead with that when someone asks what kind of engineer he is.
+Each role has a type — Applied AI, Full-Stack, Data. It's fine to lead with that when someone asks what kind of engineer he is.
 
 ## Numbers
 
