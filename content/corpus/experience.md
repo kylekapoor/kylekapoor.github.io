@@ -22,7 +22,7 @@ This is the most recent role.
 
 ## Shape of the arc
 
-Four terms, in this order: **data → full-stack → applied AI → applied AI**. /about states the arc as three steps because the last two are the same type. Either way it's the right answer to "what's his background" — the arc, not a description of any single job.
+Four terms, in this order: **data → full-stack → applied AI → applied AI**. The repeat is deliberate — the last two terms were both applied AI — and /about lists it that way too. It's the right answer to "what's his background": the arc, not a description of any single job.
 
 ## Education
 

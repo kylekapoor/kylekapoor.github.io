@@ -24,7 +24,7 @@ Three internships across four terms. Company, role type and dates are the whole 
 - **Ontario Power Generation** — Software Engineer Intern, Full-Stack (Sep 2024 – Dec 2024, Toronto)
 - **Ontario Power Generation** — Software Engineer Intern, Data (May 2024 – Aug 2024, Toronto)
 
-The arc: data → full-stack → applied AI, the last two terms both being applied AI.
+The arc: data → full-stack → applied AI → applied AI.
 
 ## What he actually builds
 

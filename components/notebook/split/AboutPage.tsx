@@ -21,7 +21,7 @@ import { Sticker } from "../primitives/Sticker";
 // keeping the two apart is what stops the site telling one story twice.
 const BODY_PARAGRAPHS = [
   "Grew up in Toronto, 3rd year CS at the University of Waterloo. Four co-op terms in, mostly on the AI side now, and enjoying the fact that nobody actually knows what this field looks like in five years.",
-  "career path so far:\n\u2192 data\n\u2192 full-stack\n\u2192 applied ai\nstill working out what's next. enjoying the detours.",
+  "career path so far:\n\u2192 data\n\u2192 full-stack\n\u2192 applied ai\n\u2192 applied ai\nstill working out what's next. enjoying the detours.",
   "Currently: watching too much F1 and NBA, losing at badminton, going to the gym more consistently than lectures, refreshing car listings like the prices are going to change, and sacrificing the occasional evening to a leetcode question I should have skipped.",
 ];
 
