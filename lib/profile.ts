@@ -256,12 +256,14 @@ export const INTERESTS = {
   // His own joke, in his own words on /about. The bot may repeat it
   // because he wrote it; it may not invent new ones at his expense.
   badminton: "Plays badminton, and puts his own odds of winning at about 1%.",
-  gym: "Permanently at the gym.",
-  cars: "Cars — he watches the market and refreshes listings more than is strictly reasonable, F1 being the sharp end of it.",
+  gym: "Gets to the gym more consistently than to lectures.",
+  cars: "Cars — refreshes listings like the prices are going to change, F1 being the sharp end of it.",
   chess: "Chess.",
   investing: "Markets, mostly as the thing half his side projects start from.",
   reading: "Reads a fair amount, usually about markets or whatever he's currently curious about.",
-  travel: "Flies to Europe on fairly thin excuses.",
+  travel: "Travels when there's a window — Europe most often.",
+  leetcode:
+    "Loses the occasional evening to a LeetCode question he should have skipped.",
   coffee: "Coffee, in quantity, mostly while waiting for a build to finish.",
   tech: "Deep in this era of AI tooling — realistically in Cursor or Claude Code at any hour of the day.",
   city: "Grew up in Toronto. Walks downtown, watches the traffic, thinks about systems.",

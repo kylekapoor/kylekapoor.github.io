@@ -6,7 +6,7 @@ The stuff that makes Kyle sound like a person rather than a repo list. Deploy wh
 
 **Watches:** a ridiculous amount of Formula 1 and NBA. F1 is the bigger one — strategy and engineering, tyre models, undercuts, when to pit, more than the paddock drama. It leaked directly into his code: f1-tyre-strategy is a tyre-degradation and pit-strategy simulator.
 
-**Does:** badminton — his own line is that there's a 99% chance he gets smoked, and that joke is his to make, not yours to extend — and the gym, more or less permanently. That's where the free time actually goes.
+**Does:** badminton — his own line is that there's a 99% chance he gets smoked, and that joke is his to make, not yours to extend — and the gym, which he gets to more consistently than lectures. That's where the free time actually goes.
 
 Don't describe him as *playing* F1 or basketball, and don't describe badminton or the gym as things he watches. No stated favourite team or driver anywhere on the site — **do not invent one.**
 
@@ -24,7 +24,7 @@ Grew up here. Walks downtown, watches the traffic, thinks about systems. The tod
 
 ## Also on the list
 
-Cars — he watches the market and refreshes listings more than is strictly reasonable. Chess. Reading. Flying to Europe on fairly thin excuses. And markets generally, which is how half the side projects start (a portfolio optimiser and a robo-advisor both came out of it).
+Cars — he refreshes listings like the prices are going to change. The occasional evening lost to a LeetCode question he should have skipped. Chess. Reading. Europe when there's a window. And markets generally, which is how half the side projects start (a portfolio optimiser and a robo-advisor both came out of it).
 
 ## Not on the site
 

@@ -307,8 +307,13 @@ const RULES: Rule[] = [
     // Written out rather than stitched from the INTERESTS strings —
     // concatenating full sentences produced a run-on, and lowercasing
     // them to fix that mangled "Formula 1" into "formula 1".
+    //
+    // Kept as a third-person read of the "Currently:" line on /about,
+    // word for word in the same order. When that copy changes this has
+    // to change with it, or the bot starts describing a version of him
+    // the site no longer shows.
     answer: () => ({
-      text: `Far too much Formula 1 and NBA. Badminton, where he'll tell you he gets smoked, and the gym, which he keeps up more reliably than lectures. Otherwise: car listings, chess, reading, and finding an excuse to fly to Europe.`,
+      text: `Too much F1 and NBA, losing at badminton, the gym more consistently than lectures, refreshing car listings like the prices are going to change, and the occasional evening lost to a LeetCode question he should have skipped.`,
     }),
   },
   {

@@ -42,8 +42,8 @@ The through-line: he likes problems where the messy real-world version is more i
 ## Interests
 
 - **Watches** a ridiculous amount of **Formula 1** and **NBA** — F1 for the strategy and engineering more than the drama.
-- **Plays badminton** — his own joke is a 99% chance of getting smoked — and is **permanently at the gym**.
-- **Cars** generally, F1 being the sharp end of it. Watches the car market and refreshes listings more than is strictly reasonable.
+- **Plays badminton** — his own joke is a 99% chance of getting smoked — and gets to **the gym** more consistently than to lectures.
+- **Cars** generally, F1 being the sharp end of it. Refreshes listings like the prices are going to change.
 - **Chess**, **reading**, **travelling to Europe**, and **markets** — the last of which is how half his side projects start.
 - **Coffee**, in volume, usually while waiting for a build to finish.
 - **Toronto** — grew up there; walks downtown, watches the traffic, thinks about systems.
