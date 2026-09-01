@@ -6,6 +6,12 @@ name: Deploy to GitHub Pages
 # this same workflow produces a correct site whether it runs in
 # `kylekapoor.github.io` (served at the domain root) or in any other
 # repo (served from /<repo-name>).
+#
+# The custom domain lives in `public/CNAME`, which Next copies verbatim
+# into `out/`. It has to travel inside the artifact: a workflow deploy
+# publishes whatever `out/` contains, so a CNAME that only existed in
+# the repo root — or only in the Pages settings UI — can be dropped on
+# the next deploy and take the domain down with it.
 
 on:
   push:
