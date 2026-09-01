@@ -68,8 +68,15 @@ jobs:
           # every hand-written asset URL with it; next.config.ts hands it
           # to Next for the bundles and links.
           NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
-          # Absolute origin for the canonical URL and the social card.
-          NEXT_PUBLIC_SITE_URL: ${{ steps.pages.outputs.origin }}
+          # Absolute origin for the canonical URL and the social card,
+          # forced to https. configure-pages reports the origin with the
+          # scheme Pages is currently configured for, and on a custom
+          # domain that is `http://` until "Enforce HTTPS" is ticked —
+          # which can only happen after the certificate is issued. That
+          # window is exactly when the first deploy runs, so taking the
+          # origin verbatim bakes `http://kylekapoor.com` into og:url and
+          # the canonical link on a site that is served over TLS.
+          NEXT_PUBLIC_SITE_URL: ${{ replace(steps.pages.outputs.origin, 'http://', 'https://') }}
         run: npm run build:static
 
       - uses: actions/upload-pages-artifact@v3
