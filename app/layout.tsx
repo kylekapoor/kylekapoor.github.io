@@ -11,6 +11,9 @@ const SITE_URL =
     : "http://localhost:3000");
 
 
+/** Bump when the icon artwork changes — see `icons` below. */
+const ICON_VERSION = "2";
+
 const TITLE = "Kyle Kapoor";
 const DESCRIPTION =
   "Kyle Kapoor's portfolio, rendered as a journal floating in space. Ask anything.";
@@ -32,9 +35,19 @@ export const metadata: Metadata = {
     // SVG first for browsers that take it (it stays crisp at any tab
     // size); app/favicon.ico is picked up automatically by Next as the
     // fallback, and carries its own 16/32/48 renders.
-    icon: asset("/favicon.svg"),
+    //
+    // ?v= is a cache-buster, and it is not optional. Browsers cache
+    // favicons far more aggressively than any other asset — Safari keeps
+    // them in a separate store that a hard reload doesn't touch — so
+    // changing the file alone leaves the old icon on screen for days.
+    // The query makes it a new URL. Bump ICON_VERSION whenever the
+    // artwork changes.
+    icon: [
+      { url: asset(`/favicon.svg?v=${ICON_VERSION}`), type: "image/svg+xml" },
+      { url: asset(`/favicon.ico?v=${ICON_VERSION}`), sizes: "16x16 32x32 48x48" },
+    ],
     // iOS ignores SVG for home-screen shortcuts — it needs a PNG.
-    apple: asset("/apple-touch-icon.png"),
+    apple: asset(`/apple-touch-icon.png?v=${ICON_VERSION}`),
   },
   openGraph: {
     type: "website",
