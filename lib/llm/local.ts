@@ -83,22 +83,41 @@ const PROJECT_KEYWORDS: Record<string, RegExp> = {
 };
 
 /**
+ * Terms that can only mean the project. `PROJECT_KEYWORDS` above needs
+ * the word "project" nearby to fire, because "F1" and "fraud" are also
+ * things Kyle is simply interested in. These are not ambiguous — nobody
+ * types "robo advisor" or "Black-Litterman" meaning a hobby — so they
+ * name the project on their own. Without this, "what's the robo
+ * advisor" got the shrug.
+ */
+const PROJECT_STRONG_KEYWORDS: Record<string, RegExp> = {
+  "f1-tyre-strategy": /\b((tyre|tire)\s*(deg\w*|strateg\w*|model)|pit\s*strateg\w*)\b/i,
+  "drift-stream": /\b(drift[\s-]?stream|model\s*drift|data\s*drift)\b/i,
+  "redteam-sandbox": /\b(red[\s-]?team\w*|jailbreak\w*|prompt\s*injection|guardrails?)\b/i,
+  "bl-robo-advisor": /\b(robo[\s-]?advisor|black[\s-]?litterman)\b/i,
+};
+
+/**
  * A question naming one specific project. Checked before the general
  * projects rule so "tell me about the F1 project" gets that project's
  * line instead of the whole catalogue — and before the cars rule, so
  * "the f1 project" isn't answered as a hobby question.
  */
 function specificProjectAnswer(message: string): Answer | null {
-  // Require some signal that the user means a *project*, not the hobby.
-  // Without this, "do you like F1" would return a repo description.
+  // Some signal that the user means a *project*, not the hobby. Without
+  // this, "do you like F1" would return a repo description. A strong
+  // keyword or the repo name itself is signal enough on its own.
   const projectContext =
     /\b(project|repo|repositor|code|built|build|github|working\s+on|made)\b/i;
-  if (!projectContext.test(message)) return null;
+  const hasContext = projectContext.test(message);
 
   for (const project of PROJECTS) {
+    const byName = message.toLowerCase().includes(project.name.toLowerCase());
+    const strong = PROJECT_STRONG_KEYWORDS[project.name]?.test(message) ?? false;
     const named =
-      message.toLowerCase().includes(project.name.toLowerCase()) ||
-      PROJECT_KEYWORDS[project.name]?.test(message);
+      byName ||
+      strong ||
+      (hasContext && (PROJECT_KEYWORDS[project.name]?.test(message) ?? false));
     if (!named) continue;
     return {
       text: `${project.name} — ${project.blurb} It's on GitHub: ${project.repo}`,
@@ -204,6 +223,10 @@ function hobbiesAnswer(): Answer {
   };
 }
 
+function locationAnswer(): Answer {
+  return { text: `${IDENTITY.location}. ${INTERESTS.city}` };
+}
+
 function aboutAnswer(): Answer {
   return { text: ABOUT_TEXT, tool: "showAbout" };
 }
@@ -229,8 +252,16 @@ const RULES: Rule[] = [
   // Availability sits above experience and contact deliberately: "is he
   // looking for work" contains "work", which the experience rule would
   // otherwise swallow and answer with a timeline.
+  //
+  // The bare word "internship" used to live here, and that was wrong in
+  // both directions: "what was his last internship" and "how many
+  // internships has he done" are work-history questions, and answering
+  // them with "seeking 2027 internships" reads like the bot didn't
+  // listen. Availability now needs a forward-looking phrase — looking
+  // for, open to, available — and everything else about internships
+  // falls through to the experience rule.
   {
-    test: /\b(available|availability|looking\s+for\s+(work|a\s+role|a\s+job|an?\s+internship)|open\s+to|internships?|opportunit(y|ies)|job\s+search|is\s+he\s+(free|open))\b/i,
+    test: /\b(available|availability|looking\s+for\s+(work|a\s+role|a\s+job|an?\s+internships?)|open\s+to|opportunit(y|ies)|job\s+search|is\s+he\s+(free|open))\b/i,
     answer: () => ({
       text: `${IDENTITY.status} Best route is email — ${CONTACT.email}.`,
       tool: "showContact",
@@ -265,7 +296,7 @@ const RULES: Rule[] = [
   // role. It deliberately does not claim a proficiency level for
   // anything, because the site doesn't state one.
   {
-    test: /\b(skills?|tech\s*stack|stack|languages?|frameworks?|tools?|good\s+at|strengths?|know\s+(how\s+to\s+)?\w+|familiar|experienced\s+(in|with)|front[\s-]?end|back[\s-]?end|full[\s-]?stack|machine\s+learning|\bml\b|data\s+science|python|pytorch|tensorflow|langchain|kafka|docker|sql|react|typescript)\b/i,
+    test: /\b(skills?|skillset|tech|techs|technolog(y|ies)|tech\s*stack|stack|languages?|frameworks?|tools?|good\s+at|strengths?|know\s+(how\s+to\s+)?\w+|familiar|proficien\w*|experienced\s+(in|with)|front[\s-]?end|back[\s-]?end|full[\s-]?stack|machine\s+learning|\bml\b|\bai\b|artificial\s+intelligence|deep\s+learning|\bnlp\b|llms?|data\s+science|coding|python|pytorch|tensorflow|langchain|kafka|docker|sql|react|typescript)\b/i,
     answer: skillsAnswer,
   },
 
@@ -275,7 +306,7 @@ const RULES: Rule[] = [
     answer: projectsAnswer,
   },
   {
-    test: /\b(contact|email|reach\s*(out|him|you)?|get\s+in\s+touch|dm|socials?|instagram|linkedin|hire|hiring|recruit)\b/i,
+    test: /\b(contact|email|reach\s*(out|him|you)?|get\s+in\s+touch|dm|socials?|social\s*media|handles?|instagram|linkedin|twitter|hire|hiring|recruit|find\s+(him|he|you))\b/i,
     answer: contactAnswer,
   },
   // School sits above work history: "where does he go to school"
@@ -289,7 +320,14 @@ const RULES: Rule[] = [
     answer: schoolAnswer,
   },
   {
-    test: /\b(experience|background|resume|cv|work(s|ed|ing)?|work\s*history|employ(er|ed|ment)|compan(y|ies)|jobs?|career|internships?|interned|what\s+kind\s+of\s+(engineer|developer|dev)|where\s+(has|have|did|does|do)\s+(he|you))\b/i,
+    // Sits above the work history because that rule claims every
+    // "where does he ..." phrasing, which sent "where does he live" to
+    // a list of internships.
+    test: /\bwhere\s+(does|do|did|is|was)\s+(he|you)\s+(live|living|stay|based|from|reside)\b/i,
+    answer: locationAnswer,
+  },
+  {
+    test: /\b(experience|background|resume|cv|work(s|ed|ing)?|work\s*history|employ(er|ed|ment)|compan(y|ies)|jobs?|career|intern(ed|ing|ships?)?|roles?|positions?|titles?|swe|software\s+engineer(ing)?|what\s+kind\s+of\s+(engineer|developer|dev)|where\s+(has|have|did|does|do)\s+(he|you))\b/i,
     // Company, type of work, dates — nothing about what the work was.
     // Kyle's resume bullets are not on the site and the bot has no copy
     // of them to misquote.
@@ -341,7 +379,7 @@ const RULES: Rule[] = [
   },
   {
     test: /\b(toronto|based|live|located|location|city|where\s+(is|are)\s+(he|you))\b/i,
-    answer: () => ({ text: `${IDENTITY.location}. ${INTERESTS.city}` }),
+    answer: locationAnswer,
   },
   {
     test: /\b(hobb(y|ies)|fun|weekend|free\s*time|outside\s+of\s+work|interests?|into|sports?|likes\b|enjoys\b|(?:does|do|did)\s+(?:he|you)\s+(?:like|enjoy)|for\s+fun|what\s+do\s+you\s+do\s+when)\b/i,
@@ -357,13 +395,20 @@ const RULES: Rule[] = [
     answer: aboutAnswer,
   },
 
-  {
-    // Catch-all for "who is this person" phrasings. Last, so a question
-    // with a specific topic in it reaches that topic's rule first.
-    test: /\b(about\s+(you|him|yourself)|tell\s+me\s+about|who\s+(is|are)\s+(he|this\s+guy)|what('?s| is)\s+(his|the)\s+deal|what('?s| is)\s+he\s+like|your\s+story|his\s+story|bio|introduce)\b/i,
-    answer: aboutAnswer,
-  },
 ];
+
+/**
+ * "Who is this person" phrasings, checked AFTER the fuzzy pass rather
+ * than as the last rule.
+ *
+ * The reason is "tell me about his experiance": as a rule this pattern
+ * matched on "tell me about" and answered with his bio, and the typo
+ * never got the chance to reach the experience topic. Sitting below the
+ * fuzzy pass, a misspelled topic resolves to that topic and only a
+ * genuinely topicless question — "what's he like" — lands here.
+ */
+const ABOUT_CATCHALL =
+  /\b(about\s+(you|him|yourself)|tell\s+me\s+about|who\s+(is|are)\s+(he|this\s+guy)|what('?s| is)\s+(his|the)\s+deal|what('?s| is)\s+he\s+like|your\s+story|his\s+story|bio|introduce)\b/i;
 
 
 // ── Fuzzy last chance ─────────────────────────────────────────────────
@@ -423,7 +468,8 @@ const FUZZY_TOPICS: Array<{ words: string[]; answer: () => Answer }> = [
     words: [
       "experience", "background", "resume", "cv", "work", "works", "worked",
       "working", "job", "jobs", "internship", "internships", "intern",
-      "company", "companies", "employer", "career", "history",
+      "interned", "interning", "company", "companies", "employer", "career",
+      "history", "role", "roles", "position", "positions", "employed",
     ],
     answer: experienceAnswer,
   },
@@ -431,20 +477,23 @@ const FUZZY_TOPICS: Array<{ words: string[]; answer: () => Answer }> = [
     words: [
       "project", "projects", "repo", "repos", "repository", "repositories",
       "github", "built", "build", "building", "made", "portfolio", "code",
+      "coded", "shipped",
     ],
     answer: projectsAnswer,
   },
   {
     words: [
       "contact", "email", "reach", "linkedin", "instagram", "socials",
-      "message", "hire", "hiring", "recruiter",
+      "message", "hire", "hiring", "recruiter", "online", "handle", "twitter",
+      "connect",
     ],
     answer: contactAnswer,
   },
   {
     words: [
       "skills", "skill", "stack", "language", "languages", "framework",
-      "frameworks", "tools", "python", "pytorch", "typescript",
+      "frameworks", "tools", "python", "pytorch", "typescript", "tech",
+      "technology", "technologies", "coding", "proficient",
     ],
     answer: skillsAnswer,
   },
@@ -547,6 +596,9 @@ export function answerFor(message: string): Answer {
   // a tolerance for typos and for phrasings nobody thought to list.
   const fuzzy = fuzzyTopicAnswer(text);
   if (fuzzy) return fuzzy;
+
+  // Still nothing with a topic in it — treat it as "so who is this guy".
+  if (ABOUT_CATCHALL.test(text)) return aboutAnswer();
 
   return fallbackAnswer();
 }

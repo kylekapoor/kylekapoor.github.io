@@ -90,6 +90,42 @@ const CASES: Array<[string, RegExp]> = [
   ["how do i contct him", /kyle\.kapoor@uwaterloo\.ca/],
   ["what unversity does he go to", /Waterloo/i],
 
+  // Every topic, phrased the way people actually type — the school and
+  // "what does he do" cases above were fixed first, and these are the
+  // same sweep run over work, projects, contact and skills. All of them
+  // hit the fallback or the wrong topic at some point.
+  ["where is he interning", /Forum Asset Management/i],
+  ["what was his last internship", /Forum Asset Management/i],
+  ["how many internships has he done", /IrisGo/i],
+  ["is he a swe", /Software|Applied AI|Forum/i],
+  ["what roles has he had", /Forum Asset Management/i],
+  ["whats his job", /Forum Asset Management/i],
+  ["who does he work for", /Forum Asset Management/i],
+  // "tell me about" used to answer with his bio before the typo could
+  // reach the work history.
+  ["tell me about his experiance", /Forum Asset Management/i],
+  ["can i see his resume", /Forum Asset Management/i],
+
+  ["whats the robo advisor", /bl-robo-advisor/i],
+  ["tell me about the redteam project", /redteam-sandbox/i],
+  ["any cool projects", /f1-tyre-strategy/i],
+  ["whats on his github", /f1-tyre-strategy/i],
+  ["what has he shipped", /f1-tyre-strategy/i],
+
+  ["where can i find him online", /kyle\.kapoor@uwaterloo\.ca/],
+  ["how do i get in touch", /kyle\.kapoor@uwaterloo\.ca/],
+  ["i want to hire him", /kyle\.kapoor@uwaterloo\.ca/],
+  ["does he have instagram", /instagram/i],
+
+  ["what tech does he use", /PyTorch|Kafka/i],
+  ["what technologies does he know", /PyTorch|Kafka/i],
+  ["does he do ai", /Applied AI|PyTorch/i],
+  ["what's his skillset", /PyTorch|Applied AI/i],
+
+  // Neighbouring topics the widened patterns must not swallow.
+  ["where does he live", /Toronto/i],
+  ["does he take online courses", /\bMath\b/i],
+
   // Meta
   ["what is this site", /Next\.js|journal/i],
   ["who made this", /Next\.js|journal/i],
