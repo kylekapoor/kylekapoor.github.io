@@ -78,6 +78,16 @@ const CASES: Array<[string, RegExp]> = [
   ["where is he based", /Toronto/i],
   ["does kyle live in toronto", /Toronto/i],
 
+  // Typos and phrasings nobody listed — these all used to hit the
+  // fallback, which is the single worst answer the bot can give.
+  ["What program is he in", /\bMath\b/i],
+  ["what does he stuyd", /\bMath\b/i],
+  ["what does he do", /Waterloo|Math/i],
+  ["whats his experiance", /Forum Asset Management/i],
+  ["show me his projcts", /f1-tyre-strategy/i],
+  ["how do i contct him", /kyle\.kapoor@uwaterloo\.ca/],
+  ["what unversity does he go to", /Waterloo/i],
+
   // Meta
   ["what is this site", /Next\.js|journal/i],
   ["who made this", /Next\.js|journal/i],

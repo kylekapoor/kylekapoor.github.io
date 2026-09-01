@@ -149,6 +149,65 @@ function specificRoleAnswer(message: string): Answer | null {
   };
 }
 
+
+// ── Topic answers ─────────────────────────────────────────────────────
+//
+// Named rather than inlined into the rules because the fuzzy matcher at
+// the bottom of this file needs to reach the same answers. One question
+// should get one answer whether it arrived by exact keyword or by a
+// misspelling.
+
+function schoolAnswer(): Answer {
+  return {
+    text: `${EDUCATION.degree} at the ${EDUCATION.school}, ${EDUCATION.dates}. ${IDENTITY.status}`,
+    tool: "showExperience",
+  };
+}
+
+function experienceAnswer(): Answer {
+  return {
+    text: `Here's the short version:\n${experienceLines()}`,
+    tool: "showExperience",
+  };
+}
+
+function projectsAnswer(): Answer {
+  return {
+    text: `Here's what he's built:\n${projectLines()}\n\nEvery card on the projects page opens the repo on GitHub.`,
+    tool: "showProjects",
+  };
+}
+
+function contactAnswer(): Answer {
+  return { text: CONTACT_TEXT, tool: "showContact" };
+}
+
+function skillsAnswer(): Answer {
+  return {
+    text:
+      `What the site publishes: the stack on each project — ${PROJECTS.map(
+        (p) => `${p.name} (${p.stack})`,
+      ).join(", ")} — and the kind of work each role was: ${[
+        ...new Set(EXPERIENCE.map((e) => e.focus)),
+      ].join(", ")}. ` +
+      `The repos are public if you want the detail, and email him for anything past that — ${CONTACT.email}.`,
+    tool: "showProjects",
+  };
+}
+
+function hobbiesAnswer(): Answer {
+  // A third-person read of the "Currently:" line on /about, in the same
+  // order. When that copy changes this has to change with it, or the bot
+  // starts describing a version of him the site no longer shows.
+  return {
+    text: `Too much F1 and NBA, losing at badminton, the gym more consistently than lectures, refreshing car listings like the prices are going to change, and the occasional evening lost to a LeetCode question he should have skipped.`,
+  };
+}
+
+function aboutAnswer(): Answer {
+  return { text: ABOUT_TEXT, tool: "showAbout" };
+}
+
 /**
  * Rules are checked in order, so the specific ones go first. A question
  * mentioning both "projects" and "experience" should open projects,
@@ -176,6 +235,16 @@ const RULES: Rule[] = [
       text: `${IDENTITY.status} Best route is email — ${CONTACT.email}.`,
       tool: "showContact",
     }),
+  },
+
+  // "what does he do" — the most common question about a person, and it
+  // contains no topic word at all. Kept as its own rule so the fuzzy
+  // vocabulary doesn't need "do", which would swallow every other
+  // question phrased "does he ...", including ones the site has no
+  // business answering.
+  {
+    test: /\bwhat\s+(do|does|is)\s+(he|kyle|you)\s+(do|doing)\b/i,
+    answer: aboutAnswer,
   },
 
   // ── Meta ────────────────────────────────────────────────────────────
@@ -207,32 +276,17 @@ const RULES: Rule[] = [
   // anything, because the site doesn't state one.
   {
     test: /\b(skills?|tech\s*stack|stack|languages?|frameworks?|tools?|good\s+at|strengths?|know\s+(how\s+to\s+)?\w+|familiar|experienced\s+(in|with)|front[\s-]?end|back[\s-]?end|full[\s-]?stack|machine\s+learning|\bml\b|data\s+science|python|pytorch|tensorflow|langchain|kafka|docker|sql|react|typescript)\b/i,
-    answer: () => ({
-      text:
-        `What the site publishes: the stack on each project — ${PROJECTS.map(
-          (p) => `${p.name} (${p.stack})`,
-        ).join(", ")} — and the kind of work each role was: ${[
-          ...new Set(EXPERIENCE.map((e) => e.focus)),
-        ].join(", ")}. ` +
-        `The repos are public if you want the detail, and email him for anything past that — ${CONTACT.email}.`,
-      tool: "showProjects",
-    }),
+    answer: skillsAnswer,
   },
 
   // ── Navigation-ish topics ───────────────────────────────────────────
   {
     test: /\b(projects?|repos?|repositories|github|source\s*code|side\s*projects?|buil[dt]|building|made|working\s+on|portfolio\s+pieces?)\b/i,
-    answer: () => ({
-      text: `Here's what he's built:\n${projectLines()}\n\nEvery card on the projects page opens the repo on GitHub.`,
-      tool: "showProjects",
-    }),
+    answer: projectsAnswer,
   },
   {
     test: /\b(contact|email|reach\s*(out|him|you)?|get\s+in\s+touch|dm|socials?|instagram|linkedin|hire|hiring|recruit)\b/i,
-    answer: () => ({
-      text: CONTACT_TEXT,
-      tool: "showContact",
-    }),
+    answer: contactAnswer,
   },
   // School sits above work history: "where does he go to school"
   // matches the experience rule's `where does he ...` clause, so asked
@@ -241,21 +295,15 @@ const RULES: Rule[] = [
     // "is he in cs" lands here too, and the answer says Math — the site
     // said CS for a while, so someone who saw the old copy (or assumed
     // it) gets corrected rather than a shrug.
-    test: /\b(school|university|uni|college|waterloo|degree|stud(y|ies|ying|ent)|major|classes|course|what\s+year|graduat(e|es|ing|ion)|grad\s+year|cs|comp\s*sci|computer\s+science|math(s|ematics)?)\b/i,
-    answer: () => ({
-      text: `${EDUCATION.degree} at the ${EDUCATION.school}, ${EDUCATION.dates}. ${IDENTITY.status}`,
-      tool: "showExperience",
-    }),
+    test: /\b(school|university|uni|college|waterloo|degree|stud(y|ies|ying|ent)|major|program(me)?|classes|course|what\s+year|graduat(e|es|ing|ion)|grad\s+year|cs|comp\s*sci|computer\s+science|math(s|ematics)?)\b/i,
+    answer: schoolAnswer,
   },
   {
     test: /\b(experience|background|resume|cv|work(s|ed|ing)?|work\s*history|employ(er|ed|ment)|compan(y|ies)|jobs?|career|internships?|interned|what\s+kind\s+of\s+(engineer|developer|dev)|where\s+(has|have|did|does|do)\s+(he|you))\b/i,
     // Company, type of work, dates — nothing about what the work was.
     // Kyle's resume bullets are not on the site and the bot has no copy
     // of them to misquote.
-    answer: () => ({
-      text: `Here's the short version:\n${experienceLines()}`,
-      tool: "showExperience",
-    }),
+    answer: experienceAnswer,
   },
 
   // ── Personality ─────────────────────────────────────────────────────
@@ -307,28 +355,149 @@ const RULES: Rule[] = [
   },
   {
     test: /\b(hobb(y|ies)|fun|weekend|free\s*time|outside\s+of\s+work|interests?|into|sports?|likes\b|enjoys\b|(?:does|do|did)\s+(?:he|you)\s+(?:like|enjoy)|for\s+fun|what\s+do\s+you\s+do\s+when)\b/i,
-    // Written out rather than stitched from the INTERESTS strings —
-    // concatenating full sentences produced a run-on, and lowercasing
-    // them to fix that mangled "Formula 1" into "formula 1".
-    //
-    // Kept as a third-person read of the "Currently:" line on /about,
-    // word for word in the same order. When that copy changes this has
-    // to change with it, or the bot starts describing a version of him
-    // the site no longer shows.
-    answer: () => ({
-      text: `Too much F1 and NBA, losing at badminton, the gym more consistently than lectures, refreshing car listings like the prices are going to change, and the occasional evening lost to a LeetCode question he should have skipped.`,
-    }),
+    answer: hobbiesAnswer,
   },
   {
     // Catch-all for "who is this person" phrasings. Last, so a question
     // with a specific topic in it reaches that topic's rule first.
     test: /\b(about\s+(you|him|yourself)|tell\s+me\s+about|who\s+(is|are)\s+(he|this\s+guy)|what('?s| is)\s+(his|the)\s+deal|what('?s| is)\s+he\s+like|your\s+story|his\s+story|bio|introduce)\b/i,
-    answer: () => ({
-      text: ABOUT_TEXT,
-      tool: "showAbout",
-    }),
+    answer: aboutAnswer,
   },
 ];
+
+
+// ── Fuzzy last chance ─────────────────────────────────────────────────
+
+/**
+ * Damerau-Levenshtein distance, abandoned once it exceeds `max`.
+ *
+ * Transpositions count as one edit, not two, which matters because they
+ * are the most common way a real person mistypes a word: "stuyd" for
+ * "study" is one swapped pair, and plain Levenshtein would score it 2 —
+ * the same as a word that shares only its stem.
+ */
+function editDistance(a: string, b: string, max: number): number {
+  if (Math.abs(a.length - b.length) > max) return max + 1;
+  let prev: number[] = Array.from({ length: b.length + 1 }, (_, i) => i);
+  let prevPrev: number[] = [];
+  for (let i = 1; i <= a.length; i++) {
+    const row = [i];
+    let best = i;
+    for (let j = 1; j <= b.length; j++) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+      let v = Math.min(row[j - 1] + 1, prev[j] + 1, prev[j - 1] + cost);
+      if (
+        i > 1 &&
+        j > 1 &&
+        a[i - 1] === b[j - 2] &&
+        a[i - 2] === b[j - 1]
+      ) {
+        v = Math.min(v, prevPrev[j - 2] + 1);
+      }
+      row.push(v);
+      best = Math.min(best, v);
+    }
+    if (best > max) return max + 1;
+    prevPrev = prev;
+    prev = row;
+  }
+  return prev[b.length];
+}
+
+/**
+ * Topic vocabularies for the last-chance pass. Order is significance
+ * order: on a tie the earlier topic wins, so "what program is he in"
+ * resolves to school rather than to the about catch-all.
+ */
+const FUZZY_TOPICS: Array<{ words: string[]; answer: () => Answer }> = [
+  {
+    words: [
+      "school", "university", "college", "waterloo", "degree", "program",
+      "programme", "major", "study", "studies", "studying", "student",
+      "course", "courses", "class", "classes", "graduate", "graduation",
+      "math", "maths", "mathematics",
+    ],
+    answer: schoolAnswer,
+  },
+  {
+    words: [
+      "experience", "background", "resume", "cv", "work", "works", "worked",
+      "working", "job", "jobs", "internship", "internships", "intern",
+      "company", "companies", "employer", "career", "history",
+    ],
+    answer: experienceAnswer,
+  },
+  {
+    words: [
+      "project", "projects", "repo", "repos", "repository", "repositories",
+      "github", "built", "build", "building", "made", "portfolio", "code",
+    ],
+    answer: projectsAnswer,
+  },
+  {
+    words: [
+      "contact", "email", "reach", "linkedin", "instagram", "socials",
+      "message", "hire", "hiring", "recruiter",
+    ],
+    answer: contactAnswer,
+  },
+  {
+    words: [
+      "skills", "skill", "stack", "language", "languages", "framework",
+      "frameworks", "tools", "python", "pytorch", "typescript",
+    ],
+    answer: skillsAnswer,
+  },
+  {
+    words: [
+      "hobby", "hobbies", "interests", "fun", "sports", "badminton", "gym",
+      "chess", "cars", "free", "weekend",
+    ],
+    answer: hobbiesAnswer,
+  },
+  {
+    // Deliberately last and deliberately vague: "what does he do" is the
+    // most common question anyone asks about a person, and it has no
+    // keyword of its own.
+    words: ["who", "about", "bio", "deal", "person", "himself"],
+    answer: aboutAnswer,
+  },
+];
+
+/**
+ * Runs only after every rule has missed. Scores the message's words
+ * against each topic's vocabulary, allowing near-misses, and answers with
+ * the best-scoring topic.
+ *
+ * The tolerance scales with word length so short words stay exact: at two
+ * edits, "do" would reach "go", but "experiance" reaching "experience" is
+ * exactly the point. The alternative for any of these questions is the
+ * "not written down" message, so a slightly loose match is strictly
+ * better than the shrug it replaces.
+ */
+function fuzzyTopicAnswer(message: string): Answer | null {
+  const words = message
+    .toLowerCase()
+    .split(/[^a-z0-9']+/)
+    .filter((w) => w.length > 1);
+  if (words.length === 0) return null;
+
+  let best: { score: number; answer: () => Answer } | null = null;
+  for (const topic of FUZZY_TOPICS) {
+    let score = 0;
+    for (const word of words) {
+      const tolerance = word.length >= 7 ? 2 : word.length >= 5 ? 1 : 0;
+      const hit = topic.words.some((k) =>
+        tolerance === 0 ? k === word : editDistance(word, k, tolerance) <= tolerance,
+      );
+      if (hit) score++;
+    }
+    if (score > 0 && (best === null || score > best.score)) {
+      best = { score, answer: topic.answer };
+    }
+  }
+  return best ? best.answer() : null;
+}
 
 /**
  * The catch-all. Deliberately says "I don't have that written down"
@@ -373,6 +542,12 @@ export function answerFor(message: string): Answer {
   for (const rule of RULES) {
     if (rule.test.test(text)) return rule.answer();
   }
+
+  // Nothing matched exactly. Before giving up, try the same topics with
+  // a tolerance for typos and for phrasings nobody thought to list.
+  const fuzzy = fuzzyTopicAnswer(text);
+  if (fuzzy) return fuzzy;
+
   return fallbackAnswer();
 }
 
