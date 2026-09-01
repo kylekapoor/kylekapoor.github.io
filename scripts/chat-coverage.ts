@@ -83,6 +83,8 @@ const CASES: Array<[string, RegExp]> = [
   ["What program is he in", /\bMath\b/i],
   ["what does he stuyd", /\bMath\b/i],
   ["what does he do", /Waterloo|Math/i],
+  // The rule that answers the line above must not swallow this one.
+  ["what does he do for fun", /badminton/i],
   ["whats his experiance", /Forum Asset Management/i],
   ["show me his projcts", /f1-tyre-strategy/i],
   ["how do i contct him", /kyle\.kapoor@uwaterloo\.ca/],

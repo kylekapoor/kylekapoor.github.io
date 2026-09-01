@@ -237,16 +237,6 @@ const RULES: Rule[] = [
     }),
   },
 
-  // "what does he do" — the most common question about a person, and it
-  // contains no topic word at all. Kept as its own rule so the fuzzy
-  // vocabulary doesn't need "do", which would swallow every other
-  // question phrased "does he ...", including ones the site has no
-  // business answering.
-  {
-    test: /\bwhat\s+(do|does|is)\s+(he|kyle|you)\s+(do|doing)\b/i,
-    answer: aboutAnswer,
-  },
-
   // ── Meta ────────────────────────────────────────────────────────────
   // Above skills and projects on purpose: both of these questions
   // are about the site, and both contain words ("made", "built")
@@ -357,6 +347,16 @@ const RULES: Rule[] = [
     test: /\b(hobb(y|ies)|fun|weekend|free\s*time|outside\s+of\s+work|interests?|into|sports?|likes\b|enjoys\b|(?:does|do|did)\s+(?:he|you)\s+(?:like|enjoy)|for\s+fun|what\s+do\s+you\s+do\s+when)\b/i,
     answer: hobbiesAnswer,
   },
+  // "what does he do" — the most common question about a person, and it
+  // contains no topic word at all. Two placement constraints: below the
+  // hobbies rule, because "what does he do for fun" is a hobbies
+  // question, and as a rule rather than a fuzzy keyword, because "do" in
+  // the vocabulary answered "does he have a girlfriend" with his bio.
+  {
+    test: /\bwhat\s+(do|does|is)\s+(he|kyle|you)\s+(do|doing)\b/i,
+    answer: aboutAnswer,
+  },
+
   {
     // Catch-all for "who is this person" phrasings. Last, so a question
     // with a specific topic in it reaches that topic's rule first.
