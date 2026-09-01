@@ -11,7 +11,9 @@ import { Scraps } from "./Scraps";
 import { ScrollCue } from "./ScrollCue";
 import { Starfield } from "./Starfield";
 
-const ROLES = ["Engineer", "Builder", "Student"];
+// Drawn one at a time, ~4s each, so the order is the real decision:
+// most visitors scroll before the second word finishes.
+const ROLES = ["Student", "Engineer", "Builder", "Developer"];
 const INK = "var(--color-ink)";
 const INK_DIM = "var(--color-ink-faint)";
 const INTRO_DURATION = 2.5;
