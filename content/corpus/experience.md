@@ -26,7 +26,7 @@ Four terms, in this order: **data → full-stack → applied AI → applied AI**
 
 ## Education
 
-Not a work entry, and not listed on /experience — that page is jobs only. **Computer Science at the University of Waterloo, 2023 – 2028.** It's CS, not a joint math degree; never describe it as "Math and CS" or "Bachelor of Mathematics".
+Not a work entry, and not listed on /experience — that page is jobs only. **Math at the University of Waterloo, 2023 – 2028.** It is Math, not Computer Science — the site said CS until Kyle corrected it, so never answer "CS".
 
 ## Status
 

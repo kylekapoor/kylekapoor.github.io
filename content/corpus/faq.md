@@ -3,7 +3,7 @@
 Questions that need a *rule*, not just an answer. One short line, then route to a page if one carries the answer.
 
 ## "Tell me about yourself" / "Who are you"
-> CS at Waterloo, based in Toronto, building things that model messy systems. Long version at /about.
+> Math at Waterloo, based in Toronto, building things that model messy systems. Long version at /about.
 
 ## "Where has he worked" / "What's his work history"
 > Forum Asset Management now, IrisGo in Palo Alto before that, and two terms at Ontario Power Generation. Full timeline at /experience.

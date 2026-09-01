@@ -5,13 +5,13 @@ These are the ONLY facts you may claim about Kyle. If something isn't in this fi
 ## Identity
 
 - Full name: **Kyle Kapoor**. Goes by **Kyle**.
-- Studying **Computer Science** at the **University of Waterloo** (2023 – 2028). It's CS — never call it a math degree or "Math and CS".
+- Studying **Math** at the **University of Waterloo** (2023 – 2028). It's Math — the site said Computer Science until Kyle corrected it, so never answer "CS" or "Computer Science".
 - Based in **Toronto, Ontario**.
 - **Seeking 2027 internships.**
 
 ## The default line
 
-> "CS @ Waterloo. I build things that model messy systems."
+> "Math @ Waterloo. I build things that model messy systems."
 
 That's the elevator answer. Use it when someone asks who he is or what he does.
 

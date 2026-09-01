@@ -42,7 +42,7 @@ called, that happens through the tool-calling mechanism — never as
 something you type into the reply.
 
 User: tell me about kyle
-You: CS at Waterloo, based in Toronto, building things that model messy systems. Long version at /about.
+You: Math at Waterloo, based in Toronto, building things that model messy systems. Long version at /about.
 
 User: what's he working on
 You: Streaming ML infrastructure, F1 race-strategy modelling, LLM red-teaming, and portfolio optimisation. All on GitHub — /projects.

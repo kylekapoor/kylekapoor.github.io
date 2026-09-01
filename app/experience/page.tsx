@@ -3,7 +3,7 @@ import { NotebookShell } from "@/components/notebook/NotebookShell";
 export const metadata = {
   title: "Kyle Kapoor — Experience",
   description:
-    "Kyle Kapoor's background: CS at the University of Waterloo, plus the streaming-ML, race-strategy, LLM-safety, and quantitative work he's shipped.",
+    "Kyle Kapoor's background: Math at the University of Waterloo, plus the streaming-ML, race-strategy, LLM-safety, and quantitative work he's shipped.",
 };
 
 export default function ExperienceRoute() {

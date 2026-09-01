@@ -34,11 +34,15 @@ const CASES: Array<[string, RegExp]> = [
   ["what kind of engineer is he", /Applied AI|Full-Stack|Data/i],
 
   // School
-  ["what does kyle study", /Computer Science/i],
-  ["what year is he in", /Computer Science|2023/i],
+  ["what does kyle study", /\bMath\b/i],
+  ["what year is he in", /\bMath\b|2023/i],
   ["when does he graduate", /2028|2023/i],
-  ["is kyle a student", /Computer Science/i],
+  ["is kyle a student", /\bMath\b/i],
   ["what school does kyle go to", /Waterloo/i],
+  // The site said CS until it was corrected, so this phrasing has to
+  // answer Math rather than fall through.
+  ["is he in cs", /\bMath\b/i],
+  ["what's his major", /\bMath\b/i],
 
   // Projects
   ["what has kyle built", /f1-tyre-strategy/i],

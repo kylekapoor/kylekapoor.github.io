@@ -15,9 +15,11 @@ export const IDENTITY = {
   fullName: "Kyle Kapoor",
   firstName: "Kyle",
   school: "University of Waterloo",
-  program: "Computer Science",
-  // Just CS — the site never frames it as a joint math degree.
-  degree: "Computer Science",
+  program: "Math",
+  // Math, not CS. The site said Computer Science until Kyle corrected
+  // it; every surface reads these two fields, so this is the only place
+  // the program is written down.
+  degree: "Math",
   gradYear: "2028",
   location: "Toronto, Ontario",
   /** What he does, as a standalone sentence. Composed with the school
@@ -26,7 +28,7 @@ export const IDENTITY = {
    *  sound like a different person than the page. */
   tagline: "Deep in this era of AI tooling, and building with it constantly.",
   /** The short self-introduction, for when there's room for one line. */
-  elevator: "CS @ Waterloo, grew up in Toronto. Building with AI tooling constantly.",
+  elevator: "Math @ Waterloo, grew up in Toronto. Building with AI tooling constantly.",
   status: "Seeking 2027 internships.",
 } as const;
 

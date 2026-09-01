@@ -3,7 +3,7 @@ import { NotebookShell } from "@/components/notebook/NotebookShell";
 export const metadata = {
   title: "Kyle Kapoor — About",
   description:
-    "The about page of Kyle's journal — Computer Science at the University of Waterloo, Toronto-based, building things that model messy systems.",
+    "The about page of Kyle's journal — Math at the University of Waterloo, Toronto-based, building things that model messy systems.",
 };
 
 export default function AboutRoute() {

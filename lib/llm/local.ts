@@ -238,7 +238,10 @@ const RULES: Rule[] = [
   // matches the experience rule's `where does he ...` clause, so asked
   // in the other order it came back with a list of internships.
   {
-    test: /\b(school|university|uni|college|waterloo|degree|stud(y|ies|ying|ent)|major|classes|course|what\s+year|graduat(e|es|ing|ion)|grad\s+year)\b/i,
+    // "is he in cs" lands here too, and the answer says Math — the site
+    // said CS for a while, so someone who saw the old copy (or assumed
+    // it) gets corrected rather than a shrug.
+    test: /\b(school|university|uni|college|waterloo|degree|stud(y|ies|ying|ent)|major|classes|course|what\s+year|graduat(e|es|ing|ion)|grad\s+year|cs|comp\s*sci|computer\s+science|math(s|ematics)?)\b/i,
     answer: () => ({
       text: `${EDUCATION.degree} at the ${EDUCATION.school}, ${EDUCATION.dates}. ${IDENTITY.status}`,
       tool: "showExperience",
