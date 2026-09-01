@@ -13,7 +13,7 @@ import { Starfield } from "./Starfield";
 
 // Drawn one at a time, ~4s each, so the order is the real decision:
 // most visitors scroll before the second word finishes.
-const ROLES = ["Student", "Engineer", "Builder", "Developer"];
+const ROLES = ["Engineer", "Student", "Builder", "Developer"];
 const INK = "var(--color-ink)";
 const INK_DIM = "var(--color-ink-faint)";
 const INTRO_DURATION = 2.5;
