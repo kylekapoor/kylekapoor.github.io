@@ -12,7 +12,7 @@ const SITE_URL =
 
 
 /** Bump when the icon artwork changes — see `icons` below. */
-const ICON_VERSION = "2";
+const ICON_VERSION = "3";
 
 const TITLE = "Kyle Kapoor";
 const DESCRIPTION =
